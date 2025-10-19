@@ -1,0 +1,493 @@
+[gd_scene load_steps=20 format=3 uid="uid://ckppxixhfvpvj"]
+
+[ext_resource type="Script" uid="uid://wkq3todlh6i8" path="res://Objects/Player/player.gd" id="1_4flbx"]
+[ext_resource type="Shader" uid="uid://bedfkiao5h0wn" path="res://Objects/Player/player.gdshader" id="2_yw17q"]
+[ext_resource type="Shader" uid="uid://rssxxex1w1ec" path="res://Objects/ScreenManObject/CRT.gdshader" id="3_l2ya6"]
+[ext_resource type="Theme" uid="uid://bhed8krggwjc0" path="res://Objects/ShopMachineObject/ShopMachineTheme.tres" id="3_o1rty"]
+[ext_resource type="Texture2D" uid="uid://uwxrqjt1b0qe" path="res://Assets/Texture/BarTextures/HealthBarBack.png" id="3_thffa"]
+[ext_resource type="FontFile" uid="uid://byfxqpseju81y" path="res://Assets/Fonts/HomeVideo-BLG6G.ttf" id="3_u7612"]
+[ext_resource type="Script" uid="uid://d2fe45sesng02" path="res://Objects/Player/ShopControlScript.gd" id="4_t45n6"]
+[ext_resource type="Texture2D" uid="uid://dbmrj5nbl5mic" path="res://Assets/Texture/BarTextures/HealthBarTop.png" id="4_xtia4"]
+[ext_resource type="Texture2D" uid="uid://bu2ew08b2v8hh" path="res://Assets/Texture/BarTextures/levelBar back.png" id="5_5xe3a"]
+[ext_resource type="Texture2D" uid="uid://bvuqr30h47r58" path="res://Assets/Texture/BarTextures/levelBar Top.png" id="6_yemeo"]
+[ext_resource type="Script" uid="uid://crg5tvgesgavv" path="res://Objects/Player/PauseMenu.gd" id="11_xtia4"]
+[ext_resource type="Script" uid="uid://cgq3t62oge042" path="res://Objects/Player/CreditsScreen.gd" id="12_8a0no"]
+[ext_resource type="Texture2D" uid="uid://biv45jrtl1cu6" path="res://Assets/QR/QR 1.png" id="12_yemeo"]
+[ext_resource type="Texture2D" uid="uid://xncqhl41k2wm" path="res://Assets/QR/QR 2.png" id="13_8a0no"]
+[ext_resource type="Script" uid="uid://te11mh1sv5d2" path="res://Objects/Player/settingsScreen.gd" id="15_kmg4v"]
+
+[sub_resource type="Theme" id="Theme_bpp7x"]
+Label/colors/font_color = Color(0, 0.7490196, 0, 1)
+Label/colors/font_outline_color = Color(0, 0.26666668, 0, 1)
+Label/fonts/font = ExtResource("3_u7612")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o1rty"]
+shader = ExtResource("2_yw17q")
+shader_parameter/aberration_strength = 3.0
+shader_parameter/blur_strength = 2.0
+shader_parameter/noise_strength = 0.048
+shader_parameter/vignette_strength = 0.78
+shader_parameter/scanline_strength = 0.016
+shader_parameter/distortion_strength = 0.1
+shader_parameter/ghost_strength = 0.12
+shader_parameter/flicker_strength = 0.005
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l2ya6"]
+shader = ExtResource("3_l2ya6")
+shader_parameter/overlay = true
+shader_parameter/scanlines_opacity = 0.4
+shader_parameter/scanlines_width = 0.25
+shader_parameter/grille_opacity = 0.3
+shader_parameter/resolution = Vector2(640, 480)
+shader_parameter/pixelate = true
+shader_parameter/roll = true
+shader_parameter/roll_speed = 8.0
+shader_parameter/roll_size = 15.0
+shader_parameter/roll_variation = 1.8
+shader_parameter/distort_intensity = 0.05
+shader_parameter/noise_opacity = 0.4
+shader_parameter/noise_speed = 5.0
+shader_parameter/static_noise_intensity = 0.06
+shader_parameter/aberration = 0.03
+shader_parameter/brightness = 1.4
+shader_parameter/discolor = true
+shader_parameter/warp_amount = 0.30000001425
+shader_parameter/clip_warp = false
+shader_parameter/vignette_intensity = 0.4
+shader_parameter/vignette_opacity = 0.5
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_4flbx"]
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_4flbx")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+fov = 37.849285
+metadata/_edit_lock_ = true
+
+[node name="Hud" type="CanvasLayer" parent="Camera3D"]
+visible = false
+
+[node name="Control" type="Control" parent="Camera3D/Hud"]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme = SubResource("Theme_bpp7x")
+
+[node name="HungerBar" type="TextureProgressBar" parent="Camera3D/Hud/Control"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 1001.0
+offset_top = 639.0
+offset_right = 1055.0
+offset_bottom = 648.0
+scale = Vector2(5, 5)
+value = 50.0
+texture_under = ExtResource("3_thffa")
+texture_progress = ExtResource("4_xtia4")
+tint_under = Color(1, 1, 1, 0.50980395)
+tint_progress = Color(0.37254903, 0.14117648, 0.07058824, 0.50980395)
+
+[node name="QuotaBar" type="TextureProgressBar" parent="Camera3D/Hud/Control"]
+layout_mode = 0
+offset_left = 106.0
+offset_top = 697.0
+offset_right = 408.0
+offset_bottom = 702.0
+scale = Vector2(3.5, 3.5)
+value = 50.0
+texture_under = ExtResource("5_5xe3a")
+texture_progress = ExtResource("6_yemeo")
+tint_under = Color(1, 1, 1, 0.50980395)
+tint_progress = Color(0, 0.41568628, 1, 0.50980395)
+
+[node name="Shader" type="ColorRect" parent="Camera3D/Hud/Control"]
+texture_filter = 1
+material = SubResource("ShaderMaterial_o1rty")
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+focus_behavior_recursive = 1
+mouse_filter = 2
+metadata/_edit_lock_ = true
+
+[node name="ScoreLabel" type="Label" parent="Camera3D/Hud/Control"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 80.0
+offset_bottom = 26.0
+text = "Score: 0"
+metadata/_edit_lock_ = true
+
+[node name="QuestLabel" type="Label" parent="Camera3D/Hud/Control"]
+layout_mode = 0
+offset_left = 1026.0
+offset_top = 7.0
+offset_right = 1273.0
+offset_bottom = 40.0
+text = "Task: The name of the task"
+horizontal_alignment = 2
+autowrap_mode = 3
+
+[node name="GameStatsLabel" type="Label" parent="Camera3D/Hud/Control"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 199.0
+offset_right = 90.0
+offset_bottom = 214.0
+text = "GameStats"
+
+[node name="ShopGUI" type="CanvasLayer" parent="Camera3D"]
+visible = false
+
+[node name="Control" type="Control" parent="Camera3D/ShopGUI"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+theme = ExtResource("3_o1rty")
+script = ExtResource("4_t45n6")
+
+[node name="Background" type="ColorRect" parent="Camera3D/ShopGUI/Control"]
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0, 0, 0, 1)
+metadata/_edit_lock_ = true
+
+[node name="ExitButton" type="Button" parent="Camera3D/ShopGUI/Control"]
+layout_mode = 0
+offset_left = 97.0
+offset_top = 616.0
+offset_right = 182.0
+offset_bottom = 654.0
+theme = ExtResource("3_o1rty")
+text = "Exit"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Camera3D/ShopGUI/Control"]
+layout_mode = 0
+offset_left = 269.0
+offset_top = 107.0
+offset_right = 1194.0
+offset_bottom = 609.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Camera3D/ShopGUI/Control/VBoxContainer"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+
+[node name="VScrollBar" type="VScrollBar" parent="Camera3D/ShopGUI/Control/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="FadeRect" type="ColorRect" parent="Camera3D/ShopGUI/Control"]
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Shader" type="ColorRect" parent="Camera3D/ShopGUI"]
+texture_filter = 1
+material = SubResource("ShaderMaterial_l2ya6")
+offset_right = 1280.0
+offset_bottom = 720.0
+focus_behavior_recursive = 1
+mouse_filter = 2
+metadata/_edit_lock_ = true
+
+[node name="PauseMenu" type="CanvasLayer" parent="Camera3D"]
+process_mode = 2
+visible = false
+
+[node name="Control" type="Control" parent="Camera3D/PauseMenu"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+theme = ExtResource("3_o1rty")
+script = ExtResource("11_xtia4")
+
+[node name="ColorRect" type="ColorRect" parent="Camera3D/PauseMenu/Control"]
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0, 0, 0, 0.54901963)
+metadata/_edit_lock_ = true
+
+[node name="ResumeButton" type="Button" parent="Camera3D/PauseMenu/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -61.5
+offset_top = -148.0
+offset_right = 61.5
+offset_bottom = -110.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Resume"
+metadata/_edit_lock_ = true
+
+[node name="CreditsButton" type="Button" parent="Camera3D/PauseMenu/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -71.0
+offset_top = -62.0
+offset_right = 71.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Credits"
+metadata/_edit_lock_ = true
+
+[node name="SettingsButton" type="Button" parent="Camera3D/PauseMenu/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -81.0
+offset_top = 24.0
+offset_right = 81.0
+offset_bottom = 62.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Settings"
+metadata/_edit_lock_ = true
+
+[node name="ExitButton" type="Button" parent="Camera3D/PauseMenu/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -42.5
+offset_top = 110.0
+offset_right = 42.5
+offset_bottom = 148.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Exit"
+metadata/_edit_lock_ = true
+
+[node name="VersionLabel" type="Label" parent="Camera3D/PauseMenu/Control"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -115.5
+offset_top = -59.0
+offset_right = 115.5
+offset_bottom = -29.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Version: 0.0"
+metadata/_edit_lock_ = true
+
+[node name="Shader2" type="ColorRect" parent="Camera3D/PauseMenu"]
+texture_filter = 1
+material = SubResource("ShaderMaterial_l2ya6")
+offset_right = 1280.0
+offset_bottom = 720.0
+focus_behavior_recursive = 1
+mouse_filter = 2
+metadata/_edit_lock_ = true
+
+[node name="CreditsScreen" type="CanvasLayer" parent="Camera3D"]
+process_mode = 2
+visible = false
+
+[node name="Control" type="Control" parent="Camera3D/CreditsScreen"]
+custom_minimum_size = Vector2(1280, 720)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+theme = ExtResource("3_o1rty")
+script = ExtResource("12_8a0no")
+metadata/_edit_lock_ = true
+
+[node name="ColorRect" type="ColorRect" parent="Camera3D/CreditsScreen/Control"]
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0, 0, 0, 0.54901963)
+metadata/_edit_lock_ = true
+
+[node name="Label" type="Label" parent="Camera3D/CreditsScreen/Control"]
+layout_mode = 0
+offset_left = 59.0
+offset_top = 69.0
+offset_right = 366.0
+offset_bottom = 99.0
+text = "Developer: Third
+3D Models: Third
+
+Sound FX:
+* CRT SOUND - freesound_community - pixabay
+* PC SOUND - Soul_Serenity_Sounds - pixabay
+
+Shaders:
+* CRT - A7meD
+* Gameplay - theCube
+
+This GAME Is free. If you paied for this you've been scammed."
+
+[node name="BackButton" type="Button" parent="Camera3D/CreditsScreen/Control"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -42.5
+offset_top = -127.0
+offset_right = 42.5
+offset_bottom = -89.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Back"
+
+[node name="Shader3" type="ColorRect" parent="Camera3D/CreditsScreen"]
+texture_filter = 1
+material = SubResource("ShaderMaterial_l2ya6")
+offset_right = 1280.0
+offset_bottom = 720.0
+focus_behavior_recursive = 1
+mouse_filter = 2
+metadata/_edit_lock_ = true
+
+[node name="Qr1" type="Sprite2D" parent="Camera3D/CreditsScreen"]
+position = Vector2(296, 609)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("12_yemeo")
+
+[node name="Qr2" type="Sprite2D" parent="Camera3D/CreditsScreen"]
+position = Vector2(142, 609)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("13_8a0no")
+
+[node name="SettingScreen" type="CanvasLayer" parent="Camera3D"]
+process_mode = 2
+
+[node name="Control" type="Control" parent="Camera3D/SettingScreen"]
+custom_minimum_size = Vector2(1280, 720)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+theme = ExtResource("3_o1rty")
+script = ExtResource("15_kmg4v")
+
+[node name="ColorRect" type="ColorRect" parent="Camera3D/SettingScreen/Control"]
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0, 0, 0, 0.54901963)
+metadata/_edit_lock_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Camera3D/SettingScreen/Control"]
+layout_mode = 0
+offset_left = 269.0
+offset_top = 107.0
+offset_right = 1194.0
+offset_bottom = 609.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Camera3D/SettingScreen/Control/VBoxContainer"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+
+[node name="VScrollBar" type="VScrollBar" parent="Camera3D/SettingScreen/Control/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="BackButton" type="Button" parent="Camera3D/SettingScreen/Control"]
+layout_mode = 0
+offset_left = 97.0
+offset_top = 624.0
+offset_right = 182.0
+offset_bottom = 662.0
+text = "Back"
+
+[node name="Shader3" type="ColorRect" parent="Camera3D/SettingScreen"]
+texture_filter = 1
+material = SubResource("ShaderMaterial_l2ya6")
+offset_right = 1280.0
+offset_bottom = 720.0
+focus_behavior_recursive = 1
+mouse_filter = 2
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_4flbx")
+debug_color = Color(0.9672623, 9.62615e-07, 0.47837847, 0.41960785)
+metadata/_edit_lock_ = true
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.9961947, 0.08715574, 0, -0.08715574, 0.9961947, 0, 0.45, 0)
+light_energy = 1.5
+shadow_enabled = true
+spot_range = 8.5
+spot_angle = 25.0
+metadata/_edit_lock_ = true
+
+[node name="InteractionRaycast" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+target_position = Vector3(0, 0, -4)
+collision_mask = 2
+collide_with_areas = true
+metadata/_edit_lock_ = true
+
+[node name="UpgradeExecuteTimer" type="Timer" parent="."]
+wait_time = 10.0
+autostart = true
+
+[node name="AutoSaveTimer" type="Timer" parent="."]
+wait_time = 60.0
+autostart = true
+
+[node name="HungerTimer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[node name="AnnouncerSound" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 18, 0)
+volume_db = 8.0
+unit_size = 5.0
+pitch_scale = 0.95
+bus = &"NarratorBus"
+metadata/_edit_lock_ = true
+
+[connection signal="openShopScreen" from="." to="." method="_on_open_shop_screen"]
+[connection signal="ready" from="." to="." method="_on_ready"]
+[connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
+[connection signal="updateShopElements" from="." to="Camera3D/ShopGUI/Control" method="_on_player_update_shop_elements"]
+[connection signal="pressed" from="Camera3D/ShopGUI/Control/ExitButton" to="." method="_on_exit_button_pressed"]
+[connection signal="pressed" from="Camera3D/PauseMenu/Control/ResumeButton" to="Camera3D/PauseMenu/Control" method="_on_resume_button_pressed"]
+[connection signal="pressed" from="Camera3D/PauseMenu/Control/CreditsButton" to="Camera3D/PauseMenu/Control" method="_on_credits_button_pressed"]
+[connection signal="pressed" from="Camera3D/PauseMenu/Control/SettingsButton" to="Camera3D/PauseMenu/Control" method="_on_settings_button_pressed"]
+[connection signal="pressed" from="Camera3D/PauseMenu/Control/ExitButton" to="Camera3D/PauseMenu/Control" method="_on_exit_button_pressed"]
+[connection signal="pressed" from="Camera3D/CreditsScreen/Control/BackButton" to="Camera3D/CreditsScreen/Control" method="_on_back_button_pressed"]
+[connection signal="pressed" from="Camera3D/SettingScreen/Control/BackButton" to="Camera3D/SettingScreen/Control" method="_on_back_button_pressed"]
+[connection signal="timeout" from="UpgradeExecuteTimer" to="." method="_on_upgrade_execute_timer_timeout"]
+[connection signal="timeout" from="AutoSaveTimer" to="." method="_on_auto_save_timer_timeout"]
+[connection signal="timeout" from="HungerTimer" to="." method="_on_hunger_timer_timeout"]

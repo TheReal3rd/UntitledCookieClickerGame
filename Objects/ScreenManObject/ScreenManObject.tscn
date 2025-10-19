@@ -1,0 +1,49 @@
+[gd_scene load_steps=8 format=3 uid="uid://d2em0wvp5u3q3"]
+
+[ext_resource type="PackedScene" uid="uid://cpuqhfddkn2rg" path="res://Assets/ScreenMan/ScreenMan.fbx" id="1_2tw5f"]
+[ext_resource type="Script" uid="uid://dotph1q2kdmgm" path="res://Objects/ScreenManObject/screen_man_object.gd" id="1_dvjtr"]
+[ext_resource type="PackedScene" uid="uid://b2egi0cssgkvh" path="res://Objects/ScreenManObject/ScreenViewport.tscn" id="3_dvjtr"]
+[ext_resource type="AudioStream" uid="uid://bomjoatvcc2gv" path="res://Assets/Sound/FX/ScreenManSound.mp3" id="4_t2kw3"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2tw5f"]
+radius = 0.7
+height = 2.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dvjtr"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_s21vc"]
+
+[node name="ScreenManObject" type="StaticBody3D"]
+script = ExtResource("1_dvjtr")
+
+[node name="ScreenMan" parent="." instance=ExtResource("1_2tw5f")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_2tw5f")
+metadata/_edit_lock_ = true
+
+[node name="SubViewPortMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1.9937469e-08, 0.16, 0, 1.9937469e-08, 3.0570968e-16, -0.381, -0.4561161, -6.993822e-09, -1.665404e-08, 0.45, 1.408, 0)
+material_override = SubResource("StandardMaterial3D_dvjtr")
+mesh = SubResource("PlaneMesh_s21vc")
+metadata/_edit_lock_ = true
+
+[node name="ScreenViewport" parent="." instance=ExtResource("3_dvjtr")]
+
+[node name="DirectionalLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -0.02675742, 1.4958273, 0)
+light_color = Color(0.82421815, 0.82421786, 3.85046e-07, 1)
+light_energy = 12.493
+shadow_enabled = true
+spot_range = 2.9
+spot_angle = 52.61
+metadata/_edit_lock_ = true
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.940174, 0)
+stream = ExtResource("4_t2kw3")
+volume_db = -4.0
+unit_size = 5.0
+max_db = 1.0
+max_distance = 5.0

@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=3 uid="uid://coyejab86qqvu"]
+
+[ext_resource type="Theme" uid="uid://bhed8krggwjc0" path="res://Objects/ShopMachineObject/ShopMachineTheme.tres" id="1_f5o7w"]
+[ext_resource type="Script" uid="uid://mry80r1lrhno" path="res://Objects/ShopMachineObject/ShopItem/shop_item.gd" id="2_snage"]
+
+[node name="ShopItem" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_f5o7w")
+script = ExtResource("2_snage")
+
+[node name="HSplitContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="HSplitContainer"]
+layout_mode = 2
+text = "Name"
+
+[node name="PriceLabel" type="Label" parent="HSplitContainer"]
+layout_mode = 2
+text = "Price: 10"
+
+[node name="LevelLabel" type="Label" parent="HSplitContainer"]
+layout_mode = 2
+text = "Level: 0"
+
+[node name="BuyButton" type="Button" parent="HSplitContainer"]
+layout_mode = 2
+text = "Buy"
+
+[connection signal="mouse_entered" from="HSplitContainer/NameLabel" to="." method="_on_name_label_mouse_entered"]
+[connection signal="pressed" from="HSplitContainer/BuyButton" to="." method="_on_buy_button_pressed"]

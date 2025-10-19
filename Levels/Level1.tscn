@@ -1,0 +1,193 @@
+[gd_scene load_steps=23 format=3 uid="uid://cnqs4e8bsihtd"]
+
+[ext_resource type="Texture2D" uid="uid://bv60wvoo4f8rg" path="res://Assets/Texture/FloorTexture.png" id="1_fhqol"]
+[ext_resource type="PackedScene" uid="uid://ckppxixhfvpvj" path="res://Objects/Player/player.tscn" id="1_w77jt"]
+[ext_resource type="PackedScene" uid="uid://4msc34tqo44v" path="res://Objects/Cookie/cookieObject.tscn" id="2_3anf8"]
+[ext_resource type="Texture2D" uid="uid://dpv6mygyn3d7v" path="res://Assets/Texture/WallTexture.png" id="2_iotdp"]
+[ext_resource type="PackedScene" uid="uid://d2em0wvp5u3q3" path="res://Objects/ScreenManObject/ScreenManObject.tscn" id="3_nutv8"]
+[ext_resource type="PackedScene" uid="uid://da5hfxjcweeeh" path="res://Objects/ShopMachineObject/ShopMachine.tscn" id="6_05pb0"]
+[ext_resource type="PackedScene" uid="uid://d0a6eocsw20fe" path="res://Objects/RationMachineObject/RationMachineObject.tscn" id="7_dl8mf"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iotdp"]
+albedo_texture = ExtResource("1_fhqol")
+anisotropy = 0.9
+uv1_scale = Vector3(120, 120, 120)
+texture_filter = 0
+
+[sub_resource type="BoxMesh" id="BoxMesh_a4eo7"]
+size = Vector3(32, 1, 32)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_w77jt"]
+size = Vector3(32, 1, 32)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nutv8"]
+albedo_texture = ExtResource("2_iotdp")
+uv1_scale = Vector3(40, 40, 40)
+texture_filter = 0
+
+[sub_resource type="BoxMesh" id="BoxMesh_3anf8"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fhqol"]
+size = Vector3(32, 16, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_05pb0"]
+albedo_texture = ExtResource("2_iotdp")
+uv1_scale = Vector3(40, 40, 40)
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dl8mf"]
+albedo_texture = ExtResource("2_iotdp")
+uv1_scale = Vector3(40, 40, 40)
+texture_filter = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xcayt"]
+albedo_texture = ExtResource("2_iotdp")
+uv1_scale = Vector3(40, 40, 40)
+texture_filter = 0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_3anf8"]
+height = 4.0
+radius = 0.9
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5g41i"]
+albedo_texture = ExtResource("1_fhqol")
+uv1_scale = Vector3(120, 120, 120)
+texture_filter = 0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_05pb0"]
+bottom_radius = 0.9
+height = 0.5
+
+[sub_resource type="Environment" id="Environment_w77jt"]
+background_mode = 1
+background_color = Color(0.14509805, 0, 0, 1)
+background_energy_multiplier = 2.0
+fog_enabled = true
+fog_mode = 1
+fog_light_color = Color(0.09681449, 0.002773658, 1.504086e-09, 1)
+fog_light_energy = 0.6
+fog_sun_scatter = 0.15
+fog_density = 1.4
+fog_height_density = 8.5409
+fog_depth_curve = 0.210225
+
+[sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_3anf8"]
+
+[sub_resource type="Compositor" id="Compositor_fhqol"]
+
+[node name="Level1" type="Node3D"]
+
+[node name="LevelRoom" type="Node3D" parent="."]
+
+[node name="Floor" type="StaticBody3D" parent="LevelRoom"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LevelRoom/Floor"]
+material_override = SubResource("StandardMaterial3D_iotdp")
+mesh = SubResource("BoxMesh_a4eo7")
+skeleton = NodePath("../../..")
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LevelRoom/Floor"]
+visible = false
+shape = SubResource("BoxShape3D_w77jt")
+debug_color = Color(0, 0.6493134, 0.160826, 0.41960785)
+
+[node name="Wall1" type="StaticBody3D" parent="LevelRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.5, 5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LevelRoom/Wall1"]
+transform = Transform3D(32, 0, 0, 0, 16, 0, 0, 0, 1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_nutv8")
+mesh = SubResource("BoxMesh_3anf8")
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LevelRoom/Wall1"]
+visible = false
+shape = SubResource("BoxShape3D_fhqol")
+debug_color = Color(0.9568642, 0, 0.5382492, 0.41960785)
+
+[node name="Wall2" type="StaticBody3D" parent="LevelRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.5, -5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LevelRoom/Wall2"]
+transform = Transform3D(32, 0, 0, 0, 16, 0, 0, 0, 1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_05pb0")
+mesh = SubResource("BoxMesh_3anf8")
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LevelRoom/Wall2"]
+visible = false
+shape = SubResource("BoxShape3D_fhqol")
+debug_color = Color(0.9568642, 0, 0.5382492, 0.41960785)
+
+[node name="Wall3" type="StaticBody3D" parent="LevelRoom"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 5, 7.5, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LevelRoom/Wall3"]
+transform = Transform3D(32, 0, 0, 0, 16, 0, 0, 0, 1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_dl8mf")
+mesh = SubResource("BoxMesh_3anf8")
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LevelRoom/Wall3"]
+visible = false
+shape = SubResource("BoxShape3D_fhqol")
+debug_color = Color(0.9568642, 0, 0.5382492, 0.41960785)
+
+[node name="Wall4" type="StaticBody3D" parent="LevelRoom"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -7, 7.5, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LevelRoom/Wall4"]
+transform = Transform3D(32, 0, 0, 0, 16, 0, 0, 0, 1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_xcayt")
+mesh = SubResource("BoxMesh_3anf8")
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LevelRoom/Wall4"]
+visible = false
+shape = SubResource("BoxShape3D_fhqol")
+debug_color = Color(0.9568642, 0, 0.5382492, 0.41960785)
+
+[node name="CookieStand" type="StaticBody3D" parent="LevelRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.987, 0.75, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LevelRoom/CookieStand"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.013000011, 0.75, 0)
+visible = false
+shape = SubResource("CylinderShape3D_3anf8")
+debug_color = Color(0.97860366, 0, 0.40181062, 1)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LevelRoom/CookieStand"]
+material_override = SubResource("StandardMaterial3D_5g41i")
+mesh = SubResource("CylinderMesh_05pb0")
+
+[node name="Player" parent="." instance=ExtResource("1_w77jt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2725887, 1.802, -0.14321518)
+
+[node name="ScreenManObject" parent="." instance=ExtResource("3_nutv8")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 2.375817, 0.49999952, -3.7510521)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_w77jt")
+camera_attributes = SubResource("CameraAttributesPhysical_3anf8")
+compositor = SubResource("Compositor_fhqol")
+
+[node name="CookieObject" parent="." instance=ExtResource("2_3anf8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 2, 0)
+metadata/_edit_lock_ = true
+
+[node name="ShopMachine" parent="." instance=ExtResource("6_05pb0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.4035425, 0.5, 3.761578)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.065384, 0)
+light_energy = 0.5
+light_indirect_energy = 0.5
+light_volumetric_fog_energy = 0.2
+light_specular = 0.1
+shadow_enabled = true
+omni_range = 25.0
+omni_attenuation = 0.8
+
+[node name="RationMachineObject" parent="." instance=ExtResource("7_dl8mf")]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 3.574775, 0.5, 3.6944058)

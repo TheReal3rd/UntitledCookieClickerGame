@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://cyfuqlg3rg8jp"]
+
+[ext_resource type="PackedScene" uid="uid://rsaii2aukkpp" path="res://Assets/ShopMachine/ShopMachine.fbx" id="1_gxyam"]
+[ext_resource type="Texture2D" uid="uid://dvqh4kbeppwg8" path="res://Assets/ShopMachine/ShopMachine_0.png" id="2_cwlud"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rnumn"]
+resource_name = "texture.png"
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("2_cwlud")
+emission_enabled = true
+texture_filter = 0
+texture_repeat = false
+
+[node name="ShopMachine" instance=ExtResource("1_gxyam")]
+
+[node name="cube" parent="." index="0"]
+material_override = SubResource("StandardMaterial3D_rnumn")

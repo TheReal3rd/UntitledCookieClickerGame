@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://bpxpc6f56cvkb"]
+
+[ext_resource type="PackedScene" uid="uid://c2r04vtd2qeym" path="res://Assets/RationMachine/RationMachine.fbx" id="1_vm67w"]
+[ext_resource type="Texture2D" uid="uid://dsd0xiehrpkrc" path="res://Assets/RationMachine/RationMachine_0.png" id="2_lhwpy"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0o4lt"]
+albedo_texture = ExtResource("2_lhwpy")
+texture_filter = 0
+
+[node name="RationMachine" instance=ExtResource("1_vm67w")]
+
+[node name="cuboid" parent="." index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_0o4lt")
