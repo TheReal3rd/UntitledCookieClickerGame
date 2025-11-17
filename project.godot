@@ -34,6 +34,8 @@ project/assembly_name="WebGameTest"
 
 CookieObject=""
 ShopMachineObject=""
+RationMachineObject=""
+InteractableObject=""
 
 [input]
 

@@ -13,7 +13,8 @@ height = 2.8
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_s21vc"]
 
-[node name="ScreenManObject" type="StaticBody3D"]
+[node name="ScreenManObject" type="StaticBody3D" groups=["InteractableObject"]]
+collision_layer = 3
 script = ExtResource("1_dvjtr")
 
 [node name="ScreenMan" parent="." instance=ExtResource("1_2tw5f")]

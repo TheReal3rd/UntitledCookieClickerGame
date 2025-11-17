@@ -1,7 +1,7 @@
 extends AbstractQuest
 
 func _init() -> void:
-	super._init(2, "Getting an Upgrade", "Purchase an upgrade.", "res://Assets/Sound/introAudio.mp3")
+	super._init(2, "Getting an Upgrade", "Purchase an upgrade.", "", 1000)
 
 func executeCheck() -> bool:
 	var upgrade: UpgradeAbstract = managerBackRef.getGlobalRef().getUpgradeByName("Clicker")

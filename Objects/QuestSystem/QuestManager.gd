@@ -4,7 +4,7 @@ const questSavePath: String = "user://questData.json"
 var global: Node : get = getGlobalRef
 
 var currentQuestID:int = 1
-var currentQuestCach: AbstractQuest
+var currentQuestCach: AbstractQuest : get = getCurrentQuest
 var questList: Dictionary = {}
 
 func _init(globalInstance:Node) -> void:
@@ -41,19 +41,16 @@ func setCurrentQuestCach() -> void:
 		currentQuestID = -1
 		return
 		
+	var player:Node = global.getPlayer()
 	currentQuestCach = questList[currentQuestID]
 	if currentQuestCach.isCompleted():
 		currentQuestID += 1
 		setCurrentQuestCach()
-	
-	if not currentQuestCach.hasAnnoucementPlayed():
-		if currentQuestCach.getSoundPath() == "":
-			return
-		var player:Node = global.getPlayer()
 		if player:
-			player.playSound(currentQuestCach.getSoundPath())
-			player.setQuestLabelText(currentQuestCach.getDescription())
-			currentQuestCach.setAnnoucementPlayed(true)
+			player.updateQuotaStats()
+	
+	if player:
+		player.setQuestLabelText(currentQuestCach.getDescription())
 	
 
 func playerIsReady() -> void:
@@ -100,3 +97,6 @@ func buildSaveData() -> Dictionary:
 	
 func getGlobalRef() -> Node:
 	return global
+	
+func getCurrentQuest() -> AbstractQuest:
+	return currentQuestCach

@@ -1,7 +1,7 @@
 extends AbstractQuest
 
 func _init() -> void:
-	super._init(1, "Introduction", "Make a Start. Get 100 cookies.", "res://Assets/Sound/introAudio.mp3")
+	super._init(1, "Introduction", "Make a Start. Get 100 cookies.", "", 1000)
 
 func executeCheck() -> bool:
 	if managerBackRef.getGlobalRef().getScore() >= 100:

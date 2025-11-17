@@ -5,15 +5,17 @@ var managerBackRef: QuestManager : set = setManagerBackRef
 var questSerialID: int = -1 : get = getID
 var questName: String = "AbstractQuestName" : get = getName
 var questDescription: String = "AbstractQuestDescription" : get = getDescription
-var annoucementPlayed: bool = false : get = hasAnnoucementPlayed, set = setAnnoucementPlayed
-var annoucementSoundPath: String = "" : get = getSoundPath
 var completed: bool = false : get = isCompleted, set = setCompleted
+var questLog: String = "AbstractQuestLog" : get = getQuestLog
 
-func _init(newQuestID:int, newName:String, newDescription:String, newSoundPath: String) -> void:
+var quotaDuration: int = 1000 : get = getQuotaDuration
+
+func _init(newQuestID:int, newName:String, newDescription:String, newQuestLog:String, newQuotaDuration:int) -> void:
 	questName = newName
 	questDescription = newDescription
-	annoucementSoundPath = newSoundPath
 	questSerialID = newQuestID
+	questLog = newQuestLog
+	quotaDuration = newQuotaDuration
 	
 func executeCheck() -> bool:
 	return false
@@ -23,6 +25,12 @@ func completionTask() -> void:
 
 #Getters and Setters
 
+func getQuestLog() -> String:
+	return questLog
+	
+func getQuotaDuration() -> int:
+	return quotaDuration
+	
 func getID() -> int:
 	return questSerialID
 	
@@ -31,15 +39,6 @@ func getName() -> String:
 	
 func getDescription() -> String:
 	return questDescription
-	
-func hasAnnoucementPlayed() -> bool:
-	return annoucementPlayed
-	
-func setAnnoucementPlayed(newState) -> void:
-	annoucementPlayed = newState
-	
-func getSoundPath() -> String:
-	return annoucementSoundPath
 	
 func setManagerBackRef(newManager) -> void:
 	managerBackRef = newManager
@@ -52,13 +51,10 @@ func setCompleted(newState) -> void:
 	
 func getSaveData() -> Dictionary:
 	return {
-		"annoucementPlayed" : annoucementPlayed,
 		"completed" : completed,
 	}
 	
 func setData(saveData:Dictionary) -> void:
-	if saveData.has("annoucementPlayed"):
-		annoucementPlayed = saveData.get("annoucementPlayed")
 	if saveData.has("completed"):
 		completed = saveData.get("completed")
 	

@@ -13,7 +13,8 @@ height = 2.7
 [sub_resource type="PlaneMesh" id="PlaneMesh_bxm2h"]
 size = Vector2(0.77, 0.57)
 
-[node name="ShopMachine" type="StaticBody3D" groups=["ShopMachineObject"]]
+[node name="ShopMachine" type="StaticBody3D" groups=["InteractableObject", "ShopMachineObject"]]
+collision_layer = 3
 script = ExtResource("1_bxm2h")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -22,12 +23,6 @@ shape = SubResource("CapsuleShape3D_rwgmd")
 metadata/_edit_lock_ = true
 
 [node name="ShopMachine" parent="." instance=ExtResource("1_rwgmd")]
-metadata/_edit_lock_ = true
-
-[node name="InteractLabel" type="Label3D" parent="."]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 1.8208542, 0)
-billboard = 1
-text = "Press E to interact."
 metadata/_edit_lock_ = true
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
@@ -44,5 +39,6 @@ mesh = SubResource("PlaneMesh_bxm2h")
 
 [node name="ShopScreenViewport" parent="." instance=ExtResource("3_d28id")]
 
-[connection signal="shopCloseNotify" from="." to="." method="_on_shop_close_notify"]
+[connection signal="closeGUI" from="." to="." method="_on_close_gui"]
+[connection signal="openGUI" from="." to="." method="_on_open_gui"]
 [connection signal="finished" from="AudioStreamPlayer3D" to="." method="_on_audio_stream_player_3d_finished"]

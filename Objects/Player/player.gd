@@ -16,6 +16,10 @@ extends CharacterBody3D
 @onready var creditScreenLayer: CanvasLayer = $Camera3D/CreditsScreen
 @onready var gameStatsLabel: Label = $Camera3D/Hud/Control/GameStatsLabel
 @onready var settingScreen: CanvasLayer = $Camera3D/SettingScreen
+@onready var exitButton: Button = $Camera3D/RationGUI/Control/ExitButton
+@onready var rationMachineGUI: CanvasLayer = $Camera3D/RationGUI
+@onready var quotaBar: TextureProgressBar = $Camera3D/Hud/Control/QuotaBar
+@onready var interactionLabel: Label = $Camera3D/Hud/Control/InteractionLabel
 
 const SPEED: float = 5.0
 const JUMP_VELOCITY: float = 4.5
@@ -25,17 +29,29 @@ var yaw: float = 0.0
 var pitch: float = 0.0
 var sensitivity: float = 0.1
 var mouseTrack: bool = false
-var hungerLevel: float = 100.0
+var hungerLevel: float = 100.0 : set = setHungerLevel
 var gamePaused: bool = false
+var quotaDuration: int = -1
+var quotaTimeSpan: int = -1
 
 var cookieObject: Node3D
+var hoverObject: Node3D
 
 @warning_ignore("unused_signal")
 signal openShopScreen(machine:Node)
-signal updateShopElements
 var shopOpen: bool = false : get = isInShop
 var shopUnlocked: bool = false : get = isShopUnlocked, set = setShopLockState
 var shopMachineNode : Node
+
+@warning_ignore("unused_signal")
+signal updateShopElements
+@warning_ignore("unused_signal")
+signal updateRationElements
+
+enum FoodItemEnum {
+	CRation,
+	Cookie
+}
 
 func _ready() -> void:
 	global.setPlayer(self)
@@ -49,6 +65,8 @@ func _ready() -> void:
 	creditScreenLayer.hide()
 	gameStatsLabel.hide()
 	settingScreen.hide()
+	rationMachineGUI.hide()
+	interactionLabel.hide()
 	updateSettingsStats()
 
 func _input(event: InputEvent) -> void:
@@ -58,7 +76,6 @@ func _input(event: InputEvent) -> void:
 				closeShop()
 			else:
 				pauseGame()
-			
 
 func _unhandled_input(event: InputEvent) -> void:
 	if shopOpen:
@@ -84,7 +101,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		
 		var mouseIndex:int = mouseEvent.get_button_index()
 		if mouseIndex == 1:#Left
-			interactRaycast.force_raycast_update()
 			if not interactRaycast.is_colliding():
 				return
 			
@@ -95,6 +111,13 @@ func _unhandled_input(event: InputEvent) -> void:
 			
 		elif mouseIndex == 2:#Right
 			pass
+			
+	if event is InputEventKey and event.is_pressed():
+		var inputEvent: InputEventKey = event
+		if inputEvent.get_keycode() == 69 and interactionLabel.is_visible():
+			if hoverObject:
+				hoverObject.emit_signal("openGUI")
+				emit_signal("openShopScreen" ,hoverObject)
 		
 func pauseGame():
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
@@ -107,6 +130,19 @@ func pauseGame():
 		
 @warning_ignore("unused_parameter")
 func _process(delta: float) -> void:
+	interactRaycast.force_raycast_update()
+	if interactRaycast.is_colliding() and interactRaycast.get_collider() is AbstractInteractionObject:
+		var interactionObject: AbstractInteractionObject = interactRaycast.get_collider()
+		if interactionObject.is_in_group("InteractableObject") and interactionObject.isUnlocked() and get_global_position().distance_to(interactionObject.get_global_position()) <= 2.3 :
+			hoverObject = interactionObject
+			interactionLabel.show()
+		else:
+			interactionLabel.hide()
+			hoverObject = null
+	else:
+		interactionLabel.hide()
+		hoverObject = null
+	
 	if hud.is_visible():
 		if gameStatsLabel.is_visible():
 			gameStatsLabel.set_text("FPS: %d" % [ Engine.get_frames_per_second() ])
@@ -156,8 +192,13 @@ func _on_open_shop_screen(machine:Node) -> void:
 	shopOpen = true
 	shopMachineNode = machine
 	hud.hide()
-	shopGUI.show()
-	emit_signal("updateShopElements")
+	if machine.is_in_group("RationMachineObject"):
+		rationMachineGUI.show()
+		emit_signal("updateRationElements")
+	else:
+		shopGUI.show()
+		emit_signal("updateShopElements")
+
 
 func isInShop() -> bool:
 	return shopOpen
@@ -165,12 +206,12 @@ func isInShop() -> bool:
 func closeShop() -> void:
 	hud.show()
 	shopGUI.hide()
+	rationMachineGUI.hide()
 	shopOpen = false
 	mouseTrack = true
 	if Input.get_mouse_mode() == 0:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	shopMachineNode.emit_signal("shopCloseNotify")
-	
+	shopMachineNode.emit_signal("closeGUI")
 
 func _on_exit_button_pressed() -> void:
 	closeShop()
@@ -239,8 +280,7 @@ func setShopLockState(newState:bool) -> void:
 	shopUnlocked = newState
 
 func _on_hunger_timer_timeout() -> void:
-	hungerLevel -= 0.5
-	hungerBar.set_value(hungerLevel)
+	changeHungerLevel(-0.5)
 	if hungerLevel <= -10:
 		print("Player Death needs implementing...")
 		
@@ -272,3 +312,52 @@ func updateSettingsStats() -> void:
 	else:
 		gameStatsLabel.hide()
 	
+func calcFoodPrice(foodItem:FoodItemEnum) -> int:
+	var price: int = 0
+	var multi:int = 0
+	for upgrade:UpgradeAbstract in global.getUpgrades().values():
+		if upgrade.getLevel() <= 0:
+			continue
+		multi += upgrade.getLevel() 
+	match(foodItem):
+		FoodItemEnum.CRation:
+			price = roundi(100 * multi)
+		FoodItemEnum.Cookie:
+			price = roundi(10 * multi)
+	return price
+	
+func buyFood(foodItem:FoodItemEnum) -> void:
+	var price = calcFoodPrice(foodItem)
+	
+	if global.getScore() >= price:
+		global.changeScore(-price)
+		match (foodItem):
+			FoodItemEnum.CRation:
+				changeHungerLevel(35)
+			FoodItemEnum.Cookie:
+				changeHungerLevel(10)
+
+func setHungerLevel(newLevel:float) -> void:
+	hungerLevel = clamp(newLevel, 0.0, 100.0)
+	hungerBar.set_value(hungerLevel)
+	
+func changeHungerLevel(amount:float) -> void:
+	setHungerLevel(hungerLevel + amount)
+
+func _on_buy_cookie_button_pressed() -> void:
+	buyFood(FoodItemEnum.Cookie)
+
+func _on_buy_ration_button_pressed() -> void:
+	buyFood(FoodItemEnum.CRation)
+	
+func updateQuotaStats() -> void:
+	var questManager = global.getQuestManager()
+	if questManager:
+		var quest = questManager.getCurrentQuest()
+		if quest:
+			quotaDuration = quest.getQuotaDuration()
+			quotaTimeSpan = 0
+			return
+		
+	if quotaDuration == -1 or quotaTimeSpan == -1:
+		quotaBar.hide()
