@@ -1,5 +1,5 @@
 # UntitledCookieClickerGame
-![Image of the Administrations crest.](Crest.gif)
+![Image of the Administrations crest.](/../Crest.gif)
 
 3D Cookie Clicker game witha retro CRT theme within a 1984 like world.
 
