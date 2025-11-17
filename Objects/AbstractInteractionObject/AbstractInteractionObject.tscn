@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ghukrlk6bvm7"]
+
+[ext_resource type="Script" uid="uid://dilhy38ybvnld" path="res://Objects/AbstractInteractionObject/abstract_interaction_object.gd" id="1_pyec1"]
+
+[node name="AbstractInteractionObject" type="StaticBody3D" groups=["InteractableObject"]]
+script = ExtResource("1_pyec1")

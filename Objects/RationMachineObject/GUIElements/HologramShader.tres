@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bcy861na1xaqs"]
+
+[ext_resource type="Shader" uid="uid://gaj257l8784j" path="res://Objects/RationMachineObject/GUIElements/HologramShader.gdshader" id="1_rf51e"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_rf51e")
