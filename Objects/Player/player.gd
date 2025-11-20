@@ -1,25 +1,32 @@
 extends CharacterBody3D
 
+@onready var debugMenuPath = preload("res://DebugAndTesting/TestingWindow.tscn")
+
 @onready var cameraNode:Camera3D = $Camera3D
-@onready var cookieLabel: Label = $Camera3D/Hud/Control/ScoreLabel
-@onready var questLabel: Label = $Camera3D/Hud/Control/QuestLabel
+@onready var cookieLabel: Label = $Camera3D/CameraOverlays/HUD/ScoreLabel
+@onready var questLabel: Label = $Camera3D/CameraOverlays/HUD/QuestLabel
 @onready var global = get_node("/root/Global")
-@onready var shaderRect: ColorRect = $Camera3D/Hud/Control/Shader 
+@onready var shaderRect: ColorRect = $Camera3D/CameraOverlays/HUD/Shader
 @onready var interactRaycast:RayCast3D = $InteractionRaycast
 @onready var spotLight: SpotLight3D = $SpotLight3D
 @onready var announcerSound: AudioStreamPlayer3D = $AnnouncerSound
 @onready var upgradeExecuterTimer: Timer = $UpgradeExecuteTimer
-@onready var hud:CanvasLayer = $Camera3D/Hud
-@onready var shopGUI:CanvasLayer = $Camera3D/ShopGUI
-@onready var hungerBar: TextureProgressBar = $Camera3D/Hud/Control/HungerBar
-@onready var pauseScreenLayer: CanvasLayer = $Camera3D/PauseMenu
-@onready var creditScreenLayer: CanvasLayer = $Camera3D/CreditsScreen
-@onready var gameStatsLabel: Label = $Camera3D/Hud/Control/GameStatsLabel
-@onready var settingScreen: CanvasLayer = $Camera3D/SettingScreen
-@onready var exitButton: Button = $Camera3D/RationGUI/Control/ExitButton
-@onready var rationMachineGUI: CanvasLayer = $Camera3D/RationGUI
-@onready var quotaBar: TextureProgressBar = $Camera3D/Hud/Control/QuotaBar
-@onready var interactionLabel: Label = $Camera3D/Hud/Control/InteractionLabel
+@onready var hud:Control = $Camera3D/CameraOverlays/HUD
+@onready var shopGUI:Control = $Camera3D/CameraOverlays/ShopGUI
+@onready var hungerBar: TextureProgressBar = $Camera3D/CameraOverlays/HUD/HungerBar
+@onready var pauseMenus: CanvasLayer = $Camera3D/PauseMenus
+@onready var pauseScreenLayer: Control = $Camera3D/PauseMenus/PauseMenu
+@onready var creditScreenLayer: Control = $Camera3D/PauseMenus/CreditsScreen
+@onready var gameStatsLabel: Label = $Camera3D/CameraOverlays/HUD/GameStatsLabel
+@onready var settingScreen: Control = $Camera3D/PauseMenus/SettingsScreen
+@onready var exitButton: Button = $Camera3D/PauseMenus/PauseMenu/ExitButton
+@onready var rationMachineGUI: Control = $Camera3D/CameraOverlays/RationGUI
+@onready var quotaBar: TextureProgressBar = $Camera3D/CameraOverlays/HUD/QuotaBar
+@onready var interactionLabel: Label = $Camera3D/CameraOverlays/HUD/InteractionLabel
+@onready var crtShaderPauseMenus: ColorRect = $Camera3D/PauseMenus/CRTShaderPauseMenus
+@onready var crtShaderOverlays: ColorRect = $Camera3D/CameraOverlays/CRTShaderOverlays
+@onready var deathScreen: Control = $Camera3D/CameraOverlays/DeathScreen
+@onready var deathAudioStream: AudioStreamPlayer2D = $Camera3D/CameraOverlays/DeathScreen/DeathAudioStream
 
 const SPEED: float = 5.0
 const JUMP_VELOCITY: float = 4.5
@@ -33,6 +40,7 @@ var hungerLevel: float = 100.0 : set = setHungerLevel
 var gamePaused: bool = false
 var quotaDuration: int = -1
 var quotaTimeSpan: int = -1
+var debugMenuOpen: bool = false : set = setDebugMenuState, get = isDebugMenuOpen
 
 var cookieObject: Node3D
 var hoverObject: Node3D
@@ -47,6 +55,8 @@ var shopMachineNode : Node
 signal updateShopElements
 @warning_ignore("unused_signal")
 signal updateRationElements
+@warning_ignore("unused_signal")
+signal playerDeath
 
 enum FoodItemEnum {
 	CRation,
@@ -58,6 +68,7 @@ func _ready() -> void:
 	shaderRect.set_size(get_window().get_size())
 	shopGUI.hide()
 	hud.show()
+	pauseMenus.show()
 	global.readPlayerData(true)
 	hungerBar.set_value(hungerLevel)
 	hungerBar.set_max(MAX_HUNGER)
@@ -67,6 +78,9 @@ func _ready() -> void:
 	settingScreen.hide()
 	rationMachineGUI.hide()
 	interactionLabel.hide()
+	crtShaderPauseMenus.hide()
+	crtShaderOverlays.hide()
+	deathScreen.hide()
 	updateSettingsStats()
 
 func _input(event: InputEvent) -> void:
@@ -126,10 +140,13 @@ func pauseGame():
 	pauseScreenLayer.show()
 	shopGUI.hide()
 	hud.hide()
+	crtShaderPauseMenus.show()
 	get_tree().paused = true
 		
 @warning_ignore("unused_parameter")
 func _process(delta: float) -> void:
+	debugMenuControlsCheck()
+	
 	interactRaycast.force_raycast_update()
 	if interactRaycast.is_colliding() and interactRaycast.get_collider() is AbstractInteractionObject:
 		var interactionObject: AbstractInteractionObject = interactRaycast.get_collider()
@@ -190,15 +207,17 @@ func _on_open_shop_screen(machine:Node) -> void:
 	
 	mouseTrack = false
 	shopOpen = true
+	crtShaderOverlays.show()
 	shopMachineNode = machine
 	hud.hide()
 	if machine.is_in_group("RationMachineObject"):
 		rationMachineGUI.show()
+		shopGUI.hide()
 		emit_signal("updateRationElements")
 	else:
 		shopGUI.show()
+		rationMachineGUI.hide()
 		emit_signal("updateShopElements")
-
 
 func isInShop() -> bool:
 	return shopOpen
@@ -212,6 +231,7 @@ func closeShop() -> void:
 	if Input.get_mouse_mode() == 0:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	shopMachineNode.emit_signal("closeGUI")
+	crtShaderOverlays.hide()
 
 func _on_exit_button_pressed() -> void:
 	closeShop()
@@ -285,6 +305,7 @@ func _on_hunger_timer_timeout() -> void:
 		print("Player Death needs implementing...")
 		
 func resume() -> void:
+	crtShaderPauseMenus.hide()
 	gamePaused = false
 	get_tree().paused = false
 	pauseScreenLayer.hide()
@@ -361,3 +382,32 @@ func updateQuotaStats() -> void:
 		
 	if quotaDuration == -1 or quotaTimeSpan == -1:
 		quotaBar.hide()
+
+func _on_player_death() -> void:
+	deathScreen.show()
+	hud.hide()
+	pauseMenus.hide()
+	pauseScreenLayer.hide()
+	crtShaderOverlays.hide()
+	
+	deathAudioStream.play()
+	
+func isDebugMenuOpen():
+	return debugMenuOpen
+	
+func setDebugMenuState(newState):
+	debugMenuOpen = newState
+	
+func debugMenuControlsCheck():
+	if Input.is_key_pressed(KEY_F3) and Input.is_key_pressed(KEY_D):
+		setDebugMenuState(true)
+		var debugWindowInst = debugMenuPath.instantiate()
+		get_tree().root.add_child(debugWindowInst)
+
+
+func _on_respawn_button_pressed() -> void:
+	pass # Replace with function body.
+
+
+func _on_exit_game_button_pressed() -> void:
+	pass # Replace with function body.

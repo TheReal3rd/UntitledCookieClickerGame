@@ -1,0 +1,48 @@
+[gd_scene load_steps=2 format=3 uid="uid://cytfxp751gt05"]
+
+[ext_resource type="Script" uid="uid://c8758fs3wnw4y" path="res://DebugAndTesting/testing_window.gd" id="1_iju7p"]
+
+[node name="TestingWindow" type="Window"]
+process_mode = 3
+oversampling_override = 1.0
+title = "Web Game Debug and Testing"
+initial_position = 1
+size = Vector2i(800, 800)
+unresizable = true
+script = ExtResource("1_iju7p")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 800.0
+offset_bottom = 800.0
+
+[node name="ColorRect" type="ColorRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.12347304, 0.12347304, 0.12347304, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="KillPlayerButton" type="Button" parent="Control/VBoxContainer"]
+layout_mode = 2
+text = "Kill Player- Signal"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Control/VBoxContainer"]
+layout_mode = 2
+
+[node name="VScrollBar" type="VScrollBar" parent="Control/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+
+[connection signal="close_requested" from="." to="." method="_on_close_requested"]
+[connection signal="pressed" from="Control/VBoxContainer/KillPlayerButton" to="." method="_on_kill_player_button_pressed"]

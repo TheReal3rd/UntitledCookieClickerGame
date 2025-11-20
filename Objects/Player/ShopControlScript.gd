@@ -18,10 +18,11 @@ func _ready() -> void:
 		itemContainer.add_child(tempItem)
 
 func _process(delta: float) -> void:
-	if fadeRect.modulate.a != 0.0:
-		fadeRect.modulate.a = lerpf(fadeRect.modulate.a, 0.0, 0.1 * delta)
-		if fadeRect.modulate.a <= 0.1:
-			fadeRect.hide()
+	if is_visible():
+		if fadeRect.modulate.a != 0.0:
+			fadeRect.modulate.a = lerpf(fadeRect.modulate.a, 0.0, 0.25 * delta)
+			if fadeRect.modulate.a <= 0.1:
+				fadeRect.hide()
 
 func _on_player_update_shop_elements() -> void:
 	for child in itemContainer.get_children():

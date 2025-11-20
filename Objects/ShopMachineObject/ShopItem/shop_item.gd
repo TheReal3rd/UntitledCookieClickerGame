@@ -32,7 +32,9 @@ func _on_buy_button_pressed() -> void:
 	if global.getScore() >= upgradeObject.getPrice():
 		global.changeScore(-upgradeObject.getPrice())
 		upgradeObject.increaseLevel(1)
-	updateElements()
+	var tempPlayer: Node = global.getPlayer()
+	if tempPlayer:
+		tempPlayer.emit_signal("updateShopElements")
 
 
 func _on_name_label_mouse_entered() -> void:
