@@ -57,4 +57,7 @@ func getSaveData() -> Dictionary:
 func setData(saveData:Dictionary) -> void:
 	if saveData.has("completed"):
 		completed = saveData.get("completed")
+		
+func resetData() -> void:
+	completed = false
 	

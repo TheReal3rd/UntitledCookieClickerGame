@@ -52,3 +52,5 @@ func getPoisenLevel() -> int:
 func setPoisenLevel(newLevel: int) -> void:
 	poisonessLevel = newLevel
 	
+func resetData() -> void:
+	level = 0

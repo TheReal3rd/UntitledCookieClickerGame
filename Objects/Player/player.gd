@@ -27,6 +27,7 @@ extends CharacterBody3D
 @onready var crtShaderOverlays: ColorRect = $Camera3D/CameraOverlays/CRTShaderOverlays
 @onready var deathScreen: Control = $Camera3D/CameraOverlays/DeathScreen
 @onready var deathAudioStream: AudioStreamPlayer2D = $Camera3D/CameraOverlays/DeathScreen/DeathAudioStream
+@onready var screenManGUI: Control = $Camera3D/CameraOverlays/ManGUI
 
 const SPEED: float = 5.0
 const JUMP_VELOCITY: float = 4.5
@@ -41,6 +42,7 @@ var gamePaused: bool = false
 var quotaDuration: int = -1
 var quotaTimeSpan: int = -1
 var debugMenuOpen: bool = false : set = setDebugMenuState, get = isDebugMenuOpen
+var playerDead: bool = false
 
 var cookieObject: Node3D
 var hoverObject: Node3D
@@ -140,13 +142,16 @@ func pauseGame():
 	pauseScreenLayer.show()
 	shopGUI.hide()
 	hud.hide()
+	pauseMenus.show()
 	crtShaderPauseMenus.show()
 	get_tree().paused = true
 		
 @warning_ignore("unused_parameter")
 func _process(delta: float) -> void:
 	debugMenuControlsCheck()
-	
+	if playerDead and not deathScreen.is_visible():
+		emit_signal("playerDeath")
+		
 	interactRaycast.force_raycast_update()
 	if interactRaycast.is_colliding() and interactRaycast.get_collider() is AbstractInteractionObject:
 		var interactionObject: AbstractInteractionObject = interactRaycast.get_collider()
@@ -213,11 +218,17 @@ func _on_open_shop_screen(machine:Node) -> void:
 	if machine.is_in_group("RationMachineObject"):
 		rationMachineGUI.show()
 		shopGUI.hide()
+		screenManGUI.hide()
 		emit_signal("updateRationElements")
-	else:
+	elif machine.is_in_group("ShopMachineObject"):
 		shopGUI.show()
 		rationMachineGUI.hide()
+		screenManGUI.hide()
 		emit_signal("updateShopElements")
+	else:
+		screenManGUI.show()
+		shopGUI.hide()
+		rationMachineGUI.hide()
 
 func isInShop() -> bool:
 	return shopOpen
@@ -230,7 +241,8 @@ func closeShop() -> void:
 	mouseTrack = true
 	if Input.get_mouse_mode() == 0:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	shopMachineNode.emit_signal("closeGUI")
+	if shopMachineNode:
+		shopMachineNode.emit_signal("closeGUI")
 	crtShaderOverlays.hide()
 
 func _on_exit_button_pressed() -> void:
@@ -255,7 +267,8 @@ func getSaveData() -> Dictionary:
 		"PosZ" : location.z,
 		"Yaw" : yaw,
 		"Pitch" : pitch,
-		"ShopLockState" : shopUnlocked
+		"ShopLockState" : shopUnlocked,
+		"Dead": playerDead
 	}
 	
 func setSaveData(data:Dictionary) -> void:
@@ -274,6 +287,9 @@ func setSaveData(data:Dictionary) -> void:
 		
 	if data.has("ShopLockState"):
 		shopUnlocked = data.get("ShopLockState")
+		
+	if data.has("Dead"):
+		playerDead = data.get("Dead")
 		
 	if location.y <= 0:
 		location.y = 4
@@ -389,8 +405,9 @@ func _on_player_death() -> void:
 	pauseMenus.hide()
 	pauseScreenLayer.hide()
 	crtShaderOverlays.hide()
-	
 	deathAudioStream.play()
+	playerDead = true
+	global.writePlayerData()
 	
 func isDebugMenuOpen():
 	return debugMenuOpen
@@ -404,10 +421,27 @@ func debugMenuControlsCheck():
 		var debugWindowInst = debugMenuPath.instantiate()
 		get_tree().root.add_child(debugWindowInst)
 
-
 func _on_respawn_button_pressed() -> void:
-	pass # Replace with function body.
-
+	global.resetGame()
+	if playerDead or deathScreen.is_visible():
+		playerDead = false
+		deathScreen.hide()
 
 func _on_exit_game_button_pressed() -> void:
-	pass # Replace with function body.
+	global.exitGame()
+	
+func resetPlayer() -> void:
+	pauseMenus.show()
+	resume()
+	closeShop()
+	hungerLevel = 100.0
+	yaw = 0.0
+	pitch = 0.0
+	shopUnlocked = false
+	playerDead = false
+	deathAudioStream.stop()
+	rotation_degrees.y = yaw
+	cameraNode.rotation_degrees.x = pitch
+	interactRaycast.set_rotation(cameraNode.get_rotation())
+	spotLight.set_rotation(cameraNode.get_rotation())
+	set_global_position(Vector3(2.273, 1.802, -0.143))

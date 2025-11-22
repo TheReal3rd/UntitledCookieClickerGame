@@ -13,7 +13,7 @@ height = 2.8
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_s21vc"]
 
-[node name="ScreenManObject" type="StaticBody3D" groups=["InteractableObject"]]
+[node name="ScreenManObject" type="StaticBody3D" groups=["InteractableObject", "ScreenManObject"]]
 collision_layer = 3
 script = ExtResource("1_dvjtr")
 
@@ -48,3 +48,6 @@ volume_db = -4.0
 unit_size = 5.0
 max_db = 1.0
 max_distance = 5.0
+
+[connection signal="closeGUI" from="." to="." method="_on_close_gui"]
+[connection signal="openGUI" from="." to="." method="_on_open_gui"]

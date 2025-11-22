@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://ckppxixhfvpvj"]
+[gd_scene load_steps=27 format=3 uid="uid://ckppxixhfvpvj"]
 
 [ext_resource type="Script" uid="uid://wkq3todlh6i8" path="res://Objects/Player/player.gd" id="1_4flbx"]
 [ext_resource type="Shader" uid="uid://bedfkiao5h0wn" path="res://Objects/Player/player.gdshader" id="2_yw17q"]
@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://biv45jrtl1cu6" path="res://Assets/QR/QR 1.png" id="12_yemeo"]
 [ext_resource type="Texture2D" uid="uid://xncqhl41k2wm" path="res://Assets/QR/QR 2.png" id="13_8a0no"]
 [ext_resource type="Script" uid="uid://te11mh1sv5d2" path="res://Objects/Player/settingsScreen.gd" id="15_kmg4v"]
+[ext_resource type="Texture2D" uid="uid://021gxxoq5atn" path="res://Assets/Texture/FaceBox2.jpg" id="16_8nghj"]
 [ext_resource type="Script" uid="uid://6bns43g6cvvu" path="res://Objects/Player/RationGUI.gd" id="16_nipdn"]
 [ext_resource type="PackedScene" uid="uid://c1hwi6y5wwbif" path="res://Objects/RationMachineObject/GUIElements/CookieHologramObject.tscn" id="17_ikfl2"]
 [ext_resource type="PackedScene" uid="uid://c6fu0s10uqd8c" path="res://Objects/RationMachineObject/GUIElements/FoodCaneHologramObject.tscn" id="19_r7vp5"]
@@ -450,6 +451,28 @@ mouse_filter = 2
 color = Color(0, 0, 0, 1)
 metadata/_edit_lock_ = true
 
+[node name="ManGUI" type="Control" parent="Camera3D/CameraOverlays"]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+metadata/_edit_lock_ = true
+
+[node name="Background" type="ColorRect" parent="Camera3D/CameraOverlays/ManGUI"]
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0, 0, 0, 1)
+metadata/_edit_lock_ = true
+
+[node name="FaceBox2" type="Sprite2D" parent="Camera3D/CameraOverlays/ManGUI"]
+modulate = Color(0, 1, 0, 0.19607843)
+position = Vector2(640, 360)
+scale = Vector2(2.6611226, 1.4968816)
+texture = ExtResource("16_8nghj")
+metadata/_edit_lock_ = true
+
 [node name="CRTShaderOverlays" type="ColorRect" parent="Camera3D/CameraOverlays"]
 visible = false
 texture_filter = 1
@@ -527,6 +550,7 @@ texture = ExtResource("13_8a0no")
 
 [node name="PauseMenu" type="Control" parent="Camera3D/PauseMenus"]
 visible = false
+top_level = true
 layout_mode = 3
 anchors_preset = 0
 offset_right = 1280.0

@@ -52,7 +52,6 @@ func setCurrentQuestCach() -> void:
 	if player:
 		player.setQuestLabelText(currentQuestCach.getDescription())
 	
-
 func playerIsReady() -> void:
 	setCurrentQuestCach()
 
@@ -100,3 +99,7 @@ func getGlobalRef() -> Node:
 	
 func getCurrentQuest() -> AbstractQuest:
 	return currentQuestCach
+	
+func resetQuestData() -> void:
+	for quest: AbstractQuest in questList.values():
+		quest.resetData()

@@ -19,7 +19,4 @@ func _on_settings_button_pressed() -> void:
 	global.getPlayer().showSettings()
 
 func _on_exit_button_pressed() -> void:
-	global.writePlayerData()
-	global.writeUpgradeData()
-	global.getQuestManager().writeQuestData()
-	get_tree().free()
+	global.exitGame()

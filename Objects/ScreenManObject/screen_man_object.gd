@@ -1,4 +1,4 @@
-extends StaticBody3D
+extends AbstractInteractionObject
 
 @onready var subViewport:SubViewport = $ScreenViewport
 @onready var subViewportMesh:MeshInstance3D = $SubViewPortMesh
@@ -9,3 +9,9 @@ func _ready() -> void:
 	subViewportMesh.material_override.albedo_texture = subViewport.get_texture()
 	soundFX.set_playing(true)
 	soundFX.get_stream().set_loop(true)
+
+func _on_close_gui() -> void:
+	setActive(false)
+
+func _on_open_gui() -> void:
+	setActive(true)

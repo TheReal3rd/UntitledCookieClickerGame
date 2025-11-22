@@ -247,3 +247,22 @@ func getSettingByName(nameSearch:String) -> Setting:
 		if setting.getName() == nameSearch:
 			return setting
 	return null
+
+func exitGame() -> void:
+	writePlayerData()
+	writeUpgradeData()
+	questManager.writeQuestData()
+	get_tree().free()
+	
+func resetGame() -> void:
+	setScore(0)
+	if player:
+		player.resetPlayer()
+	if questManager:
+		questManager.resetQuestData()
+	for upgrade: UpgradeAbstract in upgrades.values():
+		upgrade.resetData()
+	writePlayerData()
+	writeUpgradeData()
+	questManager.writeQuestData()
+	

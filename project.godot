@@ -38,6 +38,7 @@ CookieObject=""
 ShopMachineObject=""
 RationMachineObject=""
 InteractableObject=""
+ScreenManObject=""
 
 [input]
 

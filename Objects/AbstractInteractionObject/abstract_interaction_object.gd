@@ -9,7 +9,6 @@ var unlocked: bool = true : get = isUnlocked, set = setUnlocked
 var beenActivated: bool = false : get = isBeenActivated
 var activate: bool = false : set = setActive, get = isActive
 
-
 func isUnlocked():
 	return unlocked
 	
