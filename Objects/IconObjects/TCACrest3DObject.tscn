@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://dvta5lkwb5cso"]
+
+[ext_resource type="Script" uid="uid://cwy5jh6a6v3qc" path="res://Objects/IconObjects/tca_crest_3d_object.gd" id="1_omjue"]
+[ext_resource type="Texture2D" uid="uid://1uj47ubk17c5" path="res://Assets/Texture/Crests/TCA Crest.png" id="1_osjbv"]
+
+[node name="TcaCrestObject" type="SubViewport" unique_id=443465762]
+transparent_bg = true
+snap_2d_transforms_to_pixel = true
+snap_2d_vertices_to_pixel = true
+script = ExtResource("1_omjue")
+spinning = true
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=1240430652]
+texture = ExtResource("1_osjbv")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=387271130]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.9541655)
+current = true
+fov = 50.0

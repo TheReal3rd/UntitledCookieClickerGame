@@ -1,6 +1,6 @@
 extends Control
 
-@onready var itemContainer = $VBoxContainer
+@onready var itemContainer = $ScrollContainer/VBoxContainer
 @onready var global = get_node("/root/Global")
 @onready var fadeRect: ColorRect = $FadeRect
 

@@ -6,11 +6,11 @@ var questSerialID: int = -1 : get = getID
 var questName: String = "AbstractQuestName" : get = getName
 var questDescription: String = "AbstractQuestDescription" : get = getDescription
 var completed: bool = false : get = isCompleted, set = setCompleted
-var questLog: String = "AbstractQuestLog" : get = getQuestLog
+var questLog: Pair = Pair.new("TemplateName", ["TemplateMessage1", "TemplateMessage2"]) : get = getQuestLog
 
 var quotaDuration: int = 1000 : get = getQuotaDuration
 
-func _init(newQuestID:int, newName:String, newDescription:String, newQuestLog:String, newQuotaDuration:int) -> void:
+func _init(newQuestID:int, newName:String, newDescription:String, newQuestLog:Pair, newQuotaDuration:int) -> void:
 	questName = newName
 	questDescription = newDescription
 	questSerialID = newQuestID
@@ -25,7 +25,7 @@ func completionTask() -> void:
 
 #Getters and Setters
 
-func getQuestLog() -> String:
+func getQuestLog() -> Pair:
 	return questLog
 	
 func getQuotaDuration() -> int:

@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://c6rubbr6ygml5"]
+
+[ext_resource type="PackedScene" uid="uid://dwtfsif4phl53" path="res://Levels/Screens/settings_screen.tscn" id="1_14d8m"]
+
+[node name="SettingsMenu" type="Control" unique_id=484411301]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SettingsScreen" parent="." unique_id=733416021 instance=ExtResource("1_14d8m")]
+layout_mode = 0

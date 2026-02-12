@@ -1,0 +1,161 @@
+[gd_scene format=3 uid="uid://cb2428ebwueul"]
+
+[ext_resource type="Theme" uid="uid://bhed8krggwjc0" path="res://Objects/ShopMachineObject/ShopMachineTheme.tres" id="1_65ows"]
+[ext_resource type="Shader" uid="uid://rssxxex1w1ec" path="res://Objects/ScreenManObject/CRT.gdshader" id="1_hr4vk"]
+[ext_resource type="VideoStream" uid="uid://ce4bhmsmiatm8" path="res://Assets/MainMenu/video1.ogv" id="1_yw2i3"]
+[ext_resource type="Script" uid="uid://cgxac7214c6q" path="res://Levels/main_menu.gd" id="2_ooo5j"]
+[ext_resource type="AudioStream" uid="uid://fhv573ppqiq2" path="res://Assets/Sound/FX/DeathBGSound.mp3" id="3_2k6u6"]
+[ext_resource type="PackedScene" uid="uid://xayfs5tc3mjn" path="res://Objects/IconObjects/CrestRenderer.tscn" id="3_2ld8x"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hr4vk"]
+shader = ExtResource("1_hr4vk")
+shader_parameter/overlay = true
+shader_parameter/scanlines_opacity = 0.4
+shader_parameter/scanlines_width = 0.25
+shader_parameter/grille_opacity = 0.3
+shader_parameter/resolution = Vector2(640, 480)
+shader_parameter/pixelate = true
+shader_parameter/roll = true
+shader_parameter/roll_speed = 8.0
+shader_parameter/roll_size = 15.0
+shader_parameter/roll_variation = 1.8
+shader_parameter/distort_intensity = 0.05
+shader_parameter/noise_opacity = 0.4
+shader_parameter/noise_speed = 5.0
+shader_parameter/static_noise_intensity = 0.142000006745
+shader_parameter/aberration = 0.1070000525824999
+shader_parameter/brightness = 1.4
+shader_parameter/discolor = true
+shader_parameter/warp_amount = 0.9200000437
+shader_parameter/clip_warp = false
+shader_parameter/vignette_intensity = 0.4
+shader_parameter/vignette_opacity = 0.5
+
+[node name="MainMenu" type="Control" unique_id=1662278420]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_65ows")
+script = ExtResource("2_ooo5j")
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="." unique_id=225311738]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stream = ExtResource("1_yw2i3")
+volume_db = -24.999998
+speed_scale = 1.5
+autoplay = true
+expand = true
+loop = true
+metadata/_edit_lock_ = true
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=500626999]
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 719.0
+color = Color(0.07450981, 0.16862746, 0, 0.54901963)
+metadata/_edit_lock_ = true
+
+[node name="CrestTestWindow" parent="." unique_id=1929377135 instance=ExtResource("3_2ld8x")]
+layout_mode = 1
+offset_left = 112.0
+offset_top = 453.0
+offset_right = -970.0
+offset_bottom = -54.0
+
+[node name="TcaCrestObject" parent="CrestTestWindow/SubViewportContainer" parent_id_path=PackedInt32Array(1929377135, 260349999) index="0" unique_id=1153340185]
+size = Vector2i(198, 213)
+spinning = true
+logoSelection = 0
+
+[node name="Label" type="Label" parent="." unique_id=545847201]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -239.0
+offset_top = -253.99994
+offset_right = -47.0
+offset_bottom = -223.99994
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2.5, 2.5)
+text = "Quota 2044"
+
+[node name="StartButton" type="Button" parent="." unique_id=405266485]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -52.0
+offset_top = 11.0
+offset_right = 52.0
+offset_bottom = 49.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Start"
+
+[node name="SettingButton" type="Button" parent="." unique_id=1288573273]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -52.0
+offset_top = 87.0
+offset_right = 52.0
+offset_bottom = 125.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Settings"
+
+[node name="ExitButton" type="Button" parent="." unique_id=603842128]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -42.5
+offset_top = 161.0
+offset_right = 42.5
+offset_bottom = 199.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Exit"
+metadata/_edit_lock_ = true
+
+[node name="CRTShaderPauseMenus" type="ColorRect" parent="." unique_id=1413205450]
+texture_filter = 1
+material = SubResource("ShaderMaterial_hr4vk")
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+focus_behavior_recursive = 1
+mouse_filter = 2
+metadata/_edit_lock_ = true
+
+[node name="DeathAudioStream" type="AudioStreamPlayer2D" parent="." unique_id=1008890405]
+stream = ExtResource("3_2k6u6")
+volume_db = -30.0
+autoplay = true
+parameters/looping = true
+metadata/_edit_lock_ = true
+
+[connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="SettingButton" to="." method="_on_setting_button_pressed"]
+[connection signal="pressed" from="ExitButton" to="." method="_on_exit_button_pressed"]
+
+[editable path="CrestTestWindow"]

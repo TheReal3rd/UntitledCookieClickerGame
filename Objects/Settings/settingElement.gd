@@ -25,4 +25,5 @@ func getSetting() -> Setting:
 func _on_toggle_check_button_pressed() -> void:
 	settingObject.setValue(toggleCheckBox.is_pressed())
 	global.writeSettingData()
-	global.getPlayer().updateSettingsStats()
+	if global.isGameStarted():
+		global.getPlayer().updateSettingsStats()

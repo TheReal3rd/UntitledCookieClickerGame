@@ -15,17 +15,23 @@ var upgrades: Dictionary = {} : get = getUpgrades
 
 var questManager: QuestManager : get = getQuestManager
 
+var gameStarted: bool = false : get = isGameStarted
+
 var settings: Array[Setting] = [
 	Setting.new("ShowFPS", false)
 ] : get = getSettings
 
-func _ready() -> void:
+func startGame() -> void:
 	registerUpgrades()
 	readUpgradeData(true)
 	questManager = QuestManager.new(self)
 	readSettingData(true)
+	gameStarted = true
 	
 func _notification(what: int) -> void:
+	if not gameStarted:
+		return
+		
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		writeUpgradeData()
 		writePlayerData()
@@ -184,7 +190,7 @@ func readSettingData(allowDataWrite:bool=false) -> void:
 
 func cookieClick():
 	player.emit_signal("updateShopElements")
-	questManager.executeChecks()
+	#questManager.executeChecks()
 	var value:int = 1
 	for upgrade in upgrades.values():
 		if upgrade.getLevel() <= 0:
@@ -194,7 +200,7 @@ func cookieClick():
 	
 func actionExecution():
 	player.emit_signal("updateShopElements")
-	questManager.executeChecks()
+	#questManager.executeChecks()
 	var value: int = 0
 	var tempPoisenLevel: int = 0
 	for upgrade: UpgradeAbstract in upgrades.values():
@@ -204,6 +210,10 @@ func actionExecution():
 		tempPoisenLevel += upgrade.getPoisenLevel()
 	changeScore(value)
 	poisonTotal = tempPoisenLevel
+
+func _process(delta: float) -> void:
+	if questManager:
+		questManager.executeChecks()
 
 # Fetching and Setters
 
@@ -247,6 +257,9 @@ func getSettingByName(nameSearch:String) -> Setting:
 		if setting.getName() == nameSearch:
 			return setting
 	return null
+
+func isGameStarted():
+	return gameStarted
 
 func exitGame() -> void:
 	writePlayerData()

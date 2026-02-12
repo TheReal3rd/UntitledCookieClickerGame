@@ -103,3 +103,6 @@ func getCurrentQuest() -> AbstractQuest:
 func resetQuestData() -> void:
 	for quest: AbstractQuest in questList.values():
 		quest.resetData()
+	currentQuestID = 1
+	setCurrentQuestCach()
+	writeQuestData()

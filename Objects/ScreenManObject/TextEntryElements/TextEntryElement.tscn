@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://c73y00cve0opa"]
+
+[ext_resource type="Script" uid="uid://hrdu41vhrnx8" path="res://Objects/ScreenManObject/TextEntryElements/text_entry_element.gd" id="1_8fpsh"]
+
+[node name="TextEntryElement" type="HBoxContainer" unique_id=1234966451]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8fpsh")
+
+[node name="NameLabel" type="Label" parent="." unique_id=1254024037]
+layout_mode = 2
+text = "Maan:"
+
+[node name="Spacer" type="Label" parent="." unique_id=603272961]
+visible = false
+layout_mode = 2
+text = ">"
+
+[node name="MessageLabel" type="Label" parent="." unique_id=309062479]
+custom_minimum_size = Vector2(1180, 0)
+layout_mode = 2
+text = "The message for testing purposes."
+autowrap_mode = 3

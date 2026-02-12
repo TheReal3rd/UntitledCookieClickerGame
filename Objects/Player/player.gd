@@ -53,6 +53,8 @@ var shopOpen: bool = false : get = isInShop
 var shopUnlocked: bool = false : get = isShopUnlocked, set = setShopLockState
 var shopMachineNode : Node
 
+var firstOpenedMan: bool = false : set = setFirstOpenedMan
+
 @warning_ignore("unused_signal")
 signal updateShopElements
 @warning_ignore("unused_signal")
@@ -83,6 +85,7 @@ func _ready() -> void:
 	crtShaderPauseMenus.hide()
 	crtShaderOverlays.hide()
 	deathScreen.hide()
+	screenManGUI.hide()
 	updateSettingsStats()
 
 func _input(event: InputEvent) -> void:
@@ -227,6 +230,7 @@ func _on_open_shop_screen(machine:Node) -> void:
 		emit_signal("updateShopElements")
 	else:
 		screenManGUI.show()
+		screenManGUI.updateMessageLog()
 		shopGUI.hide()
 		rationMachineGUI.hide()
 
@@ -237,6 +241,7 @@ func closeShop() -> void:
 	hud.show()
 	shopGUI.hide()
 	rationMachineGUI.hide()
+	screenManGUI.hide()
 	shopOpen = false
 	mouseTrack = true
 	if Input.get_mouse_mode() == 0:
@@ -268,6 +273,7 @@ func getSaveData() -> Dictionary:
 		"Yaw" : yaw,
 		"Pitch" : pitch,
 		"ShopLockState" : shopUnlocked,
+		"FirstOpenedMan" : firstOpenedMan,
 		"Dead": playerDead
 	}
 	
@@ -287,6 +293,9 @@ func setSaveData(data:Dictionary) -> void:
 		
 	if data.has("ShopLockState"):
 		shopUnlocked = data.get("ShopLockState")
+		
+	if data.has("FirstOpenedMan"):
+		firstOpenedMan = data.get("FirstOpenedMan")
 		
 	if data.has("Dead"):
 		playerDead = data.get("Dead")
@@ -412,8 +421,14 @@ func _on_player_death() -> void:
 func isDebugMenuOpen():
 	return debugMenuOpen
 	
-func setDebugMenuState(newState):
+func setDebugMenuState(newState: bool):
 	debugMenuOpen = newState
+	
+func setFirstOpenedMan(openedState: bool):
+	firstOpenedMan = openedState
+	
+func isFirstOpenedMan():
+	return firstOpenedMan
 	
 func debugMenuControlsCheck():
 	if Input.is_key_pressed(KEY_F3) and Input.is_key_pressed(KEY_D):
@@ -421,6 +436,7 @@ func debugMenuControlsCheck():
 		var debugWindowInst = debugMenuPath.instantiate()
 		get_tree().root.add_child(debugWindowInst)
 
+#Changed to restart. **
 func _on_respawn_button_pressed() -> void:
 	global.resetGame()
 	if playerDead or deathScreen.is_visible():
@@ -439,6 +455,7 @@ func resetPlayer() -> void:
 	pitch = 0.0
 	shopUnlocked = false
 	playerDead = false
+	firstOpenedMan = false
 	deathAudioStream.stop()
 	rotation_degrees.y = yaw
 	cameraNode.rotation_degrees.x = pitch

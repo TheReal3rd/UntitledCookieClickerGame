@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://ckppxixhfvpvj"]
+[gd_scene format=3 uid="uid://ckppxixhfvpvj"]
 
 [ext_resource type="Script" uid="uid://wkq3todlh6i8" path="res://Objects/Player/player.gd" id="1_4flbx"]
 [ext_resource type="Shader" uid="uid://bedfkiao5h0wn" path="res://Objects/Player/player.gdshader" id="2_yw17q"]
@@ -13,14 +13,15 @@
 [ext_resource type="Texture2D" uid="uid://bvuqr30h47r58" path="res://Assets/Texture/BarTextures/levelBar Top.png" id="6_yemeo"]
 [ext_resource type="Script" uid="uid://crg5tvgesgavv" path="res://Objects/Player/PauseMenu.gd" id="11_xtia4"]
 [ext_resource type="Script" uid="uid://cgq3t62oge042" path="res://Objects/Player/CreditsScreen.gd" id="12_8a0no"]
-[ext_resource type="Texture2D" uid="uid://1uj47ubk17c5" path="res://Assets/Texture/TCA Crest.png" id="12_iuvgb"]
+[ext_resource type="Texture2D" uid="uid://1uj47ubk17c5" path="res://Assets/Texture/Crests/TCA Crest.png" id="12_iuvgb"]
 [ext_resource type="Texture2D" uid="uid://biv45jrtl1cu6" path="res://Assets/QR/QR 1.png" id="12_yemeo"]
 [ext_resource type="Texture2D" uid="uid://xncqhl41k2wm" path="res://Assets/QR/QR 2.png" id="13_8a0no"]
-[ext_resource type="Script" uid="uid://te11mh1sv5d2" path="res://Objects/Player/settingsScreen.gd" id="15_kmg4v"]
 [ext_resource type="Texture2D" uid="uid://021gxxoq5atn" path="res://Assets/Texture/FaceBox2.jpg" id="16_8nghj"]
 [ext_resource type="Script" uid="uid://6bns43g6cvvu" path="res://Objects/Player/RationGUI.gd" id="16_nipdn"]
+[ext_resource type="Script" uid="uid://duuum01nxoaqe" path="res://Objects/Player/man_gui.gd" id="16_rn8wc"]
 [ext_resource type="PackedScene" uid="uid://c1hwi6y5wwbif" path="res://Objects/RationMachineObject/GUIElements/CookieHologramObject.tscn" id="17_ikfl2"]
 [ext_resource type="PackedScene" uid="uid://c6fu0s10uqd8c" path="res://Objects/RationMachineObject/GUIElements/FoodCaneHologramObject.tscn" id="19_r7vp5"]
+[ext_resource type="PackedScene" uid="uid://dwtfsif4phl53" path="res://Levels/Screens/settings_screen.tscn" id="22_rn8wc"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_r7vp5"]
 shader = ExtResource("3_l2ya6")
@@ -86,19 +87,43 @@ shader_parameter/clip_warp = false
 shader_parameter/vignette_intensity = 0.4
 shader_parameter/vignette_opacity = 0.5
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rn8wc"]
+shader = ExtResource("3_l2ya6")
+shader_parameter/overlay = true
+shader_parameter/scanlines_opacity = 0.4
+shader_parameter/scanlines_width = 0.25
+shader_parameter/grille_opacity = 0.3
+shader_parameter/resolution = Vector2(640, 480)
+shader_parameter/pixelate = true
+shader_parameter/roll = true
+shader_parameter/roll_speed = 8.0
+shader_parameter/roll_size = 15.0
+shader_parameter/roll_variation = 1.8
+shader_parameter/distort_intensity = 0.05
+shader_parameter/noise_opacity = 0.4
+shader_parameter/noise_speed = 5.0
+shader_parameter/static_noise_intensity = 0.06
+shader_parameter/aberration = 0.03
+shader_parameter/brightness = 1.4
+shader_parameter/discolor = true
+shader_parameter/warp_amount = 0.30000001425
+shader_parameter/clip_warp = false
+shader_parameter/vignette_intensity = 0.4
+shader_parameter/vignette_opacity = 0.5
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_4flbx"]
 
-[node name="Player" type="CharacterBody3D"]
+[node name="Player" type="CharacterBody3D" unique_id=188886483]
 script = ExtResource("1_4flbx")
 
-[node name="Camera3D" type="Camera3D" parent="."]
+[node name="Camera3D" type="Camera3D" parent="." unique_id=852601327]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 fov = 37.849285
 metadata/_edit_lock_ = true
 
-[node name="CameraOverlays" type="CanvasLayer" parent="Camera3D"]
+[node name="CameraOverlays" type="CanvasLayer" parent="Camera3D" unique_id=365928902]
 
-[node name="DeathScreen" type="Control" parent="Camera3D/CameraOverlays"]
+[node name="DeathScreen" type="Control" parent="Camera3D/CameraOverlays" unique_id=522981704]
 process_mode = 3
 visible = false
 layout_mode = 3
@@ -108,14 +133,14 @@ offset_bottom = 720.0
 theme = ExtResource("3_o1rty")
 metadata/_edit_lock_ = true
 
-[node name="ColorRect" type="ColorRect" parent="Camera3D/CameraOverlays/DeathScreen"]
+[node name="ColorRect" type="ColorRect" parent="Camera3D/CameraOverlays/DeathScreen" unique_id=27368406]
 layout_mode = 0
 offset_right = 1280.0
 offset_bottom = 719.0
 color = Color(0, 0.7490196, 0, 1)
 metadata/_edit_lock_ = true
 
-[node name="DeathLabel" type="Label" parent="Camera3D/CameraOverlays/DeathScreen"]
+[node name="DeathLabel" type="Label" parent="Camera3D/CameraOverlays/DeathScreen" unique_id=1937833976]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -125,12 +150,12 @@ offset_top = 114.0
 offset_right = 105.5
 offset_bottom = 144.0
 grow_horizontal = 2
-theme_override_colors/font_color = Color(0.8560985, 0, 0.20607182, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 64
 text = "You're Dead"
 metadata/_edit_lock_ = true
 
-[node name="RespawnButton" type="Button" parent="Camera3D/CameraOverlays/DeathScreen"]
+[node name="RestartButton" type="Button" parent="Camera3D/CameraOverlays/DeathScreen" unique_id=1069233138]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -143,10 +168,10 @@ offset_right = 71.0
 offset_bottom = 19.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "Respawn"
+text = "Restart"
 metadata/_edit_lock_ = true
 
-[node name="ExitGameButton" type="Button" parent="Camera3D/CameraOverlays/DeathScreen"]
+[node name="ExitGameButton" type="Button" parent="Camera3D/CameraOverlays/DeathScreen" unique_id=1591871576]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -162,7 +187,7 @@ grow_vertical = 2
 text = "Exit Game"
 metadata/_edit_lock_ = true
 
-[node name="CRTShaderGlitched" type="ColorRect" parent="Camera3D/CameraOverlays/DeathScreen"]
+[node name="CRTShaderGlitched" type="ColorRect" parent="Camera3D/CameraOverlays/DeathScreen" unique_id=1564289956]
 texture_filter = 1
 material = SubResource("ShaderMaterial_r7vp5")
 layout_mode = 0
@@ -172,12 +197,12 @@ focus_behavior_recursive = 1
 mouse_filter = 2
 metadata/_edit_lock_ = true
 
-[node name="DeathAudioStream" type="AudioStreamPlayer2D" parent="Camera3D/CameraOverlays/DeathScreen"]
+[node name="DeathAudioStream" type="AudioStreamPlayer2D" parent="Camera3D/CameraOverlays/DeathScreen" unique_id=1616208503]
 stream = ExtResource("4_um0bh")
 volume_db = -20.0
 parameters/looping = true
 
-[node name="HUD" type="Control" parent="Camera3D/CameraOverlays"]
+[node name="HUD" type="Control" parent="Camera3D/CameraOverlays" unique_id=1223912335]
 visible = false
 texture_filter = 1
 layout_mode = 3
@@ -188,7 +213,7 @@ mouse_filter = 1
 theme = SubResource("Theme_bpp7x")
 metadata/_edit_lock_ = true
 
-[node name="HungerBar" type="TextureProgressBar" parent="Camera3D/CameraOverlays/HUD"]
+[node name="HungerBar" type="TextureProgressBar" parent="Camera3D/CameraOverlays/HUD" unique_id=619504994]
 texture_filter = 1
 layout_mode = 0
 offset_left = 1001.0
@@ -203,7 +228,7 @@ tint_under = Color(1, 1, 1, 0.50980395)
 tint_progress = Color(0.37254903, 0.14117648, 0.07058824, 0.50980395)
 metadata/_edit_lock_ = true
 
-[node name="QuotaBar" type="TextureProgressBar" parent="Camera3D/CameraOverlays/HUD"]
+[node name="QuotaBar" type="TextureProgressBar" parent="Camera3D/CameraOverlays/HUD" unique_id=763257669]
 layout_mode = 0
 offset_left = 106.0
 offset_top = 697.0
@@ -217,7 +242,7 @@ tint_under = Color(1, 1, 1, 0.50980395)
 tint_progress = Color(0, 0.41568628, 1, 0.50980395)
 metadata/_edit_lock_ = true
 
-[node name="Shader" type="ColorRect" parent="Camera3D/CameraOverlays/HUD"]
+[node name="Shader" type="ColorRect" parent="Camera3D/CameraOverlays/HUD" unique_id=1485387533]
 texture_filter = 1
 material = SubResource("ShaderMaterial_o1rty")
 layout_mode = 0
@@ -227,7 +252,7 @@ focus_behavior_recursive = 1
 mouse_filter = 2
 metadata/_edit_lock_ = true
 
-[node name="ScoreLabel" type="Label" parent="Camera3D/CameraOverlays/HUD"]
+[node name="ScoreLabel" type="Label" parent="Camera3D/CameraOverlays/HUD" unique_id=1808565479]
 texture_filter = 1
 layout_mode = 0
 offset_left = 3.0
@@ -237,7 +262,7 @@ offset_bottom = 26.0
 text = "Score: 0"
 metadata/_edit_lock_ = true
 
-[node name="QuestLabel" type="Label" parent="Camera3D/CameraOverlays/HUD"]
+[node name="QuestLabel" type="Label" parent="Camera3D/CameraOverlays/HUD" unique_id=1160368032]
 layout_mode = 0
 offset_left = 1026.0
 offset_top = 7.0
@@ -248,7 +273,7 @@ horizontal_alignment = 2
 autowrap_mode = 3
 metadata/_edit_lock_ = true
 
-[node name="GameStatsLabel" type="Label" parent="Camera3D/CameraOverlays/HUD"]
+[node name="GameStatsLabel" type="Label" parent="Camera3D/CameraOverlays/HUD" unique_id=1584791803]
 layout_mode = 0
 offset_left = 4.0
 offset_top = 199.0
@@ -257,7 +282,7 @@ offset_bottom = 214.0
 text = "GameStats"
 metadata/_edit_lock_ = true
 
-[node name="InteractionLabel" type="Label" parent="Camera3D/CameraOverlays/HUD"]
+[node name="InteractionLabel" type="Label" parent="Camera3D/CameraOverlays/HUD" unique_id=1179425736]
 visible = false
 layout_mode = 1
 anchors_preset = 7
@@ -275,8 +300,7 @@ theme_override_font_sizes/font_size = 26
 text = "Press E to Interation"
 metadata/_edit_lock_ = true
 
-[node name="ShopGUI" type="Control" parent="Camera3D/CameraOverlays"]
-visible = false
+[node name="ShopGUI" type="Control" parent="Camera3D/CameraOverlays" unique_id=1249235143]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 1280.0
@@ -285,14 +309,17 @@ theme = ExtResource("3_o1rty")
 script = ExtResource("4_t45n6")
 metadata/_edit_lock_ = true
 
-[node name="Background" type="ColorRect" parent="Camera3D/CameraOverlays/ShopGUI"]
-layout_mode = 0
-offset_right = 1280.0
-offset_bottom = 720.0
+[node name="Background" type="ColorRect" parent="Camera3D/CameraOverlays/ShopGUI" unique_id=971086627]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0, 0, 0, 1)
 metadata/_edit_lock_ = true
 
-[node name="ExitButton" type="Button" parent="Camera3D/CameraOverlays/ShopGUI"]
+[node name="ExitButton" type="Button" parent="Camera3D/CameraOverlays/ShopGUI" unique_id=1633235024]
 layout_mode = 0
 offset_left = 97.0
 offset_top = 616.0
@@ -302,7 +329,7 @@ theme = ExtResource("3_o1rty")
 text = "Exit"
 metadata/_edit_lock_ = true
 
-[node name="TcaCrest2" type="Sprite2D" parent="Camera3D/CameraOverlays/ShopGUI"]
+[node name="TcaCrest2" type="Sprite2D" parent="Camera3D/CameraOverlays/ShopGUI" unique_id=1053307788]
 modulate = Color(0, 1, 0, 0.78431374)
 texture_filter = 1
 position = Vector2(137, 113)
@@ -310,27 +337,28 @@ scale = Vector2(0.3, 0.3)
 texture = ExtResource("12_iuvgb")
 metadata/_edit_lock_ = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Camera3D/CameraOverlays/ShopGUI"]
+[node name="ScrollContainer" type="ScrollContainer" parent="Camera3D/CameraOverlays/ShopGUI" unique_id=1960821914]
+custom_minimum_size = Vector2(0, 550)
 layout_mode = 0
-offset_left = 269.0
+offset_left = 265.0
 offset_top = 107.0
-offset_right = 1194.0
-offset_bottom = 609.0
-metadata/_edit_lock_ = true
-
-[node name="ScrollContainer" type="ScrollContainer" parent="Camera3D/CameraOverlays/ShopGUI/VBoxContainer"]
-layout_mode = 2
+offset_right = 1156.0
+offset_bottom = 657.0
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 2
 metadata/_edit_lock_ = true
 
-[node name="VScrollBar" type="VScrollBar" parent="Camera3D/CameraOverlays/ShopGUI/VBoxContainer/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Camera3D/CameraOverlays/ShopGUI/ScrollContainer" unique_id=926122551]
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="VScrollBar" type="VScrollBar" parent="Camera3D/CameraOverlays/ShopGUI/ScrollContainer/VBoxContainer" unique_id=676307791]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 metadata/_edit_lock_ = true
 
-[node name="FadeRect" type="ColorRect" parent="Camera3D/CameraOverlays/ShopGUI"]
+[node name="FadeRect" type="ColorRect" parent="Camera3D/CameraOverlays/ShopGUI" unique_id=1804410404]
 layout_mode = 0
 offset_right = 1280.0
 offset_bottom = 720.0
@@ -338,7 +366,7 @@ mouse_filter = 2
 color = Color(0, 0, 0, 1)
 metadata/_edit_lock_ = true
 
-[node name="RationGUI" type="Control" parent="Camera3D/CameraOverlays"]
+[node name="RationGUI" type="Control" parent="Camera3D/CameraOverlays" unique_id=634716051]
 visible = false
 layout_mode = 3
 anchors_preset = 0
@@ -348,14 +376,14 @@ theme = ExtResource("3_o1rty")
 script = ExtResource("16_nipdn")
 metadata/_edit_lock_ = true
 
-[node name="Background" type="ColorRect" parent="Camera3D/CameraOverlays/RationGUI"]
+[node name="Background" type="ColorRect" parent="Camera3D/CameraOverlays/RationGUI" unique_id=903421859]
 layout_mode = 0
 offset_right = 1280.0
 offset_bottom = 720.0
 color = Color(0, 0, 0, 1)
 metadata/_edit_lock_ = true
 
-[node name="TcaCrest3" type="Sprite2D" parent="Camera3D/CameraOverlays/RationGUI"]
+[node name="TcaCrest3" type="Sprite2D" parent="Camera3D/CameraOverlays/RationGUI" unique_id=1182949161]
 modulate = Color(0, 1, 0, 0.78431374)
 texture_filter = 1
 position = Vector2(137, 113)
@@ -363,7 +391,7 @@ scale = Vector2(0.3, 0.3)
 texture = ExtResource("12_iuvgb")
 metadata/_edit_lock_ = true
 
-[node name="ExitButton" type="Button" parent="Camera3D/CameraOverlays/RationGUI"]
+[node name="ExitButton" type="Button" parent="Camera3D/CameraOverlays/RationGUI" unique_id=297661204]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -378,7 +406,7 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Exit"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Camera3D/CameraOverlays/RationGUI"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Camera3D/CameraOverlays/RationGUI" unique_id=1150414210]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -393,57 +421,57 @@ grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_lock_ = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Camera3D/CameraOverlays/RationGUI/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Camera3D/CameraOverlays/RationGUI/HBoxContainer" unique_id=1351357394]
 layout_mode = 2
 metadata/_edit_lock_ = true
 
-[node name="NameCoookieLabel" type="Label" parent="Camera3D/CameraOverlays/RationGUI/HBoxContainer/VBoxContainer"]
+[node name="NameCoookieLabel" type="Label" parent="Camera3D/CameraOverlays/RationGUI/HBoxContainer/VBoxContainer" unique_id=779412207]
 layout_mode = 2
 text = "Cookie"
 horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="CookieImage" type="SubViewportContainer" parent="Camera3D/CameraOverlays/RationGUI/HBoxContainer/VBoxContainer"]
+[node name="CookieImage" type="SubViewportContainer" parent="Camera3D/CameraOverlays/RationGUI/HBoxContainer/VBoxContainer" unique_id=533744853]
 layout_mode = 2
 metadata/_edit_lock_ = true
 
-[node name="CookieHologramObject" parent="Camera3D/CameraOverlays/RationGUI/HBoxContainer/VBoxContainer/CookieImage" instance=ExtResource("17_ikfl2")]
+[node name="CookieHologramObject" parent="Camera3D/CameraOverlays/RationGUI/HBoxContainer/VBoxContainer/CookieImage" unique_id=1865435351 instance=ExtResource("17_ikfl2")]
 own_world_3d = true
 size = Vector2i(256, 256)
 render_target_update_mode = 0
 
-[node name="BuyCookieButton" type="Button" parent="Camera3D/CameraOverlays/RationGUI/HBoxContainer/VBoxContainer"]
+[node name="BuyCookieButton" type="Button" parent="Camera3D/CameraOverlays/RationGUI/HBoxContainer/VBoxContainer" unique_id=649919256]
 layout_mode = 2
 text = "Buy"
 metadata/_edit_lock_ = true
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="Camera3D/CameraOverlays/RationGUI/HBoxContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="Camera3D/CameraOverlays/RationGUI/HBoxContainer" unique_id=1514707963]
 layout_mode = 2
 metadata/_edit_lock_ = true
 
-[node name="NameRationLabel" type="Label" parent="Camera3D/CameraOverlays/RationGUI/HBoxContainer/VBoxContainer2"]
+[node name="NameRationLabel" type="Label" parent="Camera3D/CameraOverlays/RationGUI/HBoxContainer/VBoxContainer2" unique_id=1448118046]
 layout_mode = 2
 text = "C-Ration"
 horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="FoodImage" type="SubViewportContainer" parent="Camera3D/CameraOverlays/RationGUI/HBoxContainer/VBoxContainer2"]
+[node name="FoodImage" type="SubViewportContainer" parent="Camera3D/CameraOverlays/RationGUI/HBoxContainer/VBoxContainer2" unique_id=1491945729]
 layout_mode = 2
 metadata/_edit_lock_ = true
 
-[node name="FoodCane" parent="Camera3D/CameraOverlays/RationGUI/HBoxContainer/VBoxContainer2/FoodImage" instance=ExtResource("19_r7vp5")]
+[node name="FoodCane" parent="Camera3D/CameraOverlays/RationGUI/HBoxContainer/VBoxContainer2/FoodImage" unique_id=631096777 instance=ExtResource("19_r7vp5")]
 own_world_3d = true
 size = Vector2i(256, 256)
 render_target_update_mode = 0
 
-[node name="BuyRationButton" type="Button" parent="Camera3D/CameraOverlays/RationGUI/HBoxContainer/VBoxContainer2"]
+[node name="BuyRationButton" type="Button" parent="Camera3D/CameraOverlays/RationGUI/HBoxContainer/VBoxContainer2" unique_id=696189434]
 layout_mode = 2
 text = "Buy"
 metadata/_edit_lock_ = true
 
-[node name="FadeRect" type="ColorRect" parent="Camera3D/CameraOverlays/RationGUI"]
+[node name="FadeRect" type="ColorRect" parent="Camera3D/CameraOverlays/RationGUI" unique_id=1391315509]
 layout_mode = 0
 offset_right = 1280.0
 offset_bottom = 720.0
@@ -451,29 +479,51 @@ mouse_filter = 2
 color = Color(0, 0, 0, 1)
 metadata/_edit_lock_ = true
 
-[node name="ManGUI" type="Control" parent="Camera3D/CameraOverlays"]
+[node name="ManGUI" type="Control" parent="Camera3D/CameraOverlays" unique_id=1332316352]
 visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 1280.0
 offset_bottom = 720.0
+theme = ExtResource("3_o1rty")
+script = ExtResource("16_rn8wc")
 metadata/_edit_lock_ = true
 
-[node name="Background" type="ColorRect" parent="Camera3D/CameraOverlays/ManGUI"]
+[node name="Background" type="ColorRect" parent="Camera3D/CameraOverlays/ManGUI" unique_id=224268787]
 layout_mode = 0
 offset_right = 1280.0
 offset_bottom = 720.0
 color = Color(0, 0, 0, 1)
 metadata/_edit_lock_ = true
 
-[node name="FaceBox2" type="Sprite2D" parent="Camera3D/CameraOverlays/ManGUI"]
+[node name="ScrollContainer" type="ScrollContainer" parent="Camera3D/CameraOverlays/ManGUI" unique_id=638343504]
+custom_minimum_size = Vector2(0, 560)
+layout_mode = 0
+offset_left = 82.0
+offset_top = 80.0
+offset_right = 1193.0
+offset_bottom = 80.0
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="MessageEntries" type="VBoxContainer" parent="Camera3D/CameraOverlays/ManGUI/ScrollContainer" unique_id=452122105]
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="VScrollBar" type="VScrollBar" parent="Camera3D/CameraOverlays/ManGUI/ScrollContainer/MessageEntries" unique_id=1323623776]
+layout_mode = 2
+value = 100.0
+metadata/_edit_lock_ = true
+
+[node name="FaceBox2" type="Sprite2D" parent="Camera3D/CameraOverlays/ManGUI" unique_id=965151424]
 modulate = Color(0, 1, 0, 0.19607843)
 position = Vector2(640, 360)
 scale = Vector2(2.6611226, 1.4968816)
 texture = ExtResource("16_8nghj")
 metadata/_edit_lock_ = true
 
-[node name="CRTShaderOverlays" type="ColorRect" parent="Camera3D/CameraOverlays"]
+[node name="CRTShaderOverlays" type="ColorRect" parent="Camera3D/CameraOverlays" unique_id=1928928479]
 visible = false
 texture_filter = 1
 material = SubResource("ShaderMaterial_l2ya6")
@@ -483,10 +533,10 @@ focus_behavior_recursive = 1
 mouse_filter = 2
 metadata/_edit_lock_ = true
 
-[node name="PauseMenus" type="CanvasLayer" parent="Camera3D"]
+[node name="PauseMenus" type="CanvasLayer" parent="Camera3D" unique_id=100151644]
 process_mode = 2
 
-[node name="CreditsScreen" type="Control" parent="Camera3D/PauseMenus"]
+[node name="CreditsScreen" type="Control" parent="Camera3D/PauseMenus" unique_id=1406477902]
 visible = false
 custom_minimum_size = Vector2(1280, 720)
 layout_mode = 3
@@ -497,14 +547,14 @@ theme = ExtResource("3_o1rty")
 script = ExtResource("12_8a0no")
 metadata/_edit_lock_ = true
 
-[node name="ColorRect" type="ColorRect" parent="Camera3D/PauseMenus/CreditsScreen"]
+[node name="ColorRect" type="ColorRect" parent="Camera3D/PauseMenus/CreditsScreen" unique_id=681754505]
 layout_mode = 0
 offset_right = 1280.0
 offset_bottom = 720.0
 color = Color(0, 0, 0, 0.54901963)
 metadata/_edit_lock_ = true
 
-[node name="Label" type="Label" parent="Camera3D/PauseMenus/CreditsScreen"]
+[node name="Label" type="Label" parent="Camera3D/PauseMenus/CreditsScreen" unique_id=2056087207]
 layout_mode = 0
 offset_left = 59.0
 offset_top = 69.0
@@ -523,7 +573,7 @@ Shaders:
 
 This GAME Is free. If you paied for this you've been scammed."
 
-[node name="BackButton" type="Button" parent="Camera3D/PauseMenus/CreditsScreen"]
+[node name="BackButton" type="Button" parent="Camera3D/PauseMenus/CreditsScreen" unique_id=1105672758]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -538,17 +588,17 @@ grow_horizontal = 2
 grow_vertical = 0
 text = "Back"
 
-[node name="Qr1" type="Sprite2D" parent="Camera3D/PauseMenus/CreditsScreen"]
+[node name="Qr1" type="Sprite2D" parent="Camera3D/PauseMenus/CreditsScreen" unique_id=1384206934]
 position = Vector2(296, 609)
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("12_yemeo")
 
-[node name="Qr2" type="Sprite2D" parent="Camera3D/PauseMenus/CreditsScreen"]
+[node name="Qr2" type="Sprite2D" parent="Camera3D/PauseMenus/CreditsScreen" unique_id=1331667212]
 position = Vector2(142, 609)
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("13_8a0no")
 
-[node name="PauseMenu" type="Control" parent="Camera3D/PauseMenus"]
+[node name="PauseMenu" type="Control" parent="Camera3D/PauseMenus" unique_id=2067071616]
 visible = false
 top_level = true
 layout_mode = 3
@@ -558,14 +608,14 @@ offset_bottom = 720.0
 theme = ExtResource("3_o1rty")
 script = ExtResource("11_xtia4")
 
-[node name="ColorRect" type="ColorRect" parent="Camera3D/PauseMenus/PauseMenu"]
+[node name="ColorRect" type="ColorRect" parent="Camera3D/PauseMenus/PauseMenu" unique_id=1917282073]
 layout_mode = 0
 offset_right = 1280.0
 offset_bottom = 720.0
 color = Color(0, 0, 0, 0.54901963)
 metadata/_edit_lock_ = true
 
-[node name="TcaCrest" type="Sprite2D" parent="Camera3D/PauseMenus/PauseMenu"]
+[node name="TcaCrest" type="Sprite2D" parent="Camera3D/PauseMenus/PauseMenu" unique_id=1247658877]
 modulate = Color(0, 1, 0, 0.78431374)
 texture_filter = 1
 position = Vector2(640, 219)
@@ -573,7 +623,7 @@ scale = Vector2(0.7, 0.7)
 texture = ExtResource("12_iuvgb")
 metadata/_edit_lock_ = true
 
-[node name="ResumeButton" type="Button" parent="Camera3D/PauseMenus/PauseMenu"]
+[node name="ResumeButton" type="Button" parent="Camera3D/PauseMenus/PauseMenu" unique_id=781012332]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -589,7 +639,7 @@ grow_vertical = 2
 text = "Resume"
 metadata/_edit_lock_ = true
 
-[node name="CreditsButton" type="Button" parent="Camera3D/PauseMenus/PauseMenu"]
+[node name="CreditsButton" type="Button" parent="Camera3D/PauseMenus/PauseMenu" unique_id=617269325]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -605,7 +655,7 @@ grow_vertical = 2
 text = "Credits"
 metadata/_edit_lock_ = true
 
-[node name="SettingsButton" type="Button" parent="Camera3D/PauseMenus/PauseMenu"]
+[node name="SettingsButton" type="Button" parent="Camera3D/PauseMenus/PauseMenu" unique_id=390274772]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -621,7 +671,7 @@ grow_vertical = 2
 text = "Settings"
 metadata/_edit_lock_ = true
 
-[node name="ExitButton" type="Button" parent="Camera3D/PauseMenus/PauseMenu"]
+[node name="ExitButton" type="Button" parent="Camera3D/PauseMenus/PauseMenu" unique_id=1803868697]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -637,7 +687,7 @@ grow_vertical = 2
 text = "Exit"
 metadata/_edit_lock_ = true
 
-[node name="VersionLabel" type="Label" parent="Camera3D/PauseMenus/PauseMenu"]
+[node name="VersionLabel" type="Label" parent="Camera3D/PauseMenus/PauseMenu" unique_id=970684621]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -653,64 +703,24 @@ grow_vertical = 0
 text = "Version: 0.0"
 metadata/_edit_lock_ = true
 
-[node name="SettingsScreen" type="Control" parent="Camera3D/PauseMenus"]
+[node name="SettingsScreen" parent="Camera3D/PauseMenus" unique_id=733416021 instance=ExtResource("22_rn8wc")]
 visible = false
-custom_minimum_size = Vector2(1280, 720)
-layout_mode = 3
-anchors_preset = 0
-offset_right = 1280.0
-offset_bottom = 720.0
-theme = ExtResource("3_o1rty")
-script = ExtResource("15_kmg4v")
 
-[node name="ColorRect" type="ColorRect" parent="Camera3D/PauseMenus/SettingsScreen"]
-layout_mode = 0
-offset_right = 1280.0
-offset_bottom = 720.0
-color = Color(0, 0, 0, 0.54901963)
-metadata/_edit_lock_ = true
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Camera3D/PauseMenus/SettingsScreen"]
-layout_mode = 0
-offset_left = 269.0
-offset_top = 107.0
-offset_right = 1194.0
-offset_bottom = 609.0
-
-[node name="ScrollContainer" type="ScrollContainer" parent="Camera3D/PauseMenus/SettingsScreen/VBoxContainer"]
-layout_mode = 2
-horizontal_scroll_mode = 0
-vertical_scroll_mode = 2
-
-[node name="VScrollBar" type="VScrollBar" parent="Camera3D/PauseMenus/SettingsScreen/VBoxContainer/ScrollContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="BackButton" type="Button" parent="Camera3D/PauseMenus/SettingsScreen"]
-layout_mode = 0
-offset_left = 97.0
-offset_top = 624.0
-offset_right = 182.0
-offset_bottom = 662.0
-text = "Back"
-
-[node name="CRTShaderPauseMenus" type="ColorRect" parent="Camera3D/PauseMenus"]
-visible = false
+[node name="CRTShaderPauseMenus" type="ColorRect" parent="Camera3D/PauseMenus" unique_id=233667104]
 texture_filter = 1
-material = SubResource("ShaderMaterial_l2ya6")
+material = SubResource("ShaderMaterial_rn8wc")
 offset_right = 1280.0
 offset_bottom = 720.0
 focus_behavior_recursive = 1
 mouse_filter = 2
 metadata/_edit_lock_ = true
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1291902375]
 shape = SubResource("CapsuleShape3D_4flbx")
 debug_color = Color(0.9672623, 9.62615e-07, 0.47837847, 0.41960785)
 metadata/_edit_lock_ = true
 
-[node name="SpotLight3D" type="SpotLight3D" parent="."]
+[node name="SpotLight3D" type="SpotLight3D" parent="." unique_id=1270038415]
 transform = Transform3D(1, 0, 0, 0, 0.9961947, 0.08715574, 0, -0.08715574, 0.9961947, 0, 0.45, 0)
 light_energy = 1.5
 shadow_enabled = true
@@ -718,26 +728,26 @@ spot_range = 8.5
 spot_angle = 25.0
 metadata/_edit_lock_ = true
 
-[node name="InteractionRaycast" type="RayCast3D" parent="."]
+[node name="InteractionRaycast" type="RayCast3D" parent="." unique_id=1828429409]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 target_position = Vector3(0, 0, -4)
 collision_mask = 2
 collide_with_areas = true
 metadata/_edit_lock_ = true
 
-[node name="UpgradeExecuteTimer" type="Timer" parent="."]
+[node name="UpgradeExecuteTimer" type="Timer" parent="." unique_id=344579342]
 wait_time = 10.0
 autostart = true
 
-[node name="AutoSaveTimer" type="Timer" parent="."]
+[node name="AutoSaveTimer" type="Timer" parent="." unique_id=74479095]
 wait_time = 60.0
 autostart = true
 
-[node name="HungerTimer" type="Timer" parent="."]
+[node name="HungerTimer" type="Timer" parent="." unique_id=1015991944]
 wait_time = 5.0
 autostart = true
 
-[node name="AnnouncerSound" type="AudioStreamPlayer3D" parent="."]
+[node name="AnnouncerSound" type="AudioStreamPlayer3D" parent="." unique_id=440806054]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 18, 0)
 volume_db = 8.0
 unit_size = 5.0
@@ -751,7 +761,7 @@ metadata/_edit_lock_ = true
 [connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
 [connection signal="updateRationElements" from="." to="Camera3D/CameraOverlays/RationGUI" method="_on_player_update_ration_elements"]
 [connection signal="updateShopElements" from="." to="Camera3D/CameraOverlays/ShopGUI" method="_on_player_update_shop_elements"]
-[connection signal="pressed" from="Camera3D/CameraOverlays/DeathScreen/RespawnButton" to="." method="_on_respawn_button_pressed"]
+[connection signal="pressed" from="Camera3D/CameraOverlays/DeathScreen/RestartButton" to="." method="_on_respawn_button_pressed"]
 [connection signal="pressed" from="Camera3D/CameraOverlays/DeathScreen/ExitGameButton" to="." method="_on_exit_game_button_pressed"]
 [connection signal="pressed" from="Camera3D/CameraOverlays/ShopGUI/ExitButton" to="." method="_on_exit_button_pressed"]
 [connection signal="pressed" from="Camera3D/CameraOverlays/RationGUI/ExitButton" to="." method="_on_exit_button_pressed"]
@@ -762,7 +772,6 @@ metadata/_edit_lock_ = true
 [connection signal="pressed" from="Camera3D/PauseMenus/PauseMenu/CreditsButton" to="Camera3D/PauseMenus/PauseMenu" method="_on_credits_button_pressed"]
 [connection signal="pressed" from="Camera3D/PauseMenus/PauseMenu/SettingsButton" to="Camera3D/PauseMenus/PauseMenu" method="_on_settings_button_pressed"]
 [connection signal="pressed" from="Camera3D/PauseMenus/PauseMenu/ExitButton" to="Camera3D/PauseMenus/PauseMenu" method="_on_exit_button_pressed"]
-[connection signal="pressed" from="Camera3D/PauseMenus/SettingsScreen/BackButton" to="Camera3D/PauseMenus/SettingsScreen" method="_on_back_button_pressed"]
 [connection signal="timeout" from="UpgradeExecuteTimer" to="." method="_on_upgrade_execute_timer_timeout"]
 [connection signal="timeout" from="AutoSaveTimer" to="." method="_on_auto_save_timer_timeout"]
 [connection signal="timeout" from="HungerTimer" to="." method="_on_hunger_timer_timeout"]

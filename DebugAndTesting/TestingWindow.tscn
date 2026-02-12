@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://cytfxp751gt05"]
+[gd_scene format=3 uid="uid://cytfxp751gt05"]
 
 [ext_resource type="Script" uid="uid://c8758fs3wnw4y" path="res://DebugAndTesting/testing_window.gd" id="1_iju7p"]
 
-[node name="TestingWindow" type="Window"]
+[node name="TestingWindow" type="Window" unique_id=1546683025]
 process_mode = 3
 oversampling_override = 1.0
 title = "Web Game Debug and Testing"
@@ -11,13 +11,13 @@ size = Vector2i(800, 800)
 unresizable = true
 script = ExtResource("1_iju7p")
 
-[node name="Control" type="Control" parent="."]
+[node name="Control" type="Control" parent="." unique_id=852130841]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 800.0
 offset_bottom = 800.0
 
-[node name="ColorRect" type="ColorRect" parent="Control"]
+[node name="ColorRect" type="ColorRect" parent="Control" unique_id=995132087]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -26,7 +26,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.12347304, 0.12347304, 0.12347304, 1)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control" unique_id=2032144960]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -34,14 +34,14 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="KillPlayerButton" type="Button" parent="Control/VBoxContainer"]
+[node name="KillPlayerButton" type="Button" parent="Control/VBoxContainer" unique_id=740516909]
 layout_mode = 2
 text = "Kill Player- Signal"
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Control/VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="Control/VBoxContainer" unique_id=1994822422]
 layout_mode = 2
 
-[node name="VScrollBar" type="VScrollBar" parent="Control/VBoxContainer/ScrollContainer"]
+[node name="VScrollBar" type="VScrollBar" parent="Control/VBoxContainer/ScrollContainer" unique_id=729644609]
 layout_mode = 2
 
 [connection signal="close_requested" from="." to="." method="_on_close_requested"]

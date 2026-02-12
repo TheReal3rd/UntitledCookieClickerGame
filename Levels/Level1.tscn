@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://cnqs4e8bsihtd"]
+[gd_scene format=3 uid="uid://cnqs4e8bsihtd"]
 
 [ext_resource type="Texture2D" uid="uid://bv60wvoo4f8rg" path="res://Assets/Texture/FloorTexture.png" id="1_fhqol"]
 [ext_resource type="PackedScene" uid="uid://ckppxixhfvpvj" path="res://Objects/Player/player.tscn" id="1_w77jt"]
@@ -75,111 +75,111 @@ fog_depth_curve = 0.210225
 
 [sub_resource type="Compositor" id="Compositor_fhqol"]
 
-[node name="Level1" type="Node3D"]
+[node name="Level1" type="Node3D" unique_id=1723332453]
 
-[node name="LevelRoom" type="Node3D" parent="."]
+[node name="LevelRoom" type="Node3D" parent="." unique_id=877765107]
 
-[node name="Floor" type="StaticBody3D" parent="LevelRoom"]
+[node name="Floor" type="StaticBody3D" parent="LevelRoom" unique_id=409098767]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="LevelRoom/Floor"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LevelRoom/Floor" unique_id=1496308464]
 material_override = SubResource("StandardMaterial3D_iotdp")
 mesh = SubResource("BoxMesh_a4eo7")
 skeleton = NodePath("../../..")
 metadata/_edit_lock_ = true
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="LevelRoom/Floor"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LevelRoom/Floor" unique_id=604568326]
 visible = false
 shape = SubResource("BoxShape3D_w77jt")
 debug_color = Color(0, 0.6493134, 0.160826, 0.41960785)
 
-[node name="Wall1" type="StaticBody3D" parent="LevelRoom"]
+[node name="Wall1" type="StaticBody3D" parent="LevelRoom" unique_id=2014532862]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.5, 5)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="LevelRoom/Wall1"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LevelRoom/Wall1" unique_id=2082524262]
 transform = Transform3D(32, 0, 0, 0, 16, 0, 0, 0, 1, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_nutv8")
 mesh = SubResource("BoxMesh_3anf8")
 metadata/_edit_lock_ = true
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="LevelRoom/Wall1"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LevelRoom/Wall1" unique_id=2138971977]
 visible = false
 shape = SubResource("BoxShape3D_fhqol")
 debug_color = Color(0.9568642, 0, 0.5382492, 0.41960785)
 
-[node name="Wall2" type="StaticBody3D" parent="LevelRoom"]
+[node name="Wall2" type="StaticBody3D" parent="LevelRoom" unique_id=224457208]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.5, -5)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="LevelRoom/Wall2"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LevelRoom/Wall2" unique_id=123749302]
 transform = Transform3D(32, 0, 0, 0, 16, 0, 0, 0, 1, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_05pb0")
 mesh = SubResource("BoxMesh_3anf8")
 metadata/_edit_lock_ = true
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="LevelRoom/Wall2"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LevelRoom/Wall2" unique_id=175860418]
 visible = false
 shape = SubResource("BoxShape3D_fhqol")
 debug_color = Color(0.9568642, 0, 0.5382492, 0.41960785)
 
-[node name="Wall3" type="StaticBody3D" parent="LevelRoom"]
+[node name="Wall3" type="StaticBody3D" parent="LevelRoom" unique_id=1347154023]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 5, 7.5, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="LevelRoom/Wall3"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LevelRoom/Wall3" unique_id=514585113]
 transform = Transform3D(32, 0, 0, 0, 16, 0, 0, 0, 1, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_dl8mf")
 mesh = SubResource("BoxMesh_3anf8")
 metadata/_edit_lock_ = true
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="LevelRoom/Wall3"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LevelRoom/Wall3" unique_id=2103253200]
 visible = false
 shape = SubResource("BoxShape3D_fhqol")
 debug_color = Color(0.9568642, 0, 0.5382492, 0.41960785)
 
-[node name="Wall4" type="StaticBody3D" parent="LevelRoom"]
+[node name="Wall4" type="StaticBody3D" parent="LevelRoom" unique_id=1497098745]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -7, 7.5, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="LevelRoom/Wall4"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LevelRoom/Wall4" unique_id=827816750]
 transform = Transform3D(32, 0, 0, 0, 16, 0, 0, 0, 1, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_xcayt")
 mesh = SubResource("BoxMesh_3anf8")
 metadata/_edit_lock_ = true
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="LevelRoom/Wall4"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LevelRoom/Wall4" unique_id=790436848]
 visible = false
 shape = SubResource("BoxShape3D_fhqol")
 debug_color = Color(0.9568642, 0, 0.5382492, 0.41960785)
 
-[node name="CookieStand" type="StaticBody3D" parent="LevelRoom"]
+[node name="CookieStand" type="StaticBody3D" parent="LevelRoom" unique_id=3099944]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.987, 0.75, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="LevelRoom/CookieStand"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LevelRoom/CookieStand" unique_id=1407574562]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.013000011, 0.75, 0)
 visible = false
 shape = SubResource("CylinderShape3D_3anf8")
 debug_color = Color(0.97860366, 0, 0.40181062, 1)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="LevelRoom/CookieStand"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LevelRoom/CookieStand" unique_id=924374297]
 material_override = SubResource("StandardMaterial3D_5g41i")
 mesh = SubResource("CylinderMesh_05pb0")
 
-[node name="Player" parent="." instance=ExtResource("1_w77jt")]
+[node name="Player" parent="." unique_id=386930308 instance=ExtResource("1_w77jt")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2725887, 1.802, -0.14321518)
 
-[node name="ScreenManObject" parent="." instance=ExtResource("3_nutv8")]
+[node name="ScreenManObject" parent="." unique_id=1010964780 instance=ExtResource("3_nutv8")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 2.375817, 0.49999952, -3.7510521)
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=2101731965]
 environment = SubResource("Environment_w77jt")
 camera_attributes = SubResource("CameraAttributesPhysical_3anf8")
 compositor = SubResource("Compositor_fhqol")
 
-[node name="CookieObject" parent="." instance=ExtResource("2_3anf8")]
+[node name="CookieObject" parent="." unique_id=1759985817 instance=ExtResource("2_3anf8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 2, 0)
 metadata/_edit_lock_ = true
 
-[node name="ShopMachine" parent="." instance=ExtResource("6_05pb0")]
+[node name="ShopMachine" parent="." unique_id=1833324968 instance=ExtResource("6_05pb0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.4035425, 0.5, 3.761578)
 
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=534289356]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.065384, 0)
 light_energy = 0.5
 light_indirect_energy = 0.5
@@ -189,5 +189,5 @@ shadow_enabled = true
 omni_range = 25.0
 omni_attenuation = 0.8
 
-[node name="RationMachineObject" parent="." instance=ExtResource("7_dl8mf")]
+[node name="RationMachineObject" parent="." unique_id=1953730282 instance=ExtResource("7_dl8mf")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 3.574775, 0.5, 3.6944058)
