@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://dwtfsif4phl53"]
 
-[ext_resource type="Theme" uid="uid://bhed8krggwjc0" path="res://Objects/ShopMachineObject/ShopMachineTheme.tres" id="1_w8xl6"]
+[ext_resource type="Theme" uid="uid://bhed8krggwjc0" path="res://Objects/WorldObjects/ShopMachineObject/ShopMachineTheme.tres" id="1_w8xl6"]
 [ext_resource type="Script" uid="uid://te11mh1sv5d2" path="res://Objects/Player/settingsScreen.gd" id="2_4a65r"]
-[ext_resource type="Shader" uid="uid://rssxxex1w1ec" path="res://Objects/ScreenManObject/CRT.gdshader" id="3_fiyjg"]
+[ext_resource type="Shader" uid="uid://rssxxex1w1ec" path="res://Objects/WorldObjects/ScreenManObject/CRT.gdshader" id="3_fiyjg"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7gcej"]
 shader = ExtResource("3_fiyjg")

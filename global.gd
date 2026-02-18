@@ -1,5 +1,8 @@
 extends Node
 
+@onready var debugMenuPath = preload("res://DebugAndTesting/TestingWindow.tscn")
+var debugMenuOpen: bool = false : set = setDebugMenuState, get = isDebugMenuOpen
+
 var VERSION:String = "1.0" : get = getVersion
 
 const upgradeSavePath: String = "user://upgradeData.json"
@@ -12,10 +15,9 @@ var cookieScore:int = 0 : get = getScore, set = setScore
 var poisonTotal:int = 0 : get = getPoisenLevel
 
 var upgrades: Dictionary = {} : get = getUpgrades
-
 var questManager: QuestManager : get = getQuestManager
-
 var gameStarted: bool = false : get = isGameStarted
+var timeDateManager: TimeDateManger : get = getTimeDateManager
 
 var settings: Array[Setting] = [
 	Setting.new("ShowFPS", false)
@@ -25,6 +27,7 @@ func startGame() -> void:
 	registerUpgrades()
 	readUpgradeData(true)
 	questManager = QuestManager.new(self)
+	timeDateManager = TimeDateManger.new()
 	readSettingData(true)
 	gameStarted = true
 	
@@ -40,7 +43,8 @@ func _notification(what: int) -> void:
 		get_tree().quit()  
 
 func playerIsReady() -> void:
-	questManager.playerIsReady()
+	if questManager:
+		questManager.playerIsReady()
 
 func listFiles(path: String) -> Array[String]:
 	var fileNames: Array[String] = []
@@ -102,6 +106,9 @@ func convertUpgradeData() -> Dictionary:
 	return result
 	
 func writeUpgradeData() -> void:
+	if not gameStarted:
+		return
+	
 	var file = FileAccess.open(upgradeSavePath, FileAccess.WRITE)
 	if file:
 		var data: Dictionary = convertUpgradeData()
@@ -111,10 +118,17 @@ func writeUpgradeData() -> void:
 		print("Upgrade Data Saved.")
 
 func writePlayerData() -> void:
+	if not gameStarted:
+		return
+	
 	var file = FileAccess.open(playerSavePath, FileAccess.WRITE)
 	if file:
 		var data: Dictionary = player.getSaveData()
 		data.set("CookiesScore", cookieScore)
+		
+		var clockData: Dictionary = timeDateManager.buildSaveDict()
+		data.merge(clockData)
+		
 		var jsonString = JSON.stringify(data)
 		file.store_string(jsonString)
 		file.close()
@@ -142,6 +156,10 @@ func readPlayerData(allowDataWrite:bool=false) -> void:
 		
 		if saveData.has("CookiesScore"):
 			cookieScore = int(saveData.get("CookiesScore"))
+		
+		if timeDateManager:
+			timeDateManager.loadSavedData(saveData)
+			
 		player.setSaveData(saveData)
 
 func convertSetting() -> Dictionary:
@@ -211,9 +229,15 @@ func actionExecution():
 	changeScore(value)
 	poisonTotal = tempPoisenLevel
 
+@warning_ignore("unused_parameter")
 func _process(delta: float) -> void:
 	if questManager:
 		questManager.executeChecks()
+		
+	if Input.is_key_pressed(KEY_F3) and Input.is_key_pressed(KEY_D) and not isDebugMenuOpen():
+		setDebugMenuState(true)
+		var debugWindowInst = debugMenuPath.instantiate()
+		get_tree().root.add_child(debugWindowInst)
 
 # Fetching and Setters
 
@@ -248,6 +272,9 @@ func getVersion() -> String:
 
 func getQuestManager() -> QuestManager:
 	return questManager
+	
+func getTimeDateManager() -> TimeDateManger:
+	return timeDateManager
 
 func getSettings() -> Array:
 	return settings
@@ -260,11 +287,18 @@ func getSettingByName(nameSearch:String) -> Setting:
 
 func isGameStarted():
 	return gameStarted
+	
+func isDebugMenuOpen():
+	return debugMenuOpen
+	
+func setDebugMenuState(newState: bool):
+	debugMenuOpen = newState
 
 func exitGame() -> void:
 	writePlayerData()
 	writeUpgradeData()
-	questManager.writeQuestData()
+	if questManager:
+		questManager.writeQuestData()
 	get_tree().free()
 	
 func resetGame() -> void:
@@ -278,4 +312,5 @@ func resetGame() -> void:
 	writePlayerData()
 	writeUpgradeData()
 	questManager.writeQuestData()
+	timeDateManager.randomizeDateAndTime()
 	

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cwhxji80ks1c7"]
 
 [ext_resource type="Texture2D" uid="uid://1uj47ubk17c5" path="res://Assets/Texture/Crests/TCA Crest.png" id="1_dtqii"]
-[ext_resource type="Shader" uid="uid://rssxxex1w1ec" path="res://Objects/ScreenManObject/CRT.gdshader" id="2_e5oyr"]
+[ext_resource type="Shader" uid="uid://rssxxex1w1ec" path="res://Objects/WorldObjects/ScreenManObject/CRT.gdshader" id="2_e5oyr"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5v47f"]
 shader = ExtResource("2_e5oyr")

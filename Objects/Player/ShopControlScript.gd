@@ -4,7 +4,7 @@ extends Control
 @onready var global = get_node("/root/Global")
 @onready var fadeRect: ColorRect = $FadeRect
 
-@onready var shopItemElementPath = preload("res://Objects/ShopMachineObject/ShopItem/ShopItem.tscn")
+@onready var shopItemElementPath = preload("res://Objects/WorldObjects/ShopMachineObject/ShopItem/ShopItem.tscn")
 
 func _ready() -> void:
 	fadeRect.modulate.a = 1

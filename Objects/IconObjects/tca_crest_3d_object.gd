@@ -38,7 +38,7 @@ func getImage():
 	var texturePath: String = "res://Assets/Texture/Crests/TCA Crest.png"
 	match logoSelection:
 		Crests.EnergyCrest:
-			texturePath = "res://Assets/Texture/Crests/Ministry of Coal and Energy.png"
+			texturePath = "res://Assets/Texture/Crests/The Ministry of Energy Crest.png"
 	
 	texture = load(texturePath)
 	return texture

@@ -37,7 +37,7 @@ func executeChecks() -> void:
 		setCurrentQuestCach()
 		
 func setCurrentQuestCach() -> void:
-	if currentQuestID > questList.size():
+	if currentQuestID > questList.size() or currentQuestID == -1:
 		currentQuestID = -1
 		return
 		

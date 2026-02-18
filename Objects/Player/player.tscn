@@ -1,9 +1,10 @@
 [gd_scene format=3 uid="uid://ckppxixhfvpvj"]
 
 [ext_resource type="Script" uid="uid://wkq3todlh6i8" path="res://Objects/Player/player.gd" id="1_4flbx"]
+[ext_resource type="Script" uid="uid://8ybfycqx3gyu" path="res://Objects/Player/player_camera_3d.gd" id="2_wl3ml"]
 [ext_resource type="Shader" uid="uid://bedfkiao5h0wn" path="res://Objects/Player/player.gdshader" id="2_yw17q"]
-[ext_resource type="Shader" uid="uid://rssxxex1w1ec" path="res://Objects/ScreenManObject/CRT.gdshader" id="3_l2ya6"]
-[ext_resource type="Theme" uid="uid://bhed8krggwjc0" path="res://Objects/ShopMachineObject/ShopMachineTheme.tres" id="3_o1rty"]
+[ext_resource type="Shader" uid="uid://rssxxex1w1ec" path="res://Objects/WorldObjects/ScreenManObject/CRT.gdshader" id="3_l2ya6"]
+[ext_resource type="Theme" uid="uid://bhed8krggwjc0" path="res://Objects/WorldObjects/ShopMachineObject/ShopMachineTheme.tres" id="3_o1rty"]
 [ext_resource type="Texture2D" uid="uid://uwxrqjt1b0qe" path="res://Assets/Texture/BarTextures/HealthBarBack.png" id="3_thffa"]
 [ext_resource type="FontFile" uid="uid://byfxqpseju81y" path="res://Assets/Fonts/HomeVideo-BLG6G.ttf" id="3_u7612"]
 [ext_resource type="Script" uid="uid://d2fe45sesng02" path="res://Objects/Player/ShopControlScript.gd" id="4_t45n6"]
@@ -11,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://dbmrj5nbl5mic" path="res://Assets/Texture/BarTextures/HealthBarTop.png" id="4_xtia4"]
 [ext_resource type="Texture2D" uid="uid://bu2ew08b2v8hh" path="res://Assets/Texture/BarTextures/levelBar back.png" id="5_5xe3a"]
 [ext_resource type="Texture2D" uid="uid://bvuqr30h47r58" path="res://Assets/Texture/BarTextures/levelBar Top.png" id="6_yemeo"]
+[ext_resource type="Script" uid="uid://gl2ldvvvfkvu" path="res://Objects/Player/time_label.gd" id="11_xgj1l"]
 [ext_resource type="Script" uid="uid://crg5tvgesgavv" path="res://Objects/Player/PauseMenu.gd" id="11_xtia4"]
 [ext_resource type="Script" uid="uid://cgq3t62oge042" path="res://Objects/Player/CreditsScreen.gd" id="12_8a0no"]
 [ext_resource type="Texture2D" uid="uid://1uj47ubk17c5" path="res://Assets/Texture/Crests/TCA Crest.png" id="12_iuvgb"]
@@ -19,8 +21,8 @@
 [ext_resource type="Texture2D" uid="uid://021gxxoq5atn" path="res://Assets/Texture/FaceBox2.jpg" id="16_8nghj"]
 [ext_resource type="Script" uid="uid://6bns43g6cvvu" path="res://Objects/Player/RationGUI.gd" id="16_nipdn"]
 [ext_resource type="Script" uid="uid://duuum01nxoaqe" path="res://Objects/Player/man_gui.gd" id="16_rn8wc"]
-[ext_resource type="PackedScene" uid="uid://c1hwi6y5wwbif" path="res://Objects/RationMachineObject/GUIElements/CookieHologramObject.tscn" id="17_ikfl2"]
-[ext_resource type="PackedScene" uid="uid://c6fu0s10uqd8c" path="res://Objects/RationMachineObject/GUIElements/FoodCaneHologramObject.tscn" id="19_r7vp5"]
+[ext_resource type="PackedScene" uid="uid://c1hwi6y5wwbif" path="res://Objects/WorldObjects/RationMachineObject/GUIElements/CookieHologramObject.tscn" id="17_ikfl2"]
+[ext_resource type="PackedScene" uid="uid://c6fu0s10uqd8c" path="res://Objects/WorldObjects/RationMachineObject/GUIElements/FoodCaneHologramObject.tscn" id="19_r7vp5"]
 [ext_resource type="PackedScene" uid="uid://dwtfsif4phl53" path="res://Levels/Screens/settings_screen.tscn" id="22_rn8wc"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_r7vp5"]
@@ -113,12 +115,16 @@ shader_parameter/vignette_opacity = 0.5
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_4flbx"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_xgj1l"]
+size = Vector3(1, 1.8973389, 1)
+
 [node name="Player" type="CharacterBody3D" unique_id=188886483]
 script = ExtResource("1_4flbx")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=852601327]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-fov = 37.849285
+fov = 52.8
+script = ExtResource("2_wl3ml")
 metadata/_edit_lock_ = true
 
 [node name="CameraOverlays" type="CanvasLayer" parent="Camera3D" unique_id=365928902]
@@ -203,7 +209,6 @@ volume_db = -20.0
 parameters/looping = true
 
 [node name="HUD" type="Control" parent="Camera3D/CameraOverlays" unique_id=1223912335]
-visible = false
 texture_filter = 1
 layout_mode = 3
 anchors_preset = 0
@@ -242,7 +247,7 @@ tint_under = Color(1, 1, 1, 0.50980395)
 tint_progress = Color(0, 0.41568628, 1, 0.50980395)
 metadata/_edit_lock_ = true
 
-[node name="Shader" type="ColorRect" parent="Camera3D/CameraOverlays/HUD" unique_id=1485387533]
+[node name="HudShader" type="ColorRect" parent="Camera3D/CameraOverlays/HUD" unique_id=1485387533]
 texture_filter = 1
 material = SubResource("ShaderMaterial_o1rty")
 layout_mode = 0
@@ -282,6 +287,16 @@ offset_bottom = 214.0
 text = "GameStats"
 metadata/_edit_lock_ = true
 
+[node name="TimeLabel" type="Label" parent="Camera3D/CameraOverlays/HUD" unique_id=524120644]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 610.0
+offset_right = 90.0
+offset_bottom = 625.0
+text = "00:00:00"
+script = ExtResource("11_xgj1l")
+metadata/_edit_lock_ = true
+
 [node name="InteractionLabel" type="Label" parent="Camera3D/CameraOverlays/HUD" unique_id=1179425736]
 visible = false
 layout_mode = 1
@@ -301,6 +316,7 @@ text = "Press E to Interation"
 metadata/_edit_lock_ = true
 
 [node name="ShopGUI" type="Control" parent="Camera3D/CameraOverlays" unique_id=1249235143]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 1280.0
@@ -535,6 +551,7 @@ metadata/_edit_lock_ = true
 
 [node name="PauseMenus" type="CanvasLayer" parent="Camera3D" unique_id=100151644]
 process_mode = 2
+visible = false
 
 [node name="CreditsScreen" type="Control" parent="Camera3D/PauseMenus" unique_id=1406477902]
 visible = false
@@ -730,6 +747,7 @@ metadata/_edit_lock_ = true
 
 [node name="InteractionRaycast" type="RayCast3D" parent="." unique_id=1828429409]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+visible = false
 target_position = Vector3(0, 0, -4)
 collision_mask = 2
 collide_with_areas = true
@@ -755,8 +773,18 @@ pitch_scale = 0.95
 bus = &"NarratorBus"
 metadata/_edit_lock_ = true
 
+[node name="TriggerArea" type="Area3D" parent="." unique_id=1191263894]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TriggerArea" unique_id=729208833]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.12432861, 0)
+shape = SubResource("BoxShape3D_xgj1l")
+
+[connection signal="damagePlayer" from="." to="." method="_on_damage_player"]
+[connection signal="healPlayer" from="." to="." method="_on_heal_player"]
 [connection signal="openShopScreen" from="." to="." method="_on_open_shop_screen"]
 [connection signal="playerDeath" from="." to="." method="_on_player_death"]
+[connection signal="radioObjectNotifyAdd" from="." to="." method="_on_radio_object_notify_add"]
+[connection signal="radioObjectNotifyRemove" from="." to="." method="_on_radio_object_notify_remove"]
 [connection signal="ready" from="." to="." method="_on_ready"]
 [connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
 [connection signal="updateRationElements" from="." to="Camera3D/CameraOverlays/RationGUI" method="_on_player_update_ration_elements"]

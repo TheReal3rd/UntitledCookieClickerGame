@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://c61nuejbmxkeb"]
+
+[ext_resource type="PackedScene" uid="uid://oussg0m6civg" path="res://Assets/Objects/CCTV Camera.gltf" id="1_lm67h"]
+[ext_resource type="Script" uid="uid://cak28domtodb3" path="res://Objects/WorldObjects/cctv_camera_object.gd" id="2_fe1gh"]
+
+[node name="CCTVCamera" unique_id=873611827 instance=ExtResource("1_lm67h")]
+script = ExtResource("2_fe1gh")
+
+[node name="Head" parent="." index="1" unique_id=1979675029]
+transform = Transform3D(0.75757354, -0.17364816, -0.6292285, 0.13358064, 0.98480767, -0.110949956, 0.6389353, 7.45058e-09, 0.7692604, 0.0625, 0.3125, 0)

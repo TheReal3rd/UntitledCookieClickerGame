@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cb2428ebwueul"]
 
-[ext_resource type="Theme" uid="uid://bhed8krggwjc0" path="res://Objects/ShopMachineObject/ShopMachineTheme.tres" id="1_65ows"]
-[ext_resource type="Shader" uid="uid://rssxxex1w1ec" path="res://Objects/ScreenManObject/CRT.gdshader" id="1_hr4vk"]
+[ext_resource type="Theme" uid="uid://bhed8krggwjc0" path="res://Objects/WorldObjects/ShopMachineObject/ShopMachineTheme.tres" id="1_65ows"]
+[ext_resource type="Shader" uid="uid://rssxxex1w1ec" path="res://Objects/WorldObjects/ScreenManObject/CRT.gdshader" id="1_hr4vk"]
 [ext_resource type="VideoStream" uid="uid://ce4bhmsmiatm8" path="res://Assets/MainMenu/video1.ogv" id="1_yw2i3"]
 [ext_resource type="Script" uid="uid://cgxac7214c6q" path="res://Levels/main_menu.gd" id="2_ooo5j"]
 [ext_resource type="AudioStream" uid="uid://fhv573ppqiq2" path="res://Assets/Sound/FX/DeathBGSound.mp3" id="3_2k6u6"]
@@ -49,7 +49,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 stream = ExtResource("1_yw2i3")
-volume_db = -24.999998
+volume_db = -24.999996
 speed_scale = 1.5
 autoplay = true
 expand = true

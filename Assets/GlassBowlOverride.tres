@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://crqafh6t4107y"]
+
+[ext_resource type="Texture2D" uid="uid://dkng2qt5qoweo" path="res://Assets/Objects/BrainProcessor_0.png" id="1_teekl"]
+
+[resource]
+transparency = 1
+albedo_texture = ExtResource("1_teekl")
+texture_filter = 0

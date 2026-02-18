@@ -1,0 +1,167 @@
+[gd_scene format=3 uid="uid://bah1mi2xynobv"]
+
+[ext_resource type="Texture2D" uid="uid://bv60wvoo4f8rg" path="res://Assets/Texture/FloorTexture.png" id="1_4cwhj"]
+[ext_resource type="PackedScene" uid="uid://cvdj11xk2okk0" path="res://Objects/WorldObjects/BuildingParts/Floor1.tscn" id="1_gp81c"]
+[ext_resource type="PackedScene" uid="uid://ckppxixhfvpvj" path="res://Objects/Player/player.tscn" id="2_dg1wh"]
+[ext_resource type="PackedScene" uid="uid://buwmljqjxinve" path="res://Objects/WorldObjects/BrainProcessorObject.tscn" id="3_lc6ra"]
+[ext_resource type="PackedScene" uid="uid://dt4d7tktn2sa8" path="res://Objects/WorldObjects/SingleStackFilingCabnetObject.tscn" id="3_rmcle"]
+[ext_resource type="PackedScene" uid="uid://cvvkjy36p2d3a" path="res://Objects/WorldObjects/BomberPlane/500KGBomb/500KGBombObject.tscn" id="4_0gyab"]
+[ext_resource type="PackedScene" uid="uid://c61nuejbmxkeb" path="res://Objects/WorldObjects/CCTVCameraObject.tscn" id="4_rmcle"]
+[ext_resource type="PackedScene" uid="uid://cilfxjw7kmmn3" path="res://Objects/WorldObjects/DoubleStackFilingCabnetObject.tscn" id="5_pm46q"]
+[ext_resource type="PackedScene" uid="uid://d0a6eocsw20fe" path="res://Objects/WorldObjects/RationMachineObject/RationMachineObject.tscn" id="7_27uk3"]
+[ext_resource type="PackedScene" uid="uid://d2em0wvp5u3q3" path="res://Objects/WorldObjects/ScreenManObject/ScreenManObject.tscn" id="8_iuipq"]
+[ext_resource type="PackedScene" uid="uid://da5hfxjcweeeh" path="res://Objects/WorldObjects/ShopMachineObject/ShopMachine.tscn" id="9_gp81c"]
+[ext_resource type="PackedScene" uid="uid://dg70eyyoiakmt" path="res://Objects/WorldObjects/BarrelObject.tscn" id="10_iuipq"]
+[ext_resource type="PackedScene" uid="uid://bi6lbcp8vmgv7" path="res://Objects/WorldObjects/BomberPlane/GanetsPigBomberPlaneObjects.tscn" id="10_wxr5l"]
+[ext_resource type="PackedScene" uid="uid://dpcs5nl020wot" path="res://Objects/CharacterObjects/CyborgTankUtilityCharacter.tscn" id="12_xjoyh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dg1wh"]
+albedo_texture = ExtResource("1_4cwhj")
+anisotropy = 0.9
+uv1_scale = Vector3(120, 120, 120)
+texture_filter = 0
+
+[sub_resource type="BoxMesh" id="BoxMesh_h8wmi"]
+size = Vector3(100, 1, 100)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_61cbs"]
+size = Vector3(100, 1, 100)
+
+[sub_resource type="Environment" id="Environment_dg1wh"]
+background_mode = 1
+background_color = Color(0.14509805, 0, 0, 1)
+background_energy_multiplier = 2.0
+fog_mode = 1
+fog_light_color = Color(0.09681449, 0.002773658, 1.504086e-09, 1)
+fog_light_energy = 0.6
+fog_sun_scatter = 0.15
+fog_density = 1.4
+fog_height_density = 8.5409
+fog_depth_curve = 0.210225
+
+[sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_h8wmi"]
+
+[sub_resource type="Compositor" id="Compositor_61cbs"]
+
+[sub_resource type="Curve3D" id="Curve3D_wxr5l"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -804.132, 138.216, -4.102, 0, 0, 0, 0, 0, 0, 804.132, 138.216, -4.102, 0, 0, 0, 0, 0, 0, 516.6062, 148.85902, -426.31604, 0, 0, 0, 0, 0, 0, -25.486092, 140.23772, -168.91891, 0, 0, 0, 0, 0, 0, -404.89603, 46.20881, 133.11089, 0, 0, 0, 0, 0, 0, 0, 0, 686.5852, 0, 0, 0, 0, 0, 0, 573.3308, 0, -49.526886),
+"tilts": PackedFloat32Array(0, -1.0594149, 4.729842, 0, 0, 0, 0)
+}
+point_count = 7
+
+[node name="DebugRoomLevel" type="Node3D" unique_id=1395576668]
+
+[node name="AngleTest3" parent="." unique_id=1636191134 instance=ExtResource("1_gp81c")]
+transform = Transform3D(10, 0, 0, 0, 0.49999997, -8.6602545, 0, 0.86602545, 4.9999995, -21.250975, 4.5060854, -8.582209)
+
+[node name="AngleTest2" parent="." unique_id=1706463861 instance=ExtResource("1_gp81c")]
+transform = Transform3D(10, 0, 0, 0, 0.7660444, 6.4278755, 0, -0.6427875, 7.6604443, -20.848957, 3.3354464, 0.60806036)
+
+[node name="AngleTest1" parent="." unique_id=369569621 instance=ExtResource("1_gp81c")]
+transform = Transform3D(9.999999, 0, 0, 0, 0.9063077, 4.226183, 0, -0.42261824, 9.063078, -21.101738, 1.9678578, 9.055505)
+
+[node name="Floor" type="StaticBody3D" parent="." unique_id=368641756 groups=["WorldObject"]]
+transform = Transform3D(100, 0, 0, 0, 1, 0, 0, 0, 100, 0, 0, 0)
+metadata/_edit_lock_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor" unique_id=716441816]
+material_override = SubResource("StandardMaterial3D_dg1wh")
+mesh = SubResource("BoxMesh_h8wmi")
+skeleton = NodePath("../../..")
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=1797012028]
+visible = false
+shape = SubResource("BoxShape3D_61cbs")
+debug_color = Color(0, 0.6493134, 0.160826, 0.41960785)
+
+[node name="Player" parent="." unique_id=188886483 instance=ExtResource("2_dg1wh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.27281475, 4.3694096, 5.706152)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=227237304]
+environment = SubResource("Environment_dg1wh")
+camera_attributes = SubResource("CameraAttributesPhysical_h8wmi")
+compositor = SubResource("Compositor_61cbs")
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="." unique_id=805050267]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.990266, 22.84673, -15.836235)
+light_energy = 50.0
+light_negative = true
+shadow_enabled = true
+omni_range = 4096.0
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1697890324]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20.097273, 0)
+light_energy = 50.0
+shadow_enabled = true
+omni_range = 4096.0
+
+[node name="Objects" type="Node3D" parent="." unique_id=1901539142]
+
+[node name="500kgBombObject" parent="Objects" unique_id=624781419 instance=ExtResource("4_0gyab")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.128387, 0.5, 14.590399)
+bombTexture = 0
+
+[node name="500kgBombObject2" parent="Objects" unique_id=941380738 instance=ExtResource("4_0gyab")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.355335, 0.5, 14.763428)
+bombTexture = 1
+
+[node name="500kgBombObject3" parent="Objects" unique_id=91295592 instance=ExtResource("4_0gyab")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.030516, 1.8976035, 16.643068)
+fallingLogic = true
+
+[node name="Barrels" parent="Objects" unique_id=2129989016 instance=ExtResource("10_iuipq")]
+transform = Transform3D(0.67282367, 0, 0.43279132, 0, 0.8, 0, -0.43279132, 0, 0.67282367, 4.991365, 0.5, 41.151375)
+
+[node name="SingleStackFilingCabnetObject" parent="Objects" unique_id=1460401148 instance=ExtResource("3_rmcle")]
+transform = Transform3D(0.02406575, 0, -0.9997104, 0, 1, 0, 0.9997104, 0, 0.02406575, -14.749584, 0.5, 9.163171)
+
+[node name="BrainProcessor" parent="Objects" unique_id=1558545720 instance=ExtResource("3_lc6ra")]
+transform = Transform3D(-0.020645745, 0, -0.99978685, 0, 1, 0, 0.99978685, 0, -0.020645745, -14.601561, 0.69708234, 14.23781)
+
+[node name="CCTVCamera" parent="Objects" unique_id=873611827 instance=ExtResource("4_rmcle")]
+transform = Transform3D(-0.9992494, 0, 0.03873656, 0, 1, 0, -0.03873656, 0, -0.9992494, -14.732454, 1.4472811, 12.027247)
+
+[node name="DoubleStackFilingCabnetObject" parent="Objects" unique_id=1736756020 instance=ExtResource("5_pm46q")]
+transform = Transform3D(0.019494152, 0, -0.9998101, 0, 1, 0, 0.9998101, 0, 0.019494152, -14.706319, 0.5, 10.465996)
+
+[node name="Label3D" type="Label3D" parent="Objects" unique_id=348157795]
+transform = Transform3D(1, 0, 0, 0, 0.99915755, 0.041038614, 0, -0.041038614, 0.99915755, -12.102589, 4.432604, 13.477302)
+billboard = 1
+no_depth_test = true
+text = "Game World Objects"
+
+[node name="RationMachineObject" parent="." unique_id=1316815407 instance=ExtResource("7_27uk3")]
+transform = Transform3D(-0.9995578, 0, 0.0297361, 0, 1, 0, -0.0297361, 0, -0.9995578, -14.922035, 0.5, -13.228025)
+
+[node name="ScreenManObject" parent="." unique_id=693834948 instance=ExtResource("8_iuipq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.411812, 0.43220437, -11.039118)
+
+[node name="ShopMachine" parent="." unique_id=156819292 instance=ExtResource("9_gp81c")]
+transform = Transform3D(0.031096766, 0, -0.99951637, 0, 1, 0, 0.99951637, 0, 0.031096766, -14.819909, 0.5, -8.726104)
+
+[node name="AbstractCharacterObject" parent="." unique_id=1211915576 instance=ExtResource("12_xjoyh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.337955, 0.5625, 12.543808)
+
+[node name="GanetsPigBomberPlaneObjects" parent="." unique_id=1705454976 instance=ExtResource("10_wxr5l")]
+transform = Transform3D(-1.1800311, -2.3841858e-07, -3.8219795, 0.51539725, 3.9634635, -0.15912819, 3.7870693, -0.5394034, -1.1692522, 9.051258, -0.45577288, -37.623844)
+staticObject = true
+playingAnimation = 6
+
+[node name="GanetsPigBomberPlaneObjects2" parent="." unique_id=883428460 instance=ExtResource("10_wxr5l")]
+transform = Transform3D(1.8418603, -0.3812431, -3.5301845, -1.3710319, 3.5920873, -1.1032591, 3.275335, 1.7180111, 1.5233568, -0.32304287, 7.4488306, -34.72976)
+staticObject = true
+numberOfBombs = 1
+
+[node name="Path3D" type="Path3D" parent="." unique_id=2125812134]
+curve = SubResource("Curve3D_wxr5l")
+metadata/_edit_lock_ = true
+
+[node name="PathFollow3D" type="PathFollow3D" parent="Path3D" unique_id=963799660]
+transform = Transform3D(-4.371125e-08, 0, -1.0000001, 0.48617128, 0.8738698, -2.125129e-08, 0.87385994, -0.48617676, -3.8197754e-08, -50.07337, 138.216, -4.1019998)
+progress = 754.0588
+
+[node name="GanetsPigBomberPlaneObjects3" parent="Path3D/PathFollow3D" unique_id=271171172 instance=ExtResource("10_wxr5l")]
+transform = Transform3D(-0.002024587, 2.9802322e-07, 4.0000014, -8.306316e-07, 4.0000057, -1.7962617e-07, -4.0000033, -1.3670743e-06, -0.0020236333, 0, 0, 0)
+dropProgressRatio = 0.156

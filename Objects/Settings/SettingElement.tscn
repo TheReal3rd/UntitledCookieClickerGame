@@ -1,6 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://c5275e6ero78m"]
+[gd_scene format=3 uid="uid://c5275e6ero78m"]
 
-[ext_resource type="Theme" uid="uid://bhed8krggwjc0" path="res://Objects/ShopMachineObject/ShopMachineTheme.tres" id="1_cux2w"]
+[ext_resource type="Theme" uid="uid://bhed8krggwjc0" path="res://Objects/WorldObjects/ShopMachineObject/ShopMachineTheme.tres" id="1_cux2w"]
 [ext_resource type="Script" uid="uid://wayu1pbwd1hm" path="res://Objects/Settings/settingElement.gd" id="2_6he2g"]
 
 [node name="SettingElement" type="VBoxContainer"]

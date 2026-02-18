@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://b2egi0cssgkvh"]
+
+[ext_resource type="Texture2D" uid="uid://021gxxoq5atn" path="res://Assets/Texture/FaceBox2.jpg" id="1_cejd1"]
+[ext_resource type="Shader" uid="uid://rssxxex1w1ec" path="res://Objects/WorldObjects/ScreenManObject/CRT.gdshader" id="1_lwqpc"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yp7o3"]
+shader = ExtResource("1_lwqpc")
+shader_parameter/overlay = false
+shader_parameter/scanlines_opacity = 0.4
+shader_parameter/scanlines_width = 0.25
+shader_parameter/grille_opacity = 0.3
+shader_parameter/resolution = Vector2(640, 480)
+shader_parameter/pixelate = true
+shader_parameter/roll = true
+shader_parameter/roll_speed = 8.0
+shader_parameter/roll_size = 15.0
+shader_parameter/roll_variation = 1.8
+shader_parameter/distort_intensity = 0.05
+shader_parameter/noise_opacity = 0.4
+shader_parameter/noise_speed = 5.0
+shader_parameter/static_noise_intensity = 0.06
+shader_parameter/aberration = 0.03
+shader_parameter/brightness = 1.4
+shader_parameter/discolor = true
+shader_parameter/warp_amount = 1.0
+shader_parameter/clip_warp = false
+shader_parameter/vignette_intensity = 0.4
+shader_parameter/vignette_opacity = 0.5
+
+[node name="ScreenViewport" type="SubViewport"]
+size = Vector2i(1024, 1024)
+
+[node name="Sprite3D" type="Sprite2D" parent="."]
+modulate = Color(0.5254517, 0.5259361, 0.3149961, 1)
+position = Vector2(511.75003, 513.5)
+scale = Vector2(2.1299376, 2.1268191)
+texture = ExtResource("1_cejd1")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+material = SubResource("ShaderMaterial_yp7o3")
+offset_right = 1024.0
+offset_bottom = 1024.0

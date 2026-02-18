@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://cilfxjw7kmmn3"]
+
+[ext_resource type="Script" uid="uid://bnc7v47ignkj6" path="res://Objects/WorldObjects/double_stack_filing_cabnet_object.gd" id="1_dxibo"]
+[ext_resource type="PackedScene" uid="uid://b24jcmq3oc1tx" path="res://Assets/Objects/DoubleStackFilingCabnet.gltf" id="1_w7lb1"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dxibo"]
+size = Vector3(0.7486267, 1.3442993, 0.7668457)
+
+[node name="DoubleStackFilingCabnetObject" type="StaticBody3D" unique_id=1736756020]
+script = ExtResource("1_dxibo")
+
+[node name="blockbench_export" parent="." unique_id=550463891 instance=ExtResource("1_w7lb1")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2006506535]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0018463135, 0.6730652, -0.0008544922)
+shape = SubResource("BoxShape3D_dxibo")

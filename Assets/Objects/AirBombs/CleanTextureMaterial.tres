@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://cjq1i7172vk7d"]
+
+[ext_resource type="Texture2D" uid="uid://cm3xaek64wkqb" path="res://Assets/Objects/AirBombs/CleanBombTexture.png" id="1_olmpl"]
+
+[resource]
+albedo_texture = ExtResource("1_olmpl")
+texture_filter = 0

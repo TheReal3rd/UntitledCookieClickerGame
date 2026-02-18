@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://b2r207xerjoa7"]
+
+[ext_resource type="Shader" uid="uid://ceyeyohu83gu5" path="res://Objects/FX/Explosion/explosion.gdshader" id="1_g7jui"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p2twy"]
+shader = ExtResource("1_g7jui")
+shader_parameter/time = 0.0
+shader_parameter/frame_scope = 1.84800008452012
+shader_parameter/use_system_time = true
+shader_parameter/time_accel = 4.40000006556528
+
+[node name="ExplosionTexViewport" type="SubViewport" unique_id=1983150656]
+disable_3d = true
+transparent_bg = true
+size = Vector2i(1024, 1024)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1684555594]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=1117547809]
+material = SubResource("ShaderMaterial_p2twy")
+offset_right = 1024.0
+offset_bottom = 1024.0

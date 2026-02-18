@@ -1,12 +1,10 @@
-extends CharacterBody3D
-
-@onready var debugMenuPath = preload("res://DebugAndTesting/TestingWindow.tscn")
+class_name playerObject extends CharacterBody3D
 
 @onready var cameraNode:Camera3D = $Camera3D
 @onready var cookieLabel: Label = $Camera3D/CameraOverlays/HUD/ScoreLabel
 @onready var questLabel: Label = $Camera3D/CameraOverlays/HUD/QuestLabel
 @onready var global = get_node("/root/Global")
-@onready var shaderRect: ColorRect = $Camera3D/CameraOverlays/HUD/Shader
+@onready var globalUtils = get_node("/root/GlobalUtils")
 @onready var interactRaycast:RayCast3D = $InteractionRaycast
 @onready var spotLight: SpotLight3D = $SpotLight3D
 @onready var announcerSound: AudioStreamPlayer3D = $AnnouncerSound
@@ -28,6 +26,7 @@ extends CharacterBody3D
 @onready var deathScreen: Control = $Camera3D/CameraOverlays/DeathScreen
 @onready var deathAudioStream: AudioStreamPlayer2D = $Camera3D/CameraOverlays/DeathScreen/DeathAudioStream
 @onready var screenManGUI: Control = $Camera3D/CameraOverlays/ManGUI
+@onready var hudShader: ColorRect = $Camera3D/CameraOverlays/HUD/HudShader
 
 const SPEED: float = 5.0
 const JUMP_VELOCITY: float = 4.5
@@ -41,8 +40,13 @@ var hungerLevel: float = 100.0 : set = setHungerLevel
 var gamePaused: bool = false
 var quotaDuration: int = -1
 var quotaTimeSpan: int = -1
-var debugMenuOpen: bool = false : set = setDebugMenuState, get = isDebugMenuOpen
 var playerDead: bool = false
+
+#Player Health
+var health: float = 100 : get = getHealth
+const maxHealth: float  = 100
+var damageTimer = 0;
+const damageDelayAmount = 500
 
 var cookieObject: Node3D
 var hoverObject: Node3D
@@ -62,14 +66,31 @@ signal updateRationElements
 @warning_ignore("unused_signal")
 signal playerDeath
 
+@warning_ignore("unused_signal")
+signal healPlayer(amount: float)
+@warning_ignore("unused_signal")
+signal damagePlayer(amount: float)
+
 enum FoodItemEnum {
 	CRation,
 	Cookie
 }
 
+#High Radiation Camera Effect.
+var radioObjects: Array = []
+@warning_ignore("unused_signal")
+signal radioObjectNotifyAdd(radioObject: StaticBody3D)
+@warning_ignore("unused_signal")
+signal radioObjectNotifyRemove(radioObject: StaticBody3D)
+var shadersChanged: bool = false
+
+#Debug Fly
+@export var debugFly: bool = false
+
+
 func _ready() -> void:
 	global.setPlayer(self)
-	shaderRect.set_size(get_window().get_size())
+	hudShader.set_size(get_window().get_size())
 	shopGUI.hide()
 	hud.show()
 	pauseMenus.show()
@@ -151,9 +172,27 @@ func pauseGame():
 		
 @warning_ignore("unused_parameter")
 func _process(delta: float) -> void:
-	debugMenuControlsCheck()
+	if health <= 0:
+		playerDead = true
+	
 	if playerDead and not deathScreen.is_visible():
 		emit_signal("playerDeath")
+		
+	#Radiation Hud Effect
+	if radioObjects.size() > 0:
+		var closestObject: Node3D = globalUtils.findClosest(self, radioObjects)
+		if closestObject:
+			var distance: float = get_global_position().distance_to(closestObject.get_global_position())
+			hudShader.material.set_shader_parameter("noise_strength", move_toward(0.48, 0.048, (distance * 2) * delta))
+			hudShader.material.set_shader_parameter("distortion_strength", move_toward(0.48, 0.1, (distance * 2) * delta))
+			hudShader.material.set_shader_parameter("ghost_strength", move_toward(0.48, 0.12, (distance * 2) * delta))
+			shadersChanged = true
+	else:
+		if shadersChanged:
+			hudShader.material.set_shader_parameter("noise_strength", 0.048)
+			hudShader.material.set_shader_parameter("distortion_strength", 0.1)
+			hudShader.material.set_shader_parameter("ghost_strength", 0.12)
+			shadersChanged = false
 		
 	interactRaycast.force_raycast_update()
 	if interactRaycast.is_colliding() and interactRaycast.get_collider() is AbstractInteractionObject:
@@ -192,11 +231,19 @@ func _process(delta: float) -> void:
 			upgradeExecuterTimer.set_wait_time(clickTime)
 
 func _physics_process(delta: float) -> void:
-	if not is_on_floor():
-		velocity += get_gravity() * delta
+	if not debugFly:
+		if not is_on_floor():
+			velocity += get_gravity() * delta
 
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
+		if Input.is_action_just_pressed("ui_accept") and is_on_floor():
+			velocity.y = JUMP_VELOCITY
+	else:
+		if Input.is_action_pressed("ui_accept"):
+			velocity.y = JUMP_VELOCITY
+		elif Input.is_action_pressed("moveDownwards"):
+			velocity.y = -JUMP_VELOCITY
+		else:
+			velocity.y = 0
 
 	var input_dir := Input.get_vector("leftward", "rightward", "foreward", "backward")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
@@ -418,23 +465,12 @@ func _on_player_death() -> void:
 	playerDead = true
 	global.writePlayerData()
 	
-func isDebugMenuOpen():
-	return debugMenuOpen
-	
-func setDebugMenuState(newState: bool):
-	debugMenuOpen = newState
-	
 func setFirstOpenedMan(openedState: bool):
 	firstOpenedMan = openedState
 	
 func isFirstOpenedMan():
 	return firstOpenedMan
-	
-func debugMenuControlsCheck():
-	if Input.is_key_pressed(KEY_F3) and Input.is_key_pressed(KEY_D):
-		setDebugMenuState(true)
-		var debugWindowInst = debugMenuPath.instantiate()
-		get_tree().root.add_child(debugWindowInst)
+
 
 #Changed to restart. **
 func _on_respawn_button_pressed() -> void:
@@ -462,3 +498,29 @@ func resetPlayer() -> void:
 	interactRaycast.set_rotation(cameraNode.get_rotation())
 	spotLight.set_rotation(cameraNode.get_rotation())
 	set_global_position(Vector3(2.273, 1.802, -0.143))
+
+func _on_radio_object_notify_add(radioObject: Node3D) -> void:
+	radioObjects.append(radioObject)
+
+func _on_radio_object_notify_remove(radioObject: Node3D) -> void:
+	radioObjects.erase(radioObject)
+	
+func getHealth() -> float:
+	return health
+
+func applyDamage(amount: float) -> void:
+	if (Time.get_ticks_msec() - damageTimer >= damageDelayAmount):
+		damageTimer = Time.get_ticks_msec()
+		health -= amount
+		if health <= 0:
+			playerDead = true
+		
+func applyHealing(amount: float) -> void:
+	health += amount
+	health = clamp(health, 0, maxHealth)
+
+func _on_damage_player(amount: float) -> void:
+	applyDamage(amount)
+
+func _on_heal_player(amount: float) -> void:
+	applyHealing(amount)

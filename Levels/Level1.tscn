@@ -2,11 +2,14 @@
 
 [ext_resource type="Texture2D" uid="uid://bv60wvoo4f8rg" path="res://Assets/Texture/FloorTexture.png" id="1_fhqol"]
 [ext_resource type="PackedScene" uid="uid://ckppxixhfvpvj" path="res://Objects/Player/player.tscn" id="1_w77jt"]
+[ext_resource type="FontFile" uid="uid://byfxqpseju81y" path="res://Assets/Fonts/HomeVideo-BLG6G.ttf" id="1_xcayt"]
 [ext_resource type="PackedScene" uid="uid://4msc34tqo44v" path="res://Objects/Cookie/cookieObject.tscn" id="2_3anf8"]
 [ext_resource type="Texture2D" uid="uid://dpv6mygyn3d7v" path="res://Assets/Texture/WallTexture.png" id="2_iotdp"]
-[ext_resource type="PackedScene" uid="uid://d2em0wvp5u3q3" path="res://Objects/ScreenManObject/ScreenManObject.tscn" id="3_nutv8"]
-[ext_resource type="PackedScene" uid="uid://da5hfxjcweeeh" path="res://Objects/ShopMachineObject/ShopMachine.tscn" id="6_05pb0"]
-[ext_resource type="PackedScene" uid="uid://d0a6eocsw20fe" path="res://Objects/RationMachineObject/RationMachineObject.tscn" id="7_dl8mf"]
+[ext_resource type="PackedScene" uid="uid://d2em0wvp5u3q3" path="res://Objects/WorldObjects/ScreenManObject/ScreenManObject.tscn" id="3_nutv8"]
+[ext_resource type="PackedScene" uid="uid://da5hfxjcweeeh" path="res://Objects/WorldObjects/ShopMachineObject/ShopMachine.tscn" id="6_05pb0"]
+[ext_resource type="PackedScene" uid="uid://d0a6eocsw20fe" path="res://Objects/WorldObjects/RationMachineObject/RationMachineObject.tscn" id="7_dl8mf"]
+[ext_resource type="PackedScene" uid="uid://c61nuejbmxkeb" path="res://Objects/WorldObjects/CCTVCameraObject.tscn" id="9_5g41i"]
+[ext_resource type="PackedScene" uid="uid://cilfxjw7kmmn3" path="res://Objects/WorldObjects/DoubleStackFilingCabnetObject.tscn" id="10_7fl83"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iotdp"]
 albedo_texture = ExtResource("1_fhqol")
@@ -79,7 +82,28 @@ fog_depth_curve = 0.210225
 
 [node name="LevelRoom" type="Node3D" parent="." unique_id=877765107]
 
+[node name="BuildingNumberLabel2" type="Label3D" parent="LevelRoom" unique_id=923040609]
+transform = Transform3D(1.44, 0, 0, 0, 1.44, 0, 0, 0, 1.44, 0, 5.56, -4.42)
+shaded = true
+modulate = Color(0.6487615, 0.6487614, 0.6487614, 1)
+outline_modulate = Color(0, 0, 0, 0.38039216)
+text = "U287D9"
+font = ExtResource("1_xcayt")
+
+[node name="BuildingNumberLabel" type="Label3D" parent="LevelRoom" unique_id=1894422005]
+transform = Transform3D(-1.2, 0, -1.8119498e-07, 0, 1.2, 0, 1.8119498e-07, 0, -1.2, 0, 5.5601025, 4.42)
+shaded = true
+modulate = Color(0.6487615, 0.6487614, 0.6487614, 1)
+outline_modulate = Color(0, 0, 0, 0.38039216)
+text = "U287D9"
+font = ExtResource("1_xcayt")
+metadata/_edit_lock_ = true
+
+[node name="CCTVCamera" parent="LevelRoom" unique_id=873611827 instance=ExtResource("9_5g41i")]
+transform = Transform3D(-0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, -0.70710677, -6.022319, 3.7513564, 4.074146)
+
 [node name="Floor" type="StaticBody3D" parent="LevelRoom" unique_id=409098767]
+metadata/_edit_lock_ = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="LevelRoom/Floor" unique_id=1496308464]
 material_override = SubResource("StandardMaterial3D_iotdp")
@@ -94,6 +118,7 @@ debug_color = Color(0, 0.6493134, 0.160826, 0.41960785)
 
 [node name="Wall1" type="StaticBody3D" parent="LevelRoom" unique_id=2014532862]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.5, 5)
+metadata/_edit_lock_ = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="LevelRoom/Wall1" unique_id=2082524262]
 transform = Transform3D(32, 0, 0, 0, 16, 0, 0, 0, 1, 0, 0, 0)
@@ -108,6 +133,7 @@ debug_color = Color(0.9568642, 0, 0.5382492, 0.41960785)
 
 [node name="Wall2" type="StaticBody3D" parent="LevelRoom" unique_id=224457208]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.5, -5)
+metadata/_edit_lock_ = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="LevelRoom/Wall2" unique_id=123749302]
 transform = Transform3D(32, 0, 0, 0, 16, 0, 0, 0, 1, 0, 0, 0)
@@ -122,6 +148,7 @@ debug_color = Color(0.9568642, 0, 0.5382492, 0.41960785)
 
 [node name="Wall3" type="StaticBody3D" parent="LevelRoom" unique_id=1347154023]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 5, 7.5, 0)
+metadata/_edit_lock_ = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="LevelRoom/Wall3" unique_id=514585113]
 transform = Transform3D(32, 0, 0, 0, 16, 0, 0, 0, 1, 0, 0, 0)
@@ -136,6 +163,7 @@ debug_color = Color(0.9568642, 0, 0.5382492, 0.41960785)
 
 [node name="Wall4" type="StaticBody3D" parent="LevelRoom" unique_id=1497098745]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -7, 7.5, 0)
+metadata/_edit_lock_ = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="LevelRoom/Wall4" unique_id=827816750]
 transform = Transform3D(32, 0, 0, 0, 16, 0, 0, 0, 1, 0, 0, 0)
@@ -150,6 +178,7 @@ debug_color = Color(0.9568642, 0, 0.5382492, 0.41960785)
 
 [node name="CookieStand" type="StaticBody3D" parent="LevelRoom" unique_id=3099944]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.987, 0.75, 0)
+metadata/_edit_lock_ = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="LevelRoom/CookieStand" unique_id=1407574562]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.013000011, 0.75, 0)
@@ -188,6 +217,10 @@ light_specular = 0.1
 shadow_enabled = true
 omni_range = 25.0
 omni_attenuation = 0.8
+metadata/_edit_lock_ = true
 
 [node name="RationMachineObject" parent="." unique_id=1953730282 instance=ExtResource("7_dl8mf")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 3.574775, 0.5, 3.6944058)
+
+[node name="DoubleStackFilingCabnetObject" parent="." unique_id=1736756020 instance=ExtResource("10_7fl83")]
+transform = Transform3D(-0.87628984, 0, 0.48178428, 0, 1, 0, -0.48178428, 0, -0.87628984, 3.9226367, 0.5, -3.832062)

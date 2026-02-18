@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://cvdj11xk2okk0"]
+
+[ext_resource type="Texture2D" uid="uid://bv60wvoo4f8rg" path="res://Assets/Texture/FloorTexture.png" id="1_3h27w"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lkbcg"]
+albedo_texture = ExtResource("1_3h27w")
+anisotropy = 0.9
+uv1_scale = Vector3(120, 120, 120)
+texture_filter = 0
+
+[sub_resource type="BoxMesh" id="BoxMesh_5aegw"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hqg21"]
+
+[node name="Floor1" type="StaticBody3D" unique_id=369569621 groups=["WorldObject"]]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=618120854]
+material_override = SubResource("StandardMaterial3D_lkbcg")
+mesh = SubResource("BoxMesh_5aegw")
+skeleton = NodePath("../../..")
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=224154419]
+shape = SubResource("BoxShape3D_hqg21")
+debug_color = Color(0, 0.6493134, 0.160826, 0.41960785)

@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://oms6afsnm2ut"]
+
+[ext_resource type="Script" uid="uid://ditovw111du03" path="res://Objects/FX/Explosion/explosion.gd" id="1_6qb35"]
+[ext_resource type="PackedScene" uid="uid://b2r207xerjoa7" path="res://Objects/FX/Explosion/explosionTexViewport.tscn" id="2_p4bih"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p4bih"]
+transparency = 1
+shading_mode = 0
+disable_fog = true
+texture_filter = 0
+disable_receive_shadows = true
+grow_amount = -0.138
+
+[sub_resource type="QuadMesh" id="QuadMesh_3e4vi"]
+flip_faces = true
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_mesi4"]
+radius = 1.0372139
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_p4bih"]
+radius = 2.0
+
+[node name="Explosion" type="Node3D" unique_id=1753175819]
+script = ExtResource("1_6qb35")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1380442561]
+light_color = Color(0.6521308, 0.6486283, 1.92523e-07, 1)
+light_energy = 25.0
+light_indirect_energy = 16.0
+light_volumetric_fog_energy = 16.0
+omni_range = 6.0
+
+[node name="MeshViewport" type="MeshInstance3D" parent="." unique_id=1443598260]
+material_override = SubResource("StandardMaterial3D_p4bih")
+mesh = SubResource("QuadMesh_3e4vi")
+
+[node name="ExplosionTexViewport" parent="." unique_id=1983150656 instance=ExtResource("2_p4bih")]
+
+[node name="DamageArea" type="Area3D" parent="." unique_id=1073443883]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DamageArea" unique_id=1098980202]
+shape = SubResource("SphereShape3D_mesi4")
+debug_color = Color(0.75572836, 0, 0.14422184, 0.41960785)
+
+[node name="ScreenEffectArea" type="Area3D" parent="." unique_id=836829527]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ScreenEffectArea" unique_id=464771736]
+shape = SubResource("SphereShape3D_p4bih")
+debug_color = Color(1.0107458e-06, 0.4704672, 0.3935331, 0.41960785)
+
+[connection signal="area_shape_entered" from="DamageArea" to="." method="_on_damage_area_area_shape_entered"]
+[connection signal="area_shape_exited" from="DamageArea" to="." method="_on_damage_area_area_shape_exited"]
+[connection signal="area_shape_entered" from="ScreenEffectArea" to="." method="_on_screen_effect_area_area_shape_entered"]
+[connection signal="area_shape_exited" from="ScreenEffectArea" to="." method="_on_screen_effect_area_area_shape_exited"]
