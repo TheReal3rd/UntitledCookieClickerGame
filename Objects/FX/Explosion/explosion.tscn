@@ -49,6 +49,4 @@ shape = SubResource("SphereShape3D_p4bih")
 debug_color = Color(1.0107458e-06, 0.4704672, 0.3935331, 0.41960785)
 
 [connection signal="area_shape_entered" from="DamageArea" to="." method="_on_damage_area_area_shape_entered"]
-[connection signal="area_shape_exited" from="DamageArea" to="." method="_on_damage_area_area_shape_exited"]
 [connection signal="area_shape_entered" from="ScreenEffectArea" to="." method="_on_screen_effect_area_area_shape_entered"]
-[connection signal="area_shape_exited" from="ScreenEffectArea" to="." method="_on_screen_effect_area_area_shape_exited"]

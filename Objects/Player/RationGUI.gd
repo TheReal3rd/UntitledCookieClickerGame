@@ -16,9 +16,6 @@ func _process(delta: float) -> void:
 			if fadeRect.modulate.a <= 0.1:
 				fadeRect.hide()
 
-func _on_exit_button_pressed() -> void:
-	pass # Replace with function body.
-
 func _on_player_update_ration_elements() -> void:
 	var playerNode: Node = global.getPlayer()
 	if playerNode:

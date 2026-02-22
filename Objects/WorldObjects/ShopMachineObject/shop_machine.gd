@@ -1,6 +1,5 @@
 extends AbstractInteractionObject
 
-@onready var global = get_node("/root/Global")
 @onready var soundFX = $AudioStreamPlayer3D
 @onready var subViewport: SubViewport = $ShopScreenViewport
 @onready var screenContent: MeshInstance3D = $ScreenContents
@@ -12,6 +11,7 @@ var targetPlayerNode: Node3D
 
 func _ready() -> void:
 	screenContent.hide()
+	setUnlocked(false)
 
 @warning_ignore("unused_parameter")
 func _process(delta: float) -> void:
@@ -27,6 +27,11 @@ func _process(delta: float) -> void:
 			soundFX.set_stream(idleSoundFX)
 			soundFX.set_playing(true)
 			soundFX.get_stream().set_loop(true)
+			
+	if not isUnlocked():
+		var flagTracker: FlagTracker = global.getFlagTracker()
+		if flagTracker:
+			setUnlocked(flagTracker.fetchFlag("UNLOCKED_SHOP_MACHINE"))
 
 func _on_audio_stream_player_3d_finished() -> void:
 	if not beenActivated:

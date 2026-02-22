@@ -10,3 +10,20 @@ func findClosest(fromObject: Node3D, toObjects: Array):
 			closestDist = tempDist
 			closestObject = obj
 	return closestObject 
+
+func listFiles(path: String) -> Array[String]:
+	var fileNames: Array[String] = []
+	var dir := DirAccess.open(path)
+	if dir == null:
+		printerr("Error directory wasn't found.")
+		return []
+	
+	dir.list_dir_begin()
+	var fileName = dir.get_next()
+	while fileName != "":
+		if dir.current_is_dir():
+			continue
+		fileNames.append(fileName)
+		fileName = dir.get_next()
+	dir.list_dir_end()
+	return fileNames

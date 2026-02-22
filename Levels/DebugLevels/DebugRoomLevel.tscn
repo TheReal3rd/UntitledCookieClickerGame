@@ -11,9 +11,12 @@
 [ext_resource type="PackedScene" uid="uid://d0a6eocsw20fe" path="res://Objects/WorldObjects/RationMachineObject/RationMachineObject.tscn" id="7_27uk3"]
 [ext_resource type="PackedScene" uid="uid://d2em0wvp5u3q3" path="res://Objects/WorldObjects/ScreenManObject/ScreenManObject.tscn" id="8_iuipq"]
 [ext_resource type="PackedScene" uid="uid://da5hfxjcweeeh" path="res://Objects/WorldObjects/ShopMachineObject/ShopMachine.tscn" id="9_gp81c"]
+[ext_resource type="PackedScene" uid="uid://g7d5mhcev7c8" path="res://Objects/WorldObjects/FoodObjects/RationCane.tscn" id="10_7rumx"]
 [ext_resource type="PackedScene" uid="uid://dg70eyyoiakmt" path="res://Objects/WorldObjects/BarrelObject.tscn" id="10_iuipq"]
 [ext_resource type="PackedScene" uid="uid://bi6lbcp8vmgv7" path="res://Objects/WorldObjects/BomberPlane/GanetsPigBomberPlaneObjects.tscn" id="10_wxr5l"]
+[ext_resource type="PackedScene" uid="uid://bva046amj6nic" path="res://Objects/WorldObjects/FoodObjects/CerealBoxObject.tscn" id="11_6qtp4"]
 [ext_resource type="PackedScene" uid="uid://dpcs5nl020wot" path="res://Objects/CharacterObjects/CyborgTankUtilityCharacter.tscn" id="12_xjoyh"]
+[ext_resource type="PackedScene" uid="uid://d0m75helwmvtn" path="res://Objects/WorldObjects/QuotaKioskMachineObject/QuotaKioskMachine.tscn" id="17_6qtp4"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dg1wh"]
 albedo_texture = ExtResource("1_4cwhj")
@@ -41,7 +44,7 @@ fog_depth_curve = 0.210225
 
 [sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_h8wmi"]
 
-[sub_resource type="Compositor" id="Compositor_61cbs"]
+[sub_resource type="Compositor" id="Compositor_wxr5l"]
 
 [sub_resource type="Curve3D" id="Curve3D_wxr5l"]
 _data = {
@@ -82,7 +85,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.27281475, 4.3694096, 5.7061
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=227237304]
 environment = SubResource("Environment_dg1wh")
 camera_attributes = SubResource("CameraAttributesPhysical_h8wmi")
-compositor = SubResource("Compositor_61cbs")
+compositor = SubResource("Compositor_wxr5l")
 
 [node name="OmniLight3D2" type="OmniLight3D" parent="." unique_id=805050267]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.990266, 22.84673, -15.836235)
@@ -113,6 +116,7 @@ fallingLogic = true
 
 [node name="Barrels" parent="Objects" unique_id=2129989016 instance=ExtResource("10_iuipq")]
 transform = Transform3D(0.67282367, 0, 0.43279132, 0, 0.8, 0, -0.43279132, 0, 0.67282367, 4.991365, 0.5, 41.151375)
+highRadiation = true
 
 [node name="SingleStackFilingCabnetObject" parent="Objects" unique_id=1460401148 instance=ExtResource("3_rmcle")]
 transform = Transform3D(0.02406575, 0, -0.9997104, 0, 1, 0, 0.9997104, 0, 0.02406575, -14.749584, 0.5, 9.163171)
@@ -132,6 +136,23 @@ billboard = 1
 no_depth_test = true
 text = "Game World Objects"
 
+[node name="Barrels2" parent="Objects" unique_id=1059377891 instance=ExtResource("10_iuipq")]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -1.3080728, 0.5, 32.26431)
+barrelTexture = 1
+
+[node name="RationCane" parent="Objects" unique_id=159231654 instance=ExtResource("10_7rumx")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -14.940885, 0.5, 8.092455)
+
+[node name="CerealBoxObject" parent="Objects" unique_id=1417288722 instance=ExtResource("11_6qtp4")]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, -14.580023, 0.5, 7.1819572)
+
+[node name="CerealBoxObject2" parent="Objects" unique_id=700218871 instance=ExtResource("11_6qtp4")]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, -14.119554, 0.5, 6.8372583)
+selectedTexture = 1
+
+[node name="QuotaKioskMachine" parent="Objects" unique_id=2088049176 instance=ExtResource("17_6qtp4")]
+transform = Transform3D(-0.1152666, 0, -0.9933346, 0, 1, 0, 0.9933346, 0, -0.1152666, -13.703076, 1.1192725, -15.550472)
+
 [node name="RationMachineObject" parent="." unique_id=1316815407 instance=ExtResource("7_27uk3")]
 transform = Transform3D(-0.9995578, 0, 0.0297361, 0, 1, 0, -0.0297361, 0, -0.9995578, -14.922035, 0.5, -13.228025)
 
@@ -145,7 +166,7 @@ transform = Transform3D(0.031096766, 0, -0.99951637, 0, 1, 0, 0.99951637, 0, 0.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.337955, 0.5625, 12.543808)
 
 [node name="GanetsPigBomberPlaneObjects" parent="." unique_id=1705454976 instance=ExtResource("10_wxr5l")]
-transform = Transform3D(-1.1800311, -2.3841858e-07, -3.8219795, 0.51539725, 3.9634635, -0.15912819, 3.7870693, -0.5394034, -1.1692522, 9.051258, -0.45577288, -37.623844)
+transform = Transform3D(-1.1597465, 0.15062475, -3.825219, 0.5151824, 3.9666843, 0, 3.7933593, -0.4926713, -1.169487, 9.051258, -0.45577288, -37.623844)
 staticObject = true
 playingAnimation = 6
 

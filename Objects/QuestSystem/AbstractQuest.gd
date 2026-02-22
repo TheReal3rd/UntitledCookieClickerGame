@@ -9,7 +9,7 @@ var completed: bool = false : get = isCompleted, set = setCompleted
 var questLog: Array = [Pair.new("TemplateName", ["TemplateMessage1", "TemplateMessage2"])] : get = getQuestLog
 
 var quotaAmount: int = 1000 : get = getQuotaAmount
-var quotaDeadline: Array = []
+var quotaDeadline: Array = [] : get = getQuotaOffset
 
 func _init(newQuestID:int, newName:String, newDescription:String, newQuestLog:Array, newQuotaAmount:int = -1, newQuotaDeadline: Array = []) -> void:
 	questName = newName
@@ -65,4 +65,7 @@ func setData(saveData:Dictionary) -> void:
 		
 func resetData() -> void:
 	completed = false
+	
+func getQuotaOffset() -> Array:
+	return quotaDeadline
 	

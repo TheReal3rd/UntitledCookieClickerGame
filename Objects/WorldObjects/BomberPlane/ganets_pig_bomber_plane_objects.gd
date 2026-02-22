@@ -37,22 +37,22 @@ func _ready() -> void:
 
 @warning_ignore("unused_parameter")
 func _process(delta: float) -> void:
+	if not isReady:
+		attachBombs()
+		isReady = true
+	else:
+		if bombObject1 and not bombDropped1:
+			bombObject1.set_global_position(bombPoint1.get_global_position())
+			bombObject1.set_rotation_degrees(get_rotation_degrees() + Vector3(0,0,-90))
+			
+		if bombObject2 and not bombDropped2:
+			bombObject2.set_global_position(bombPoint2.get_global_position())
+			bombObject2.set_rotation_degrees(get_rotation_degrees() + Vector3(0,0,-90))
+	
 	if not staticObject:
 		if Time.get_ticks_msec() - prevUpdateIntervals >= 100:
 			prevUpdateIntervals = Time.get_ticks_msec()
 			prevPosition = get_global_position()
-		
-		if not isReady:
-			attachBombs()
-			isReady = true
-		else:
-			if bombObject1 and not bombDropped1:
-				bombObject1.set_global_position(bombPoint1.get_global_position())
-				bombObject1.set_rotation_degrees(get_rotation_degrees() + Vector3(0,0,-90))
-			
-			if bombObject2 and not bombDropped2:
-				bombObject2.set_global_position(bombPoint2.get_global_position())
-				bombObject2.set_rotation_degrees(get_rotation_degrees() + Vector3(0,0,-90))
 				
 		if get_parent() is PathFollow3D and not pathFollowNode:
 			pathFollowNode = get_parent()

@@ -1,6 +1,5 @@
 class_name Pair extends Resource
 
-
 var first = null : get = getFirst, set = setFirst
 var second = null : get = getSecond, set = setSecond
 

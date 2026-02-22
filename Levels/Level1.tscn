@@ -10,6 +10,9 @@
 [ext_resource type="PackedScene" uid="uid://d0a6eocsw20fe" path="res://Objects/WorldObjects/RationMachineObject/RationMachineObject.tscn" id="7_dl8mf"]
 [ext_resource type="PackedScene" uid="uid://c61nuejbmxkeb" path="res://Objects/WorldObjects/CCTVCameraObject.tscn" id="9_5g41i"]
 [ext_resource type="PackedScene" uid="uid://cilfxjw7kmmn3" path="res://Objects/WorldObjects/DoubleStackFilingCabnetObject.tscn" id="10_7fl83"]
+[ext_resource type="PackedScene" uid="uid://bva046amj6nic" path="res://Objects/WorldObjects/FoodObjects/CerealBoxObject.tscn" id="11_p5226"]
+[ext_resource type="PackedScene" uid="uid://g7d5mhcev7c8" path="res://Objects/WorldObjects/FoodObjects/RationCane.tscn" id="12_tuji2"]
+[ext_resource type="PackedScene" uid="uid://d0m75helwmvtn" path="res://Objects/WorldObjects/QuotaKioskMachineObject/QuotaKioskMachine.tscn" id="13_f5cpa"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iotdp"]
 albedo_texture = ExtResource("1_fhqol")
@@ -194,7 +197,7 @@ mesh = SubResource("CylinderMesh_05pb0")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2725887, 1.802, -0.14321518)
 
 [node name="ScreenManObject" parent="." unique_id=1010964780 instance=ExtResource("3_nutv8")]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 2.375817, 0.49999952, -3.7510521)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 2.715601, 0.49999952, -3.7510521)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=2101731965]
 environment = SubResource("Environment_w77jt")
@@ -223,4 +226,13 @@ metadata/_edit_lock_ = true
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 3.574775, 0.5, 3.6944058)
 
 [node name="DoubleStackFilingCabnetObject" parent="." unique_id=1736756020 instance=ExtResource("10_7fl83")]
-transform = Transform3D(-0.87628984, 0, 0.48178428, 0, 1, 0, -0.48178428, 0, -0.87628984, 3.9226367, 0.5, -3.832062)
+transform = Transform3D(-0.87628984, 0, 0.48178428, 0, 1, 0, -0.48178428, 0, -0.87628984, 3.7667105, 0.5, -3.7188435)
+
+[node name="CerealBoxObject" parent="." unique_id=1417288722 instance=ExtResource("11_p5226")]
+transform = Transform3D(0.49160278, 0, 0.49832386, 0, 0.7, 0, -0.49832386, 0, 0.49160278, 3.3869727, 0.50152576, -4.3339233)
+
+[node name="RationCane" parent="." unique_id=159231654 instance=ExtResource("12_tuji2")]
+transform = Transform3D(0.4521121, 0, 0.213529, 0, 0.5, 0, -0.213529, 0, 0.4521121, 3.7566931, 1.8247969, -3.7036934)
+
+[node name="QuotaKioskMachine" parent="." unique_id=678135019 instance=ExtResource("13_f5cpa")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -2.1101825, 0.42042208, -4.0715322)

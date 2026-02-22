@@ -1,5 +1,8 @@
 class_name AbstractInteractionObject extends StaticBody3D
 
+@onready var global: Node = get_node("/root/Global")
+@onready var globalUtils: Node = get_node("/root/GlobalUtils")
+
 @warning_ignore("unused_signal")
 signal closeGUI
 @warning_ignore("unused_signal")

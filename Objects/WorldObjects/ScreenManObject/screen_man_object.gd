@@ -15,3 +15,7 @@ func _on_close_gui() -> void:
 
 func _on_open_gui() -> void:
 	setActive(true)
+	var flagTracker: FlagTracker = global.getFlagTracker()
+	if flagTracker:
+		flagTracker.pushFlag("FIRST_INTERACT_MANN_MACHINE", true)
+	

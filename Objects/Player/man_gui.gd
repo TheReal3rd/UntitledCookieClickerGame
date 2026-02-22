@@ -33,6 +33,6 @@ func updateMessageLog():
 				entry.setMessage(msg)
 				entryContainer.add_child(entry)
 			
-	var player:Node = global.getPlayer()
-	if player:
-		player.setFirstOpenedMan(true)
+	var flagTracker: FlagTracker = global.getFlagTracker()
+	if flagTracker:
+		flagTracker.fetchFlag("FIRST_INTERACT_MANN_MACHINE")

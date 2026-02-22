@@ -13,9 +13,9 @@ func _init() -> void:
 	])], -1)
 
 func executeCheck() -> bool:
-	var player: Node = managerBackRef.getGlobalRef().getPlayer()
-	if player:
-		return player.isFirstOpenedMan()
+	var flagTracker: FlagTracker = managerBackRef.getGlobalRef().getFlagTracker()
+	if flagTracker:
+		return flagTracker.fetchFlag("FIRST_INTERACT_MANN_MACHINE")
 	else:
 		return false 
 

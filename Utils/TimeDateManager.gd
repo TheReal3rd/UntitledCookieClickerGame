@@ -40,19 +40,65 @@ func hasPassedTimeAndDate(date: Array) -> bool:
 		printerr("Invalid length provided within date array.")
 		return false
 	
-	var dateAndTimeNow = getTimeDate()
-	#for x in 
+	if year > date[2]:
+		return true
+	elif month > date[1]:
+		return true
+	elif day == date[0]:
+		if hours > date[3]:
+			return true
+		elif hours == date[3]:
+			if  minutes == date[4] or seconds > date[5]:
+				return true
+			elif minutes > date[4]:
+				return true
 	return false
 		
 func offsetTimeAndDate(fromDate:Array, offsetAmountDate: Array) -> Array:
 	if fromDate.size() < 6 or offsetAmountDate.size() < 6:
-		printerr("Invalid length provided within date array.")
+		printerr("Invalid length provided within date and time array. Must have 6 values of, Day/Month/Year/Hour/Minutes/Seconds")
 		return []
 	
+	var maxValues: Array = [30, 12, -1, 24, 60, 60 ]
+	#Date Offsetting and Addition
+	var carryAmount: int = 0
 	var result: Array = []
-	for value in range(0, fromDate.size()):
-		result.append(fromDate[value] + offsetAmountDate[value])
-		
+	for value in range(0, 3):
+		var addition = fromDate[value] + offsetAmountDate[value] + carryAmount
+		if maxValues[value] != -1 and addition >= maxValues[value]:
+			carryAmount = roundi(addition / maxValues[value])
+			var sub: int = addition - maxValues[value]
+			if sub <= 0:
+				sub = 1
+			result.append(sub)
+			continue
+			
+		result.append(addition)
+		carryAmount = 0
+	
+	#Time Offsetting and Addition
+	var index = 5
+	var resultTime: Array = []
+	var dayAddition = 0
+	while index != 2:
+		var addition = fromDate[index] + offsetAmountDate[index] + carryAmount
+		if addition >= maxValues[index]:
+			carryAmount = floor(addition / maxValues[index])
+			if index == 3:
+				dayAddition = carryAmount
+			resultTime.append(addition - maxValues[index])
+			index -= 1
+			continue
+			
+		resultTime.append(clamp(addition, 0, maxValues[index]))
+		carryAmount = 0
+		index -= 1
+	
+	if dayAddition != 0:
+		result[0] += dayAddition
+	
+	resultTime.reverse()
+	result.append_array(resultTime)
 	return result
 		
 func randomizeDateAndTime() -> void:
@@ -62,11 +108,20 @@ func randomizeDateAndTime() -> void:
 	minutes = randi_range(1, 60)
 	seconds = randi_range(1, 60)
 		
-func getTimeFormatted() -> String:
+func getTimeFormatted(dateArray: Array = []) -> String:
+	if dateArray.size() == 6:
+		return "%02d:%02d:%02d" % [dateArray[3], dateArray[4], dateArray[5]]
 	return "%02d:%02d:%02d" % [hours, minutes, seconds]
 	
-func getDateFormatted() -> String:
+func getDateFormatted(dateArray: Array = []) -> String:
+	if dateArray.size() == 6:
+		return "%02d/%02d/%04d" % [dateArray[0], dateArray[1], dateArray[2]]
 	return "%02d/%02d/%04d" % [day, month, year]
+	
+func getDateTimeFormatted(dateArray: Array = []) -> String:
+	if dateArray.size() == 6:
+		return "%02d/%02d/%04d - %02d:%02d:%02d" % [dateArray[0], dateArray[1], dateArray[2], dateArray[3], dateArray[4], dateArray[5]]
+	return "%02d/%02d/%04d - %02d:%02d:%02d" % [day, month, year, hours, minutes, seconds]
 		
 func getTimeDate() -> Array:
 	return [day, month, year, hours, minutes, seconds]

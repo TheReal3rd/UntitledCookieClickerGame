@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://c6fu0s10uqd8c"]
 
 [ext_resource type="Script" uid="uid://cj8wic6b8dbpu" path="res://Objects/WorldObjects/RationMachineObject/GUIElements/cookie_hologram_object.gd" id="1_jsgj3"]
-[ext_resource type="PackedScene" uid="uid://cut2b415k2ypm" path="res://Assets/RationCane/foodCane.gltf" id="2_ej0dd"]
+[ext_resource type="PackedScene" uid="uid://cut2b415k2ypm" path="res://Assets/Objects/RationCane/foodCane.gltf" id="2_ej0dd"]
 [ext_resource type="Material" uid="uid://bcy861na1xaqs" path="res://Objects/WorldObjects/RationMachineObject/GUIElements/HologramShader.tres" id="3_qw6ns"]
 
 [node name="CookieHologramObject" type="SubViewport"]

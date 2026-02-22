@@ -12,6 +12,6 @@ func executeCheck() -> bool:
 	return managerBackRef.getGlobalRef().getScore() >= 100
 
 func completionTask() -> void:
-	var player: Node = managerBackRef.getGlobalRef().getPlayer()
-	if player:
-		player.setShopLockState(true)
+	var flagTracker: FlagTracker = managerBackRef.getGlobalRef().getFlagTracker()
+	if flagTracker:
+		flagTracker.pushFlag("UNLOCKED_SHOP_MACHINE", true)

@@ -1,5 +1,7 @@
 extends Node
 
+@onready var globalUtils: Node = get_node("/root/GlobalUtils")
+
 @onready var debugMenuPath = preload("res://DebugAndTesting/TestingWindow.tscn")
 var debugMenuOpen: bool = false : set = setDebugMenuState, get = isDebugMenuOpen
 
@@ -12,59 +14,49 @@ const settingSavePath: String = "user://settingData.json"
 var cookie: Node3D : get = getCookie, set = setCookie
 var player: Node3D : get = getPlayer, set = setPlayer
 var cookieScore:int = 0 : get = getScore, set = setScore
+var cookieProdPerClick: int = 0 : get = getProdPerClick
 var poisonTotal:int = 0 : get = getPoisenLevel
 
+#TODO move upgrades to its own manager.
 var upgrades: Dictionary = {} : get = getUpgrades
 var questManager: QuestManager : get = getQuestManager
-var gameStarted: bool = false : get = isGameStarted
 var timeDateManager: TimeDateManger : get = getTimeDateManager
+var flagTracker: FlagTracker : get = getFlagTracker
 
+var gameStarted: bool = false : get = isGameStarted
+
+#TODO create a func calling when the settings is loaded or updated.
 var settings: Array[Setting] = [
-	Setting.new("ShowFPS", false)
+	Setting.new("ShowFPS", false),
+	Setting.new("FullScreen", false)
 ] : get = getSettings
 
 func startGame() -> void:
 	registerUpgrades()
 	readUpgradeData(true)
-	questManager = QuestManager.new(self)
+	questManager = QuestManager.new(self, globalUtils)
 	timeDateManager = TimeDateManger.new()
+	flagTracker = FlagTracker.new()
 	readSettingData(true)
+	
+	if getSettingByName("FullScreen").getValue():
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+	else:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+	
 	gameStarted = true
 	
 func _notification(what: int) -> void:
-	if not gameStarted:
-		return
-		
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
-		writeUpgradeData()
-		writePlayerData()
-		questManager.writeQuestData()
-		writeSettingData()
+		saveGame()
 		get_tree().quit()  
 
 func playerIsReady() -> void:
 	if questManager:
 		questManager.playerIsReady()
 
-func listFiles(path: String) -> Array[String]:
-	var fileNames: Array[String] = []
-	var dir := DirAccess.open(path)
-	if dir == null:
-		printerr("Error directory wasn't found.")
-		return []
-	
-	dir.list_dir_begin()
-	var fileName = dir.get_next()
-	while fileName != "":
-		if dir.current_is_dir():
-			continue
-		fileNames.append(fileName)
-		fileName = dir.get_next()
-	dir.list_dir_end()
-	return fileNames
-
 func registerUpgrades() -> void:
-	var files: Array[String] = listFiles("res://Objects/Upgrades/Upgrades/")
+	var files: Array[String] = globalUtils.listFiles("res://Objects/Upgrades/Upgrades/")
 	for file in files:
 		if file.ends_with(".gd") or file.ends_with(".gdc"):
 			var loadedInstance = load("res://Objects/Upgrades/Upgrades/" + file)
@@ -214,7 +206,11 @@ func cookieClick():
 		if upgrade.getLevel() <= 0:
 			continue
 		value = upgrade.onClickAction(value, self)
+		cookieProdPerClick = value
 	changeScore(value)
+	
+func getProdPerClick() -> int:
+	return cookieProdPerClick
 	
 func actionExecution():
 	player.emit_signal("updateShopElements")
@@ -294,14 +290,23 @@ func isDebugMenuOpen():
 func setDebugMenuState(newState: bool):
 	debugMenuOpen = newState
 
-func exitGame() -> void:
+func saveGame() -> void:
+	writeSettingData()
 	writePlayerData()
 	writeUpgradeData()
+	if flagTracker:
+		flagTracker.writeFlagData()
 	if questManager:
 		questManager.writeQuestData()
+
+func exitGame() -> void:
+	saveGame()
 	get_tree().free()
 	
 func resetGame() -> void:
+	if not gameStarted:
+		return
+	
 	setScore(0)
 	if player:
 		player.resetPlayer()
@@ -313,4 +318,7 @@ func resetGame() -> void:
 	writeUpgradeData()
 	questManager.writeQuestData()
 	timeDateManager.randomizeDateAndTime()
+	flagTracker.reset()
 	
+func getFlagTracker() -> FlagTracker:
+	return flagTracker

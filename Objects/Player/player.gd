@@ -1,6 +1,6 @@
 class_name playerObject extends CharacterBody3D
 
-@onready var cameraNode:Camera3D = $Camera3D
+@onready var cameraNode:playerCamera = $Camera3D
 @onready var cookieLabel: Label = $Camera3D/CameraOverlays/HUD/ScoreLabel
 @onready var questLabel: Label = $Camera3D/CameraOverlays/HUD/QuestLabel
 @onready var global = get_node("/root/Global")
@@ -27,13 +27,12 @@ class_name playerObject extends CharacterBody3D
 @onready var deathAudioStream: AudioStreamPlayer2D = $Camera3D/CameraOverlays/DeathScreen/DeathAudioStream
 @onready var screenManGUI: Control = $Camera3D/CameraOverlays/ManGUI
 @onready var hudShader: ColorRect = $Camera3D/CameraOverlays/HUD/HudShader
+@onready var quotaMachineGUI: Control = $Camera3D/CameraOverlays/QuotaMachineScreen
 
 const SPEED: float = 5.0
 const JUMP_VELOCITY: float = 4.5
 const MAX_HUNGER: float = 100.0
 
-var yaw: float = 0.0
-var pitch: float = 0.0
 var sensitivity: float = 0.1
 var mouseTrack: bool = false
 var hungerLevel: float = 100.0 : set = setHungerLevel
@@ -48,16 +47,14 @@ const maxHealth: float  = 100
 var damageTimer = 0;
 const damageDelayAmount = 500
 
+@warning_ignore("shadowed_global_identifier")
 var cookieObject: Node3D
 var hoverObject: Node3D
 
 @warning_ignore("unused_signal")
 signal openShopScreen(machine:Node)
 var shopOpen: bool = false : get = isInShop
-var shopUnlocked: bool = false : get = isShopUnlocked, set = setShopLockState
 var shopMachineNode : Node
-
-var firstOpenedMan: bool = false : set = setFirstOpenedMan
 
 @warning_ignore("unused_signal")
 signal updateShopElements
@@ -65,6 +62,9 @@ signal updateShopElements
 signal updateRationElements
 @warning_ignore("unused_signal")
 signal playerDeath
+
+@warning_ignore("unused_signal")
+signal exitGUIButton
 
 @warning_ignore("unused_signal")
 signal healPlayer(amount: float)
@@ -82,11 +82,12 @@ var radioObjects: Array = []
 signal radioObjectNotifyAdd(radioObject: StaticBody3D)
 @warning_ignore("unused_signal")
 signal radioObjectNotifyRemove(radioObject: StaticBody3D)
-var shadersChanged: bool = false
+
+@warning_ignore("unused_signal")
+signal explosionScreenEffect()
 
 #Debug Fly
 @export var debugFly: bool = false
-
 
 func _ready() -> void:
 	global.setPlayer(self)
@@ -107,6 +108,7 @@ func _ready() -> void:
 	crtShaderOverlays.hide()
 	deathScreen.hide()
 	screenManGUI.hide()
+	quotaMachineGUI.hide()
 	updateSettingsStats()
 
 func _input(event: InputEvent) -> void:
@@ -125,11 +127,14 @@ func _unhandled_input(event: InputEvent) -> void:
 		var mouseEvent: InputEventMouseMotion = event
 		if not mouseTrack:
 			return
+		var pitch: float = cameraNode.getPitch()
+		var yaw: float = cameraNode.getYaw()
 		yaw -= mouseEvent.relative.x * sensitivity
 		pitch -= mouseEvent.relative.y * sensitivity
 		pitch = clamp(pitch, -89, 89)
 		rotation_degrees.y = yaw
-		cameraNode.rotation_degrees.x = pitch
+		cameraNode.setPitch(pitch)
+		cameraNode.setYaw(yaw)
 		interactRaycast.set_rotation(cameraNode.get_rotation())
 		spotLight.set_rotation(cameraNode.get_rotation())
 	
@@ -144,9 +149,13 @@ func _unhandled_input(event: InputEvent) -> void:
 			if not interactRaycast.is_colliding():
 				return
 			
-			if interactRaycast.get_collider() is StaticBody3D:
-				var interactionObject: StaticBody3D = interactRaycast.get_collider()
+			if interactRaycast.get_collider() is cookieObject:
+				var interactionObject: cookieObject = interactRaycast.get_collider()
 				if interactionObject.is_in_group("CookieObject"):
+					if not global.getFlagTracker().fetchFlag("FIRST_INTERACT_MANN_MACHINE"):
+						return
+						
+					interactionObject.clickEffects(global.getProdPerClick())
 					global.cookieClick()
 			
 		elif mouseIndex == 2:#Right
@@ -183,17 +192,16 @@ func _process(delta: float) -> void:
 		var closestObject: Node3D = globalUtils.findClosest(self, radioObjects)
 		if closestObject:
 			var distance: float = get_global_position().distance_to(closestObject.get_global_position())
-			hudShader.material.set_shader_parameter("noise_strength", move_toward(0.48, 0.048, (distance * 2) * delta))
-			hudShader.material.set_shader_parameter("distortion_strength", move_toward(0.48, 0.1, (distance * 2) * delta))
-			hudShader.material.set_shader_parameter("ghost_strength", move_toward(0.48, 0.12, (distance * 2) * delta))
-			shadersChanged = true
-	else:
-		if shadersChanged:
-			hudShader.material.set_shader_parameter("noise_strength", 0.048)
-			hudShader.material.set_shader_parameter("distortion_strength", 0.1)
-			hudShader.material.set_shader_parameter("ghost_strength", 0.12)
-			shadersChanged = false
-		
+			var dura: float = -1
+			if distance >= 10.0:
+				dura = 500
+			cameraNode.emit_signal("submitShaderChange", 
+				move_toward(0.48, 0.048, (distance * 2) * delta), 
+				move_toward(0.48, 0.1, (distance * 2) * delta), 
+				move_toward(0.48, 0.12, (distance * 2) * delta), 
+				dura
+			)
+
 	interactRaycast.force_raycast_update()
 	if interactRaycast.is_colliding() and interactRaycast.get_collider() is AbstractInteractionObject:
 		var interactionObject: AbstractInteractionObject = interactRaycast.get_collider()
@@ -265,21 +273,30 @@ func _on_open_shop_screen(machine:Node) -> void:
 	crtShaderOverlays.show()
 	shopMachineNode = machine
 	hud.hide()
+	#TODO maybe improve this?
 	if machine.is_in_group("RationMachineObject"):
 		rationMachineGUI.show()
 		shopGUI.hide()
 		screenManGUI.hide()
+		quotaMachineGUI.hide()
 		emit_signal("updateRationElements")
 	elif machine.is_in_group("ShopMachineObject"):
 		shopGUI.show()
 		rationMachineGUI.hide()
 		screenManGUI.hide()
+		quotaMachineGUI.hide()
 		emit_signal("updateShopElements")
+	elif machine.is_in_group("QuotaKioskObject"):
+		shopGUI.hide()
+		rationMachineGUI.hide()
+		screenManGUI.hide()
+		quotaMachineGUI.show()
 	else:
 		screenManGUI.show()
 		screenManGUI.updateMessageLog()
 		shopGUI.hide()
 		rationMachineGUI.hide()
+		quotaMachineGUI.hide()
 
 func isInShop() -> bool:
 	return shopOpen
@@ -289,6 +306,7 @@ func closeShop() -> void:
 	shopGUI.hide()
 	rationMachineGUI.hide()
 	screenManGUI.hide()
+	quotaMachineGUI.hide()
 	shopOpen = false
 	mouseTrack = true
 	if Input.get_mouse_mode() == 0:
@@ -304,23 +322,19 @@ func _on_upgrade_execute_timer_timeout() -> void:
 	global.actionExecution()
 
 func _on_auto_save_timer_timeout() -> void:
-	global.writeUpgradeData()
-	global.writePlayerData()
+	global.saveGame()
 
 func _on_tree_exiting() -> void:
-	global.writeUpgradeData()
-	global.writePlayerData()
+	global.saveGame()
 	
 func getSaveData() -> Dictionary:
 	var location: Vector3 = get_global_position()
 	return {
-		"PosX" : location.x,
-		"PosY" : location.y,
-		"PosZ" : location.z,
-		"Yaw" : yaw,
-		"Pitch" : pitch,
-		"ShopLockState" : shopUnlocked,
-		"FirstOpenedMan" : firstOpenedMan,
+		"PosX" : roundf(location.x),
+		"PosY" : roundf(location.y),
+		"PosZ" : roundf(location.z),
+		"Yaw" : roundf(cameraNode.getYaw()),
+		"Pitch" : roundf(cameraNode.getPitch()),
 		"Dead": playerDead
 	}
 	
@@ -334,15 +348,9 @@ func setSaveData(data:Dictionary) -> void:
 		location.z = data.get("PosZ")
 		
 	if data.has("Yaw"):
-		yaw = data.get("Yaw")
+		cameraNode.setYaw(data.get("Yaw"))
 	if data.has("Pitch"):
-		pitch = data.get("Pitch")
-		
-	if data.has("ShopLockState"):
-		shopUnlocked = data.get("ShopLockState")
-		
-	if data.has("FirstOpenedMan"):
-		firstOpenedMan = data.get("FirstOpenedMan")
+		cameraNode.setPitch(data.get("Pitch"))
 		
 	if data.has("Dead"):
 		playerDead = data.get("Dead")
@@ -351,8 +359,7 @@ func setSaveData(data:Dictionary) -> void:
 		location.y = 4
 	
 	set_global_position(location)
-	rotation_degrees.y = yaw
-	cameraNode.rotation_degrees.x = pitch
+	rotation_degrees.y = cameraNode.getYaw()
 	
 func playSound(path:String, play:bool=true):
 	var stream = AudioStreamMP3.load_from_file(path)
@@ -364,12 +371,6 @@ func _on_ready() -> void:
 	
 func setQuestLabelText(questDesciption:String):
 	questLabel.set_text(questDesciption)
-
-func isShopUnlocked() -> bool:
-	return shopUnlocked
-	
-func setShopLockState(newState:bool) -> void:
-	shopUnlocked = newState
 
 func _on_hunger_timer_timeout() -> void:
 	changeHungerLevel(-0.5)
@@ -407,7 +408,7 @@ func updateSettingsStats() -> void:
 	
 func calcFoodPrice(foodItem:FoodItemEnum) -> int:
 	var price: int = 0
-	var multi:int = 0
+	var multi:int = 1
 	for upgrade:UpgradeAbstract in global.getUpgrades().values():
 		if upgrade.getLevel() <= 0:
 			continue
@@ -464,13 +465,6 @@ func _on_player_death() -> void:
 	deathAudioStream.play()
 	playerDead = true
 	global.writePlayerData()
-	
-func setFirstOpenedMan(openedState: bool):
-	firstOpenedMan = openedState
-	
-func isFirstOpenedMan():
-	return firstOpenedMan
-
 
 #Changed to restart. **
 func _on_respawn_button_pressed() -> void:
@@ -487,14 +481,11 @@ func resetPlayer() -> void:
 	resume()
 	closeShop()
 	hungerLevel = 100.0
-	yaw = 0.0
-	pitch = 0.0
-	shopUnlocked = false
+	cameraNode.setYaw(0.0)
+	cameraNode.setPitch(0.0)
 	playerDead = false
-	firstOpenedMan = false
 	deathAudioStream.stop()
-	rotation_degrees.y = yaw
-	cameraNode.rotation_degrees.x = pitch
+	rotation_degrees.y = cameraNode.getYaw()
 	interactRaycast.set_rotation(cameraNode.get_rotation())
 	spotLight.set_rotation(cameraNode.get_rotation())
 	set_global_position(Vector3(2.273, 1.802, -0.143))
@@ -520,7 +511,16 @@ func applyHealing(amount: float) -> void:
 	health = clamp(health, 0, maxHealth)
 
 func _on_damage_player(amount: float) -> void:
-	applyDamage(amount)
+	if global.isGameStarted():
+		applyDamage(amount)
 
 func _on_heal_player(amount: float) -> void:
 	applyHealing(amount)
+
+func _on_explosion_screen_effect() -> void:
+	cameraNode.emit_signal("submitShackChange", 1000)
+	cameraNode.emit_signal("submitShaderChange", 0.48, 0.48, 0.48, 1200)
+
+
+func _on_exit_gui_button() -> void:
+	closeShop()

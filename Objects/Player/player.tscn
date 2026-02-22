@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://wkq3todlh6i8" path="res://Objects/Player/player.gd" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://8ybfycqx3gyu" path="res://Objects/Player/player_camera_3d.gd" id="2_wl3ml"]
 [ext_resource type="Shader" uid="uid://bedfkiao5h0wn" path="res://Objects/Player/player.gdshader" id="2_yw17q"]
+[ext_resource type="PackedScene" uid="uid://dswd4xx1ul5w5" path="res://Objects/Player/Screen/QuotaMachineScreen/QuotaMachineScreen.tscn" id="3_ipsqe"]
 [ext_resource type="Shader" uid="uid://rssxxex1w1ec" path="res://Objects/WorldObjects/ScreenManObject/CRT.gdshader" id="3_l2ya6"]
 [ext_resource type="Theme" uid="uid://bhed8krggwjc0" path="res://Objects/WorldObjects/ShopMachineObject/ShopMachineTheme.tres" id="3_o1rty"]
 [ext_resource type="Texture2D" uid="uid://uwxrqjt1b0qe" path="res://Assets/Texture/BarTextures/HealthBarBack.png" id="3_thffa"]
@@ -128,6 +129,9 @@ script = ExtResource("2_wl3ml")
 metadata/_edit_lock_ = true
 
 [node name="CameraOverlays" type="CanvasLayer" parent="Camera3D" unique_id=365928902]
+
+[node name="QuotaMachineScreen" parent="Camera3D/CameraOverlays" unique_id=244762607 instance=ExtResource("3_ipsqe")]
+visible = false
 
 [node name="DeathScreen" type="Control" parent="Camera3D/CameraOverlays" unique_id=522981704]
 process_mode = 3
@@ -780,6 +784,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.12432861, 0)
 shape = SubResource("BoxShape3D_xgj1l")
 
 [connection signal="damagePlayer" from="." to="." method="_on_damage_player"]
+[connection signal="exitGUIButton" from="." to="." method="_on_exit_gui_button"]
+[connection signal="explosionScreenEffect" from="." to="." method="_on_explosion_screen_effect"]
 [connection signal="healPlayer" from="." to="." method="_on_heal_player"]
 [connection signal="openShopScreen" from="." to="." method="_on_open_shop_screen"]
 [connection signal="playerDeath" from="." to="." method="_on_player_death"]
@@ -789,6 +795,8 @@ shape = SubResource("BoxShape3D_xgj1l")
 [connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
 [connection signal="updateRationElements" from="." to="Camera3D/CameraOverlays/RationGUI" method="_on_player_update_ration_elements"]
 [connection signal="updateShopElements" from="." to="Camera3D/CameraOverlays/ShopGUI" method="_on_player_update_shop_elements"]
+[connection signal="submitShackChange" from="Camera3D" to="Camera3D" method="_on_submit_shack_change"]
+[connection signal="submitShaderChange" from="Camera3D" to="Camera3D" method="_on_submit_shader_change"]
 [connection signal="pressed" from="Camera3D/CameraOverlays/DeathScreen/RestartButton" to="." method="_on_respawn_button_pressed"]
 [connection signal="pressed" from="Camera3D/CameraOverlays/DeathScreen/ExitGameButton" to="." method="_on_exit_game_button_pressed"]
 [connection signal="pressed" from="Camera3D/CameraOverlays/ShopGUI/ExitButton" to="." method="_on_exit_button_pressed"]
