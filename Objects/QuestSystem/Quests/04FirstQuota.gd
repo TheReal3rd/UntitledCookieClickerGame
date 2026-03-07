@@ -8,6 +8,14 @@ func _init() -> void:
 	])], 1000, [ 2, 0, 0, 0, 0, 0 ])
 
 func executeCheck() -> bool:
+	var global: Node = managerBackRef.getGlobalRef()
+	if not global:
+		return false
+		
+	var timeDateMan: TimeDateManger = global.getTimeDateManager()
+	if timeDateMan:
+		var passedQuota: bool = timeDateMan.hasPassedTimeAndDate(managerBackRef.getQuotaDeadline())
+		return passedQuota and managerBackRef.isQuotaPaid() == 1
 	return false
 
 func completionTask() -> void:

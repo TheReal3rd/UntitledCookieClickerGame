@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://g7d5mhcev7c8"]
+
+[ext_resource type="PackedScene" uid="uid://cut2b415k2ypm" path="res://Assets/Objects/RationCane/foodCane.gltf" id="1_a37yk"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_nbthd"]
+height = 0.9992676
+radius = 0.32714844
+
+[node name="RationCane" type="StaticBody3D" unique_id=159231654]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+
+[node name="RationModel" parent="." unique_id=941850259 instance=ExtResource("1_a37yk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=40562440]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5003662, 0)
+shape = SubResource("CylinderShape3D_nbthd")

@@ -9,7 +9,7 @@ extends Control
 func _ready() -> void:
 	fadeRect.modulate.a = 1
 	fadeRect.show()
-	var upgrades: Dictionary = global.getUpgrades()
+	var upgrades: Dictionary = global.getUpgradeManager().getUpgrades()
 	var upgradeListSorted = upgrades.values().duplicate(true)
 	upgradeListSorted.sort_custom(func(a:UpgradeAbstract, b:UpgradeAbstract): return a.getPrice() < b.getPrice())
 	for upgrade in upgradeListSorted:

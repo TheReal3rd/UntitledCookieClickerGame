@@ -7,7 +7,7 @@ func _init() -> void:
 	])], -1)
 
 func executeCheck() -> bool:
-	var upgrade: UpgradeAbstract = managerBackRef.getGlobalRef().getUpgradeByName("Clicker")
+	var upgrade: UpgradeAbstract = managerBackRef.getGlobalRef().getUpgradeManager().getUpgradeByName("Clicker")
 	if upgrade:
 		return upgrade.getLevel() >= 1
 	else:

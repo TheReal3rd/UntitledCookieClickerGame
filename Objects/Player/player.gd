@@ -28,6 +28,7 @@ class_name playerObject extends CharacterBody3D
 @onready var screenManGUI: Control = $Camera3D/CameraOverlays/ManGUI
 @onready var hudShader: ColorRect = $Camera3D/CameraOverlays/HUD/HudShader
 @onready var quotaMachineGUI: Control = $Camera3D/CameraOverlays/QuotaMachineScreen
+@onready var terminalGUI: Control = $Camera3D/CameraOverlays/PlayerTerminalScreen
 
 const SPEED: float = 5.0
 const JUMP_VELOCITY: float = 4.5
@@ -118,6 +119,20 @@ func _input(event: InputEvent) -> void:
 				closeShop()
 			else:
 				pauseGame()
+		elif event.keycode == KEY_F:
+			if shopOpen or not global.getFlagTracker().fetchFlag("PLAYER_TERMINAL_UNLOCKED"):
+				return
+				
+			if Input.get_mouse_mode() == 2:
+				Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+			
+			mouseTrack = false
+			shopOpen = true
+			crtShaderOverlays.show()
+			hud.hide()
+			terminalGUI.show()
+				
+			
 
 func _unhandled_input(event: InputEvent) -> void:
 	if shopOpen:
@@ -232,7 +247,7 @@ func _process(delta: float) -> void:
 		elif cameraNode.is_position_in_frustum(cookieObject.get_global_position()):
 			cookieLabel.hide()
 	
-	var autoClickSpeed: UpgradeAbstract = global.getUpgradeByName("AutoClickerSpeed")
+	var autoClickSpeed: UpgradeAbstract = global.getUpgradeManager().getUpgradeByName("AutoClickerSpeed")
 	if autoClickSpeed and autoClickSpeed.getLevel() >= 1:
 		var clickTime:float = 10 - (autoClickSpeed.getLevel() * 0.5)
 		if upgradeExecuterTimer.get_wait_time() != clickTime:
@@ -307,6 +322,7 @@ func closeShop() -> void:
 	rationMachineGUI.hide()
 	screenManGUI.hide()
 	quotaMachineGUI.hide()
+	terminalGUI.hide()
 	shopOpen = false
 	mouseTrack = true
 	if Input.get_mouse_mode() == 0:

@@ -35,21 +35,56 @@ offset_bottom = -1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="KillPlayerButton" type="Button" parent="Control/VBoxContainer" unique_id=740516909]
+[node name="PlayerContainer" type="FoldableContainer" parent="Control/VBoxContainer" unique_id=2087726376]
 layout_mode = 2
-text = "Kill Player- Signal"
+folded = true
+title = "Player"
+title_alignment = 1
 
-[node name="ResetPlayerDataButton" type="Button" parent="Control/VBoxContainer" unique_id=2144252541]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/VBoxContainer/PlayerContainer" unique_id=807989286]
+visible = false
+layout_mode = 2
+
+[node name="ResetPlayerDataButton" type="Button" parent="Control/VBoxContainer/PlayerContainer/VBoxContainer" unique_id=2144252541]
 layout_mode = 2
 text = "Reset player data"
 
-[node name="LevelDebugRoomButton" type="Button" parent="Control/VBoxContainer" unique_id=559891260]
+[node name="KillPlayerButton" type="Button" parent="Control/VBoxContainer/PlayerContainer/VBoxContainer" unique_id=740516909]
+layout_mode = 2
+text = "Kill Player- Signal"
+
+[node name="LevelsContainer" type="FoldableContainer" parent="Control/VBoxContainer" unique_id=1319428240]
+layout_mode = 2
+folded = true
+title = "Levels"
+title_alignment = 1
+
+[node name="LevelDebugRoomButton" type="Button" parent="Control/VBoxContainer/LevelsContainer" unique_id=559891260]
+visible = false
 layout_mode = 2
 text = "Level: Debug Room"
 
-[node name="SpawnBombButton" type="Button" parent="Control/VBoxContainer" unique_id=1765467779]
+[node name="SpawnContainer" type="FoldableContainer" parent="Control/VBoxContainer" unique_id=421465118]
+layout_mode = 2
+folded = true
+title = "Spawning"
+title_alignment = 1
+
+[node name="SpawnBombButton" type="Button" parent="Control/VBoxContainer/SpawnContainer" unique_id=1765467779]
+visible = false
 layout_mode = 2
 text = "Spawn: 500kg Bomb"
+
+[node name="FlagContainer" type="FoldableContainer" parent="Control/VBoxContainer" unique_id=2077362959]
+layout_mode = 2
+folded = true
+title = "FLAGS"
+title_alignment = 1
+
+[node name="FlagTerminalUnlock" type="Button" parent="Control/VBoxContainer/FlagContainer" unique_id=1285192198]
+visible = false
+layout_mode = 2
+text = "FLAG->PLAYER_TERMINAL_UNLOCKED"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Control/VBoxContainer" unique_id=1994822422]
 layout_mode = 2
@@ -58,7 +93,8 @@ layout_mode = 2
 layout_mode = 2
 
 [connection signal="close_requested" from="." to="." method="_on_close_requested"]
-[connection signal="pressed" from="Control/VBoxContainer/KillPlayerButton" to="." method="_on_kill_player_button_pressed"]
-[connection signal="pressed" from="Control/VBoxContainer/ResetPlayerDataButton" to="." method="_on_reset_player_data_button_pressed"]
-[connection signal="pressed" from="Control/VBoxContainer/LevelDebugRoomButton" to="." method="_on_level_debug_room_button_pressed"]
-[connection signal="pressed" from="Control/VBoxContainer/SpawnBombButton" to="." method="_on_spawn_bomb_button_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer/PlayerContainer/VBoxContainer/ResetPlayerDataButton" to="." method="_on_reset_player_data_button_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer/PlayerContainer/VBoxContainer/KillPlayerButton" to="." method="_on_kill_player_button_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer/LevelsContainer/LevelDebugRoomButton" to="." method="_on_level_debug_room_button_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer/SpawnContainer/SpawnBombButton" to="." method="_on_spawn_bomb_button_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer/FlagContainer/FlagTerminalUnlock" to="." method="_on_flag_terminal_unlock_pressed"]

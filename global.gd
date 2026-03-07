@@ -7,7 +7,6 @@ var debugMenuOpen: bool = false : set = setDebugMenuState, get = isDebugMenuOpen
 
 var VERSION:String = "1.0" : get = getVersion
 
-const upgradeSavePath: String = "user://upgradeData.json"
 const playerSavePath: String = "user://playerData.json"
 const settingSavePath: String = "user://settingData.json"
 
@@ -18,33 +17,39 @@ var cookieProdPerClick: int = 0 : get = getProdPerClick
 var poisonTotal:int = 0 : get = getPoisenLevel
 
 #TODO move upgrades to its own manager.
-var upgrades: Dictionary = {} : get = getUpgrades
+var upgradeManager: UpgradeManager : get = getUpgradeManager
 var questManager: QuestManager : get = getQuestManager
 var timeDateManager: TimeDateManger : get = getTimeDateManager
 var flagTracker: FlagTracker : get = getFlagTracker
 
 var gameStarted: bool = false : get = isGameStarted
 
-#TODO create a func calling when the settings is loaded or updated.
 var settings: Array[Setting] = [
-	Setting.new("ShowFPS", false),
-	Setting.new("FullScreen", false)
+	Setting.new("ShowFPS", false, Callable.create(self, "voidNothing")),
+	Setting.new("FullScreen", false, Callable.create(self, "updateFullscreen"))
 ] : get = getSettings
 
+#Does nothing. For settings with no callables needed.
+@warning_ignore("unused_parameter")
+func voidNothing(settingValue) -> void:
+	pass
+
+func _ready() -> void:
+	readSettingData(true)
+
 func startGame() -> void:
-	registerUpgrades()
-	readUpgradeData(true)
+	upgradeManager = UpgradeManager.new(self, globalUtils)
 	questManager = QuestManager.new(self, globalUtils)
 	timeDateManager = TimeDateManger.new()
 	flagTracker = FlagTracker.new()
-	readSettingData(true)
 	
-	if getSettingByName("FullScreen").getValue():
+	gameStarted = true
+	
+func updateFullscreen(settingValue):
+	if settingValue:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-	
-	gameStarted = true
 	
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
@@ -54,60 +59,6 @@ func _notification(what: int) -> void:
 func playerIsReady() -> void:
 	if questManager:
 		questManager.playerIsReady()
-
-func registerUpgrades() -> void:
-	var files: Array[String] = globalUtils.listFiles("res://Objects/Upgrades/Upgrades/")
-	for file in files:
-		if file.ends_with(".gd") or file.ends_with(".gdc"):
-			var loadedInstance = load("res://Objects/Upgrades/Upgrades/" + file)
-			var instance = loadedInstance.new()
-			print("Upgrade Registered: %s" % instance.getName())
-			upgrades.set(instance.getName(), instance)
-		
-func readUpgradeData(allowDataWrite:bool=false) -> void:
-	if not FileAccess.file_exists(upgradeSavePath):
-		print("Upgrade Data Saved.")
-		if allowDataWrite:
-			writeUpgradeData()
-		return
-		
-	var file = FileAccess.open(upgradeSavePath, FileAccess.READ)
-	if file:
-		var jsonString: String = file.get_as_text()
-		var parsed = JSON.parse_string(jsonString)
-		var saveData: Dictionary = {}
-		if typeof(parsed) == TYPE_DICTIONARY:
-			saveData = parsed
-			print("Upgrade data loaded: ", saveData)
-		else:
-			printerr("Error: The Save file is not a dictionary?!")
-		file.close()
-		
-		for key in saveData.keys():
-			var data: int = saveData[key]
-			var tempUpgrade:UpgradeAbstract = upgrades[key]
-			if data < tempUpgrade.getMaxLevel():
-				tempUpgrade.setLevel(data)
-			else:
-				tempUpgrade.setLevel(tempUpgrade.getMaxLevel())
-	
-func convertUpgradeData() -> Dictionary:
-	var result: Dictionary = {}
-	for upgrade in upgrades.values():
-		result.set(upgrade.getName(), upgrade.getLevel())
-	return result
-	
-func writeUpgradeData() -> void:
-	if not gameStarted:
-		return
-	
-	var file = FileAccess.open(upgradeSavePath, FileAccess.WRITE)
-	if file:
-		var data: Dictionary = convertUpgradeData()
-		var jsonString = JSON.stringify(data)
-		file.store_string(jsonString)
-		file.close()
-		print("Upgrade Data Saved.")
 
 func writePlayerData() -> void:
 	if not gameStarted:
@@ -202,7 +153,7 @@ func cookieClick():
 	player.emit_signal("updateShopElements")
 	#questManager.executeChecks()
 	var value:int = 1
-	for upgrade in upgrades.values():
+	for upgrade in upgradeManager.getUpgrades().values():
 		if upgrade.getLevel() <= 0:
 			continue
 		value = upgrade.onClickAction(value, self)
@@ -217,7 +168,7 @@ func actionExecution():
 	#questManager.executeChecks()
 	var value: int = 0
 	var tempPoisenLevel: int = 0
-	for upgrade: UpgradeAbstract in upgrades.values():
+	for upgrade: UpgradeAbstract in upgradeManager.getUpgrades().values():
 		if upgrade.getLevel() <= 0:
 			continue
 		value += upgrade.executeAction(self)
@@ -253,12 +204,7 @@ func setScore(newScore):
 	cookieScore = newScore
 func changeScore(amount):
 	setScore(cookieScore + amount)
-	
-func getUpgrades() -> Dictionary:
-	return upgrades
-	
-func getUpgradeByName(nameUpgrade:String) -> UpgradeAbstract:
-	return upgrades.get(nameUpgrade)
+
 
 func getPoisenLevel() -> int:
 	return poisonTotal
@@ -268,6 +214,9 @@ func getVersion() -> String:
 
 func getQuestManager() -> QuestManager:
 	return questManager
+
+func getUpgradeManager() -> UpgradeManager:
+	return upgradeManager
 	
 func getTimeDateManager() -> TimeDateManger:
 	return timeDateManager
@@ -293,7 +242,8 @@ func setDebugMenuState(newState: bool):
 func saveGame() -> void:
 	writeSettingData()
 	writePlayerData()
-	writeUpgradeData()
+	if upgradeManager:
+		upgradeManager.writeUpgradeData()
 	if flagTracker:
 		flagTracker.writeFlagData()
 	if questManager:
@@ -312,10 +262,8 @@ func resetGame() -> void:
 		player.resetPlayer()
 	if questManager:
 		questManager.resetQuestData()
-	for upgrade: UpgradeAbstract in upgrades.values():
-		upgrade.resetData()
 	writePlayerData()
-	writeUpgradeData()
+	upgradeManager.writeUpgradeData()
 	questManager.writeQuestData()
 	timeDateManager.randomizeDateAndTime()
 	flagTracker.reset()

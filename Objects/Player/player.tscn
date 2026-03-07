@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://wkq3todlh6i8" path="res://Objects/Player/player.gd" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://8ybfycqx3gyu" path="res://Objects/Player/player_camera_3d.gd" id="2_wl3ml"]
 [ext_resource type="Shader" uid="uid://bedfkiao5h0wn" path="res://Objects/Player/player.gdshader" id="2_yw17q"]
+[ext_resource type="PackedScene" uid="uid://2kkpdlj52bpp" path="res://Objects/Player/Screen/PlayerTerminalScreen/PlayerTerminalScreen.tscn" id="3_2xc6l"]
 [ext_resource type="PackedScene" uid="uid://dswd4xx1ul5w5" path="res://Objects/Player/Screen/QuotaMachineScreen/QuotaMachineScreen.tscn" id="3_ipsqe"]
 [ext_resource type="Shader" uid="uid://rssxxex1w1ec" path="res://Objects/WorldObjects/ScreenManObject/CRT.gdshader" id="3_l2ya6"]
 [ext_resource type="Theme" uid="uid://bhed8krggwjc0" path="res://Objects/WorldObjects/ShopMachineObject/ShopMachineTheme.tres" id="3_o1rty"]
@@ -24,7 +25,7 @@
 [ext_resource type="Script" uid="uid://duuum01nxoaqe" path="res://Objects/Player/man_gui.gd" id="16_rn8wc"]
 [ext_resource type="PackedScene" uid="uid://c1hwi6y5wwbif" path="res://Objects/WorldObjects/RationMachineObject/GUIElements/CookieHologramObject.tscn" id="17_ikfl2"]
 [ext_resource type="PackedScene" uid="uid://c6fu0s10uqd8c" path="res://Objects/WorldObjects/RationMachineObject/GUIElements/FoodCaneHologramObject.tscn" id="19_r7vp5"]
-[ext_resource type="PackedScene" uid="uid://dwtfsif4phl53" path="res://Levels/Screens/settings_screen.tscn" id="22_rn8wc"]
+[ext_resource type="PackedScene" uid="uid://dwtfsif4phl53" path="res://Objects/Player/Screen/SettingsScreen/settings_screen.tscn" id="22_rn8wc"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_r7vp5"]
 shader = ExtResource("3_l2ya6")
@@ -129,6 +130,9 @@ script = ExtResource("2_wl3ml")
 metadata/_edit_lock_ = true
 
 [node name="CameraOverlays" type="CanvasLayer" parent="Camera3D" unique_id=365928902]
+
+[node name="PlayerTerminalScreen" parent="Camera3D/CameraOverlays" unique_id=1217213628 instance=ExtResource("3_2xc6l")]
+visible = false
 
 [node name="QuotaMachineScreen" parent="Camera3D/CameraOverlays" unique_id=244762607 instance=ExtResource("3_ipsqe")]
 visible = false

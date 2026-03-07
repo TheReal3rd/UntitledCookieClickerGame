@@ -11,7 +11,7 @@ var msPass: int = Time.get_ticks_msec()
 
 func update() -> void:
 	var now: int = Time.get_ticks_msec()
-	if now - msPass >= 500:
+	if now - msPass >= 200:
 		msPass = now
 		seconds += 1
 	

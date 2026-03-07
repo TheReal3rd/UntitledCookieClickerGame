@@ -44,10 +44,6 @@ func _on_spawn_bomb_button_pressed() -> void:
 			bombInstance.setFalling(true)
 			bombInstance.setExplode(true)
 			bombInstance.setVelocity(Vector3(randf_range(-0.5, 0.5), -0.1, randf_range(-0.5, 0.5)))
-			
-		
-		
-		
-		
-		
-		
+	
+func _on_flag_terminal_unlock_pressed() -> void:
+	global.getFlagTracker().pushFlag("PLAYER_TERMINAL_UNLOCKED", true)

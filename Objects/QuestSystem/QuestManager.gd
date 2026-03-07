@@ -10,7 +10,7 @@ var questList: Dictionary = {}
 
 var quotaDateTime: Array = [] : get = getQuotaDeadline
 var quotaAmount: int = -1 : get = getQuotaCost
-var quotaPaid: bool = false : get = isQuotaPaid
+var quotaPaid: int = 0 : get = isQuotaPaid
 
 func _init(globalInstance:Node, globalUtilsInstance: Node) -> void:
 	global = globalInstance
@@ -47,12 +47,12 @@ func setCurrentQuestCach() -> void:
 		currentQuestID = -1
 		return
 		
-	var player: playerObject = global.getPlayer()
 	currentQuestCach = questList[currentQuestID]
 	if currentQuestCach.isCompleted():
 		currentQuestID += 1
 		setCurrentQuestCach()
 		quotaDateTime = []
+		var player: playerObject = global.getPlayer()
 		if player:
 			player.updateQuotaStats()
 	
@@ -64,9 +64,18 @@ func setCurrentQuestCach() -> void:
 			quotaDateTime = timeManager.offsetTimeAndDate(now, offset)
 			quotaAmount = currentQuestCach.getQuotaAmount()
 			
+	updateQuestLabel()
 	
-	if player:
-		player.setQuestLabelText(currentQuestCach.getDescription())
+func updateQuestLabel() -> void:
+	var player: playerObject = global.getPlayer()
+	if player and currentQuestCach:
+		match (isQuotaPaid()):
+			-1:
+				player.setQuestLabelText("QUOTA FAILED")
+			0:
+				player.setQuestLabelText(currentQuestCach.getDescription())
+			1:
+				player.setQuestLabelText("WAIT FOR DEADLINE END")
 	
 func playerIsReady() -> void:
 	setCurrentQuestCach()
@@ -140,17 +149,23 @@ func getQuotaDeadline() -> Array:
 func getQuotaCost() -> int:
 	return quotaAmount
 	
-func isQuotaPaid() -> bool:
+func isQuotaPaid() -> int:
 	return quotaPaid
 	
 func payQuota() -> bool:
-	if not quotaPaid:
+	if quotaPaid == 0:
 		var score = global.getScore()
 		if score >= quotaAmount:
 			global.changeScore(-quotaAmount)
 			quotaPaid = true
+			updateQuestLabel()
 			return true
 	return false
+	
+func resetQuota() -> void:
+	quotaPaid = 0
+	quotaAmount = -1
+	quotaDateTime = []
 	
 func resetQuestData() -> void:
 	for quest: AbstractQuest in questList.values():
@@ -158,6 +173,6 @@ func resetQuestData() -> void:
 	currentQuestID = 1
 	quotaAmount = -1
 	quotaDateTime = []
-	quotaPaid = false
+	quotaPaid = 0
 	setCurrentQuestCach()
 	writeQuestData()

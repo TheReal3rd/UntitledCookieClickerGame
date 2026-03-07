@@ -1,0 +1,67 @@
+[gd_scene format=4 uid="uid://bva046amj6nic"]
+
+[ext_resource type="Script" uid="uid://ddp1m2em1rwj3" path="res://Objects/WorldObjects/FoodObjects/cereal_box_object.gd" id="1_rp15s"]
+[ext_resource type="Texture2D" uid="uid://63giast1vlie" path="res://Assets/Objects/CerealBoxs/CerealBox_0.png" id="2_f4ce0"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rp15s"]
+size = Vector3(0.13122559, 0.8762207, 0.5571289)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7kgsg"]
+resource_name = "material_0"
+transparency = 2
+alpha_scissor_threshold = 0.05
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_texture = ExtResource("2_f4ce0")
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_fdopb"]
+_surfaces = [{
+"aabb": AABB(-0.0625, -0.1875, -0.28125, 0.125, 0.875, 0.5625),
+"format": 34896613377,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAQADAAIAAwAAAAIAAAAEAAEAAQAFAAMABAAFAAEAAwAGAAAABgAEAAAABQAGAAMABgAHAAQABAAHAAUABQAHAAYA"),
+"name": "material_0",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("/////wAAAAD//wAA//8AAP///////wAAAAD/////AAD//wAAAAAAAAAAAAD//wAAAAD//wAAAAAAAAAAAAAAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_21dw2"]
+resource_name = "blockbench_export_mesh"
+_surfaces = [{
+"aabb": AABB(-0.0625, -0.1875, -0.28125, 0.125, 0.875, 0.5625),
+"attribute_data": PackedByteArray("/0cAAAAA/28AAAAA/0f/b/+X/2//TwAA/5cAAP9P/2//L/+//z//d/8//7//L/93/1f/v/9H/3f/V/93/0f/v/8P/+cAAP93/w//dwAA/+f/J/93/xf/5/8X/3f/J//n"),
+"format": 34896613399,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0AEAARABIAEAATABEAFAAVABYAFAAXABUA"),
+"material": SubResource("StandardMaterial3D_7kgsg"),
+"name": "material_0",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("/////wAA/7///wAA////v/////////+///8AAAAA/78AAAAA////vwAA//8AAP+/AAD//////78AAAAAAAD/vwAA//////+//////wAA/7//////////vwAA//8AAP+///8AAAAA/78AAAAA////v///AAD///+/AAAAAAAA/7///wAA//8AgAAA/////wCA////////AIAAAAAA//8AgAAA//8AAP////8AAAAA////////AAD//wAAAAAAAP///38AAP9/AAD/fwAA/38AAP9/////f////3////9///////9/////f////3////9/AAD/fwAA/38AAP9/AAD/f/9/////f////3////9/////f////3////9/////f///")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_fdopb")
+
+[node name="CerealBoxObject" type="StaticBody3D" unique_id=1417288722]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, 0, 0)
+script = ExtResource("1_rp15s")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=578858106]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0006713867, 0.43723652, 0.00024414063)
+shape = SubResource("BoxShape3D_rp15s")
+debug_color = Color(0.91536766, 8.20148e-05, 0.71483475, 0.41960785)
+metadata/_edit_lock_ = true
+
+[node name="CerealBoxModel" type="Node3D" parent="." unique_id=74896341]
+metadata/_edit_lock_ = true
+
+[node name="mesh" type="MeshInstance3D" parent="CerealBoxModel" unique_id=416079910]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1875, 0)
+mesh = SubResource("ArrayMesh_21dw2")
+skeleton = NodePath("")
